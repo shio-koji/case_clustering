@@ -20,8 +20,10 @@ ENV/
 cache/
 *.cache
 
-# 結果ファイル（必要に応じてコメントアウト）
-results/
+# 結果ファイル（HTMLレポート・解析結果は追跡する）
+# results/
+# Artifact公開用の派生HTML（本体レポートの重複なので除外）
+results/report_artifact.html
 
 # Jupyter
 .ipynb_checkpoints/
