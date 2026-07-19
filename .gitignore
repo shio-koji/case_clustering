@@ -17,7 +17,9 @@ env/
 ENV/
 
 # キャッシュ・中間生成物
-cache/
+# 生データJSON（cases_list / case_* / updates_* / corpus*）はGitHubで閲覧できるよう追跡する
+# 派生バイナリ（埋め込み・TF-IDF等のpickle）は大きく再生成可能なので除外
+cache/*.pkl
 *.cache
 
 # 結果ファイル（HTMLレポート・解析結果は追跡する）
