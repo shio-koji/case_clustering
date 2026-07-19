@@ -80,8 +80,13 @@ else:
 # ============================================================
 # 2. Multilingual E5 Sentence Embeddings
 # ============================================================
-print("\n[2] Computing multilingual-e5-small sentence embeddings...")
-e5_cache = CACHE_DIR / "e5_embeddings.pkl"
+# bge-m3: long-context (8192 tokens) multilingual embedding; strong on Japanese.
+# Replaces multilingual-e5-small (512 tokens) so the FULL case text is embedded,
+# not just the first ~500 chars. No query/passage prefix needed; no char truncation.
+EMB_MODEL_NAME = "BAAI/bge-m3"
+EMB_MAX_TOKENS = 8192
+print(f"\n[2] Computing {EMB_MODEL_NAME} sentence embeddings (full text, long-context)...")
+e5_cache = CACHE_DIR / "bge_m3_embeddings.pkl"
 if e5_cache.exists():
     print("  Loading from cache...")
     with open(e5_cache, "rb") as f:
@@ -89,14 +94,17 @@ if e5_cache.exists():
     emb_e5 = e5_data["embeddings"]
 else:
     from sentence_transformers import SentenceTransformer
-    model = SentenceTransformer("intfloat/multilingual-e5-small")
-    # E5 models require "passage: " prefix for passages
-    prefixed_texts = ["passage: " + t[:2048] for t in texts]  # truncate to 2048 chars
-    print(f"  Encoding {N} texts with multilingual-e5-small...")
-    emb_e5 = model.encode(prefixed_texts, batch_size=16, show_progress_bar=True, normalize_embeddings=True)
-    print(f"  E5 embedding: {emb_e5.shape}")
+    model = SentenceTransformer(EMB_MODEL_NAME)
+    model.max_seq_length = EMB_MAX_TOKENS  # use bge-m3's full 8192-token window
+    # No prefix, no char cap: pass full case text. Only the few docs whose token
+    # count exceeds 8192 are truncated by the model itself.
+    n_long = sum(1 for t in texts if len(t) > 8000)
+    print(f"  Encoding {N} full texts with {EMB_MODEL_NAME} "
+          f"(no 2048-char cap; {n_long} text(s) >8000 chars may hit the 8192-token limit)...")
+    emb_e5 = model.encode(texts, batch_size=4, show_progress_bar=True, normalize_embeddings=True)
+    print(f"  Embedding: {emb_e5.shape}")
     with open(e5_cache, "wb") as f:
-        pickle.dump({"embeddings": emb_e5, "model_name": "intfloat/multilingual-e5-small"}, f)
+        pickle.dump({"embeddings": emb_e5, "model_name": EMB_MODEL_NAME}, f)
     print(f"  Cached to {e5_cache}")
 
 
@@ -208,15 +216,19 @@ for k in [5, 6]:
 labels_hierarchical = labels_hier[6]  # use k=6 for main comparison
 
 # --- 4c. HDBSCAN ---
-print("\n  [4c] HDBSCAN on E5 embeddings:")
-# For N=95, use min_cluster_size=5 (5% of data)
+# Density estimation is unreliable in the full 1024-dim space (curse of
+# dimensionality: pairwise distances concentrate, so no point looks "dense").
+# scRNA-seq-style: reduce to a PCA-50 space first, then run HDBSCAN there.
+print("\n  [4c] HDBSCAN on PCA-50 of the embeddings:")
+n_pca = min(50, emb_e5.shape[0] - 1, emb_e5.shape[1])
+emb_hdb = normalize(PCA(n_components=n_pca, random_state=SEED).fit_transform(emb_e5))
 hdb = hdbscan.HDBSCAN(
-    min_cluster_size=5,
-    min_samples=3,
-    metric="euclidean",  # on normalized vectors, euclidean ≈ cosine
+    min_cluster_size=4,
+    min_samples=2,
+    metric="euclidean",  # on L2-normalized vectors, euclidean is monotone in cosine
     cluster_selection_method="eom",
 )
-labels_hdbscan = hdb.fit_predict(emb_e5)
+labels_hdbscan = hdb.fit_predict(emb_hdb)
 ev_hdb = evaluate_clustering(emb_e5, labels_hdbscan, "hdbscan")
 print(f"    HDBSCAN: n_clusters={ev_hdb['n_clusters']}, noise={ev_hdb['n_noise']}, silhouette={ev_hdb['silhouette']}")
 
@@ -238,6 +250,9 @@ def get_feature_terms(labels, texts, top_n=10):
     # Use word-level TF-IDF on character bigrams of whole cluster
     from sklearn.feature_extraction.text import TfidfVectorizer
     unique_labels = sorted(set(l for l in labels if l >= 0))
+    if not unique_labels:
+        # No clusters (e.g. HDBSCAN marked everything as noise): nothing to describe.
+        return {}
     cluster_docs = {}
     for lbl in unique_labels:
         idxs = [i for i, l in enumerate(labels) if l == lbl]
@@ -470,6 +485,9 @@ all_results = {
     "seed": SEED,
     "n_cases": N,
     "best_k": best_k,
+    "embedding_model": EMB_MODEL_NAME,
+    "embedding_dim": int(emb_e5.shape[1]),
+    "embedding_max_tokens": EMB_MAX_TOKENS,
     "ids": ids,
     "titles": titles,
     "statuses": statuses,

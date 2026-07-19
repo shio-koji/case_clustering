@@ -45,23 +45,17 @@ statuses = results["statuses"]
 subject_tags_list = results["subject_tags_list"]
 case_clusters = results["case_clusters"]
 best_k = results["best_k"]
+EMB_MODEL = results.get("embedding_model", "BAAI/bge-m3")
+EMB_DIM = results.get("embedding_dim", 1024)
+EMB_MAX_TOKENS = results.get("embedding_max_tokens", 8192)
 
 id_to_idx = {cid: i for i, cid in enumerate(ids)}
 
-KM_NAMES = {
-    0: "ジェンダー・市民権・選挙権",
-    1: "刑事司法・入管・個人の自由",
-    2: "情報公開・司法の独立",
-    3: "環境・地域・行政の責任",
-}
-HIER_NAMES = {
-    0: "ジェンダー・セクシュアリティ",
-    1: "入管・外国人の権利",
-    2: "刑事司法・被疑者の権利",
-    3: "情報公開・行政の透明性",
-    4: "環境・災害・地域インフラ",
-    5: "選挙・政治参加",
-}
+# Cluster names are data-driven (dominant subject tags per cluster), produced by
+# 03_analyze.py. Keyed by int cluster id — JSON object keys arrive as strings, so
+# cast back to int. Falls back to "C{id}" via .get() at each call site.
+KM_NAMES = {int(k): v for k, v in results.get("km_cluster_names", {}).items()}
+HIER_NAMES = {int(k): v for k, v in results.get("hier_cluster_names", {}).items()}
 CLUSTER_COLORS = ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#a65628"]
 STATUS_COLORS = {"active": "#2196F3", "archived": "#9E9E9E", "closed": "#F44336", "no_donation": "#FF9800"}
 TAG_COLORS = {
@@ -90,13 +84,12 @@ def svg_from_fig(fig):
 
 
 def build_dendrogram_svg():
-    from scipy.cluster.hierarchy import dendrogram, linkage
-    from scipy.spatial.distance import pdist
+    from scipy.cluster.hierarchy import dendrogram
 
-    with open(CACHE_DIR / "e5_embeddings.pkl", "rb") as f:
-        emb_e5 = pickle.load(f)["embeddings"]
-    cos_dist = pdist(emb_e5, metric="cosine")
-    Z = linkage(cos_dist, method="ward")
+    # Reuse the linkage matrix computed in 03_analyze.py (kept in results) so the
+    # dendrogram always matches the clustering and stays independent of the
+    # embedding cache filename/model.
+    Z = np.array(results["linkage_matrix"])
 
     fig, ax = plt.subplots(figsize=(16, 4.5))
     # Use short ID labels (not Japanese titles) to avoid font issues in axis
@@ -108,7 +101,7 @@ def build_dendrogram_svg():
         leaf_font_size=6,
         color_threshold=Z[-6, 2],
     )
-    ax.set_title("階層クラスタリング デンドログラム（Ward法、コサイン距離、multilingual-E5埋め込み）",
+    ax.set_title(f"階層クラスタリング デンドログラム（Ward法、コサイン距離、{EMB_MODEL}埋め込み）",
                  fontproperties=jp_font_s(10))
     ax.axhline(y=Z[-6, 2], color="red", linestyle="--", alpha=0.6, label="k=6 カット")
     ax.axhline(y=Z[-4, 2], color="orange", linestyle="--", alpha=0.6, label="k=4 カット")
@@ -369,7 +362,7 @@ def generate_html():
 <div class="container">
 
 <h1>CALL4 公共訴訟ケース クラスタリング解析レポート</h1>
-<p class="subtitle">生成日: {gen_date} ｜ データ取得日: 2026-07-13 ｜ モデル: intfloat/multilingual-e5-small ｜ seed: 42</p>
+<p class="subtitle">生成日: {gen_date} ｜ データ取得日: 2026-07-18 ｜ モデル: {EMB_MODEL} ｜ seed: 42</p>
 
 <div class="note">
 <b>分類は探索目的です。</b>このレポートの分類は、ケースのテキストから潜在的な構造を探索するためのものです。既存のタグ体系の代替、またはケースの質・重要性の評価を意図するものではありません。掲載ケースには実在の当事者が関わっており、データ利用は解析目的のみです。
@@ -427,7 +420,7 @@ def generate_html():
 最小: 530文字 ／ 中央値: 5,674文字 ／ 最大: 11,881文字</p>
 <p><b>本文（contents）あり:</b> 95件 / 95件</p>
 <p><b>アップデートあり:</b> 84件 / 95件</p>
-<p><b>埋め込み入力長上限:</b> 2,048文字（E5モデルのトークン制約に対応。長文ケースは後半情報が一部欠落）</p>
+<p><b>埋め込み入力長上限:</b> {EMB_MAX_TOKENS}トークン（{EMB_MODEL}）。先頭2,048字への切り詰めは撤廃し、ケース本文をほぼ全文使用</p>
 </div>
 </div>
 </div>
@@ -436,11 +429,11 @@ def generate_html():
 <h2 id="methods">2. 手法解説</h2>
 
 <h3>2.1 埋め込み手法</h3>
-<p><b>採用モデル: <code>intfloat/multilingual-e5-small</code>（次元数: 384）</b></p>
-<p>日本語テキストで意味的な質を確保するため、多言語対応の文埋め込みモデルを採用しました。E5系モデルはコサイン類似度を前提として訓練されており、短文・長文いずれもロバストに扱えます。ローカル実行のため再現性が高く、API課金不要です。</p>
+<p><b>採用モデル: <code>{EMB_MODEL}</code>（次元数: {EMB_DIM}、最大入力: {EMB_MAX_TOKENS}トークン）</b></p>
+<p>日本語テキストで意味的な質を確保するため、多言語対応の文埋め込みモデルを採用しました。当初は <code>multilingual-e5-small</code>（最大512トークン）を用いていましたが、入力上限が短く各ケース本文の冒頭しか埋め込めていませんでした。そこで<b>長文対応の <code>{EMB_MODEL}</code>（最大{EMB_MAX_TOKENS}トークン）に変更し、ケース本文を（先頭2,048字への切り詰めをやめて）ほぼ全文埋め込む</b>ようにしました。コサイン類似度前提で訓練されており、ローカル実行のため再現性が高く、API課金不要です。</p>
 
 <div class="note">
-<b>バイオインフォアナロジー：</b> 埋め込み行列（N=95 × 384次元）は、scRNA-seqにおける正規化済み発現行列（細胞 × 遺伝子）に相当します。TF-IDFベースライン ≈ 生カウント行列、多言語E5 ≈ バッチ補正・正規化済みの潜在表現、くらいの位置づけです。
+<b>バイオインフォアナロジー：</b> 埋め込み行列（N=95 × {EMB_DIM}次元）は、scRNA-seqにおける正規化済み発現行列（細胞 × 遺伝子）に相当します。TF-IDFベースライン ≈ 生カウント行列、{EMB_MODEL} ≈ バッチ補正・正規化済みの潜在表現、くらいの位置づけです。
 </div>
 
 <p><b>TF-IDFベースライン:</b> 日本語は分かち書き不要の文字nグラム（2〜4文字）でTF-IDF行列を構築し、SVDで50次元に削減。E5との比較対照として用いました。</p>
@@ -449,7 +442,7 @@ def generate_html():
 <ul>
   <li>埋め込みベクトルはL2正規化済み（コサイン類似度と整合）</li>
   <li>可視化用UMAP: <code>n_neighbors=10</code>（N=95の小規模データ向けにデフォルト15より小さく設定）、<code>metric=cosine</code></li>
-  <li><b>クラスタリングは高次元埋め込み（384次元）上で実施</b>。UMAPは可視化専用</li>
+  <li><b>クラスタリングは高次元埋め込み（{EMB_DIM}次元）上で実施</b>。UMAPは可視化専用</li>
 </ul>
 
 <div class="warn">
@@ -582,7 +575,7 @@ draw('km');
 <p style="font-size:0.82em; color:#666;">※ 点をクリックするとCALL4のケースページが開きます。マウスオーバーでケース情報を表示。</p>
 
 <!-- ========== 4. k-means ========== -->
-<h2 id="kmeans">4. k-meansクラスタリング（E5埋め込み、k={best_k}）</h2>
+<h2 id="kmeans">4. k-meansクラスタリング（{EMB_MODEL}埋め込み、k={best_k}）</h2>
 
 <h3>4.1 k選択</h3>
 {sil_svg}
@@ -645,7 +638,7 @@ draw('km');
 <!-- ========== 8. 類似ケース検索 ========== -->
 <h2 id="similarity">8. 類似ケース検索</h2>
 
-<p>コサイン類似度（E5埋め込み空間）による近傍上位4件の例。</p>
+<p>コサイン類似度（{EMB_MODEL}埋め込み空間）による近傍上位4件の例。</p>
 
 {sim_table}
 
@@ -656,7 +649,7 @@ draw('km');
   <li>「海外国民審査訴訟」→「在外選挙権訴訟」(sim=0.929)：在外日本人の権利行使という同一軸。</li>
   <li>「ジャーナリスト渡航」→「入管収容訴訟」(sim=0.901)：移動の自由・入管制度という共通テーマ。</li>
 </ul>
-これらの結果は直感と高く一致しており、E5埋め込みが意味的類似性を適切に捉えていることを示します。
+これらの結果は直感と高く一致しており、{EMB_MODEL}埋め込みが意味的類似性を適切に捉えていることを示します。
 </div>
 
 <!-- ========== 9. 解釈と示唆 ========== -->
@@ -702,7 +695,7 @@ draw('km');
 <ul>
   <li><b>N=95の小ささ：</b>シルエット係数が全体的に低く（0.02〜0.04）、クラスタの統計的安定性に限界があります。「統計的に有意なクラスタ」とは主張できず、<b>探索・仮説生成のツール</b>として扱ってください。</li>
   <li><b>多ラベル性の無視：</b>ARI/NMI計算では各ケースの第1タグのみを使用。多ラベルメトリクス（Jaccard類似度ベースなど）への拡張が有益です。</li>
-  <li><b>埋め込みの切り詰め：</b>multilingual-E5-smallへの入力を先頭2,048文字に制限。長文ケース（最大11,881文字）では後半情報が欠落します。<code>multilingual-e5-large</code>や長文対応モデルとの比較が望ましいです。</li>
+  <li><b>本文の網羅範囲：</b>長文対応の <code>{EMB_MODEL}</code>（最大{EMB_MAX_TOKENS}トークン）を用い、先頭2,048字への切り詰めをやめて<b>ケース本文をほぼ全文埋め込み</b>ました。ただし (a) 8,192トークンを超える極端な長文はモデル側で末尾が切られる可能性があり、(b) 埋め込み対象はケードページ本文＋直近アップデートで、<b>添付の訴状・判決文などの全文はまだ含みません</b>（<code>list_documents</code>/<code>fetch_document_text</code> で取得可能。次の一手を参照）。</li>
   <li><b>テキスト種別の混在：</b>概要・本文・アップデートを単純連結。各フィールドへの重み付けや、本文のみ・アップデートのみでの別途解析が有益です。</li>
   <li><b>HDBSCAN不適合：</b>本データではほとんどノイズ扱いとなり、解釈に限界があります。</li>
 </ul>
@@ -710,7 +703,7 @@ draw('km');
 <h3>10.2 次の一手</h3>
 <ol>
   <li>ブートストラップ安定性評価（n=100回サブサンプリング → ARI分布）</li>
-  <li><code>multilingual-e5-large</code>またはOpenAI Embeddings APIとの比較</li>
+  <li>添付訴訟文書（訴状・準備書面・判決文など）の全文への解析拡張（<code>list_documents</code>/<code>fetch_document_text</code>。1ケースあたり数十文書が利用可能）</li>
   <li>タグ体系の再設計提案（「公正な手続」の細分化、「身体的自由の侵害」等の新タグ案）</li>
   <li>類似ケース検索のインタラクティブWebUI化</li>
   <li>提訴年別の話題傾向変化の時系列分析</li>
@@ -719,7 +712,7 @@ draw('km');
 <h3>10.3 再現情報</h3>
 <table>
 <tr><th>項目</th><th>値</th></tr>
-<tr><td>埋め込みモデル</td><td>intfloat/multilingual-e5-small</td></tr>
+<tr><td>埋め込みモデル</td><td>{EMB_MODEL}（{EMB_DIM}次元, 最大{EMB_MAX_TOKENS}トークン）</td></tr>
 <tr><td>乱数シード</td><td>42</td></tr>
 <tr><td>TF-IDF</td><td>analyzer=char_wb, ngram=(2,4), min_df=2, max_features=20000, sublinear_tf=True</td></tr>
 <tr><td>SVD</td><td>n_components=50</td></tr>
@@ -727,7 +720,7 @@ draw('km');
 <tr><td>k-means</td><td>k=4（シルエット係数最良）, n_init=10</td></tr>
 <tr><td>Ward階層クラスタリング</td><td>コサイン距離, k=6</td></tr>
 <tr><td>HDBSCAN</td><td>min_cluster_size=5, min_samples=3, metric=euclidean, eom</td></tr>
-<tr><td>データ取得日</td><td>2026-07-13</td></tr>
+<tr><td>データ取得日</td><td>2026-07-18</td></tr>
 <tr><td>Python</td><td>3.9（venv）</td></tr>
 <tr><td>主要ライブラリ</td><td>scikit-learn, sentence-transformers, umap-learn, hdbscan, scipy, matplotlib</td></tr>
 </table>
