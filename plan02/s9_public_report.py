@@ -118,6 +118,43 @@ def main():
     dom = np.array(nmf["dominant_topic"])
     ratios = np.array(nmf["ratios"])
     order = np.lexsort((-ratios[np.arange(len(ids)), dom], dom))
+    coords = np.load(FEATURES_DIR / "umap2d.npz")["coords"]
+
+    # --- extra mixture visualizations (appendix) ---
+    def blend_hex(row):
+        """Mixture-weighted RGB blend of the topic colors."""
+        rgb = np.zeros(3)
+        for t, r in enumerate(row):
+            c = TOPIC_COLORS[t].lstrip("#")
+            rgb += r * np.array([int(c[i:i + 2], 16) for i in (0, 2, 4)])
+        return "#%02x%02x%02x" % tuple(int(min(v, 255)) for v in rgb)
+
+    R = ratios / np.maximum(ratios.sum(axis=1, keepdims=True), 1e-9)
+    blends = [blend_hex(R[i]) for i in range(len(ids))]
+
+    # case-case network: cosine similarity of MIXTURE vectors, top-3 neighbours
+    import random as pyrandom
+    import igraph as ig
+    Rn = R / np.maximum(np.linalg.norm(R, axis=1, keepdims=True), 1e-9)
+    sims = Rn @ Rn.T
+    np.fill_diagonal(sims, -1)
+    edges = set()
+    for i in range(len(ids)):
+        for j in np.argsort(sims[i])[-3:]:
+            edges.add((min(i, int(j)), max(i, int(j))))
+    edges = sorted(edges)
+    pyrandom.seed(SEED := 42)
+    g = ig.Graph(n=len(ids), edges=edges)
+    net = np.array(g.layout_fruchterman_reingold(niter=600).coords)
+
+    # bipartite case-topic network: edge where ratio > 0.15, weight = ratio
+    bip_edges = [(i, len(ids) + t, float(R[i, t]))
+                 for i in range(len(ids)) for t in range(6) if R[i, t] > 0.15]
+    pyrandom.seed(42)
+    gb = ig.Graph(n=len(ids) + 6, edges=[(a, b) for a, b, _ in bip_edges])
+    layb = np.array(gb.layout_fruchterman_reingold(
+        weights=[w for _, _, w in bip_edges], niter=600).coords)
+    bip_cases, tpos = layb[:len(ids)], layb[len(ids):]
 
     err_svg = fig_error_curve(kselect)
     ktable = k_compare_table(kselect)
@@ -149,7 +186,11 @@ def main():
 
     cases = [{"title": titles[i], "url": url(ids[i]), "tags": tags[i],
               "nmf": [round(float(r), 3) for r in ratios[i]],
-              "ent": round(float(nmf["entropy_normalized"][i]), 3)}
+              "ent": round(float(nmf["entropy_normalized"][i]), 3),
+              "blend": blends[i],
+              "x": round(float(coords[i, 0]), 3), "y": round(float(coords[i, 1]), 3),
+              "nx": round(float(net[i, 0]), 3), "ny": round(float(net[i, 1]), 3),
+              "bx": round(float(bip_cases[i, 0]), 3), "by": round(float(bip_cases[i, 1]), 3)}
              for i in range(len(ids))]
 
     gen = date.today().isoformat()
@@ -222,6 +263,18 @@ li {{ margin:3px 0; }}
 Kを増やすほど誤差は機械的に減り続け、「ここで止めるべき」という折れ目（肘）が存在しないからです。</p>
 <div class="figure">{err_svg}</div>
 <p>そこで各Kの<b>トピックの中身</b>を比較すると、判断は明確になります。</p>
+<div class="callout">
+<b>トピックと特徴語はどう作られているか（原理）</b><br>
+使った手法はNMF（非負値行列分解）。95ケース×7,350語の「単語の使用強度」行列Xを、
+<b>X ≈ W × H</b>（W=各ケースのトピック混合比、H=各トピックの語彙への重み）という
+2つの非負行列の積に分解します。表の特徴語は<b>Hで重みが大きい上位の語</b>——
+「そのトピックを再現するのに最も強く使われる単語」で、人手や辞書は介在しません。<br>
+注意点として、K=5→6→7は「トピックを1つ挿入」しているのではなく、
+<b>各Kで分解全体をゼロからやり直して</b>います。それでも主要な軸がどのKでも同じ顔で現れるのは、
+それらがデータ内で支配的な構造だから。K=5→6では「K=5の混在トピックがT2入管系とT5刑事系に割れる」
+という再配分が起き、K=7で増えた枠は実質的な構造ではなくサイト定型語の残渣で埋まりました。
+この「割れ方」の観察がK選択の根拠です（初期化nndsvda・乱数シード固定で再現可能）。
+</div>
 <div class="figure">{ktable}</div>
 <ul>
 <li><b>K=5では「刑事手続」と「入管収容」が1つに混ざる</b>（収容/刑事/逮捕/入管が同居）。
@@ -274,6 +327,34 @@ Kを増やすほど誤差は機械的に減り続け、「ここで止めるべ�
 <tr><td>限界</td><td>95件は統計的に小規模で、本結果は探索・仮説生成のためのもの。訴状・判決文の全文は未使用。
 トピック数6は解釈可能性に基づく選択で、5〜7に議論の余地は残る</td></tr>
 </table>
+
+<h2>補遺: 混合メンバーシップを視覚化する3つの方法</h2>
+<p>§3のスタックバーは「全件を一覧する」のに向きますが、混合は他の切り口でも見えます。
+以下の3つはいずれも同じ混合比データから描いたもので、<b>全ての点はカーソルで詳細表示・クリックでCALL4のケースページに移動</b>できます。</p>
+
+<h3>A. パイチャート地図 — 「位置」と「混合」を同時に見る</h3>
+<p>各ケースを意味的な近さで配置した地図（UMAP座標）の上に、<b>1ケース=1つの小さな円グラフ</b>として混合比を描いたもの。
+近くに集まっているのに配色が違うケース＝「文章は似ているが論点構成が違う」ケースが見つかります。</p>
+<div class="figure">
+  <div id="legend-pies" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px;"></div>
+  <canvas id="pies" width="960" height="540"></canvas>
+</div>
+
+<h3>B. ケース類似ネットワーク — 「混合比が似た訴訟」の繋がり</h3>
+<p>各ケースを、<b>混合比ベクトルが最も似た3件</b>と線で結んだネットワーク（配置は力学レイアウト）。
+ノードの色は混合比で6色を<b>混ぜ合わせた</b>もの——中間色のノード＝複数論点の橋渡しケースが、
+軸と軸の「あいだ」に立地する様子が見えます。</p>
+<div class="figure">
+  <canvas id="net" width="960" height="600"></canvas>
+</div>
+
+<h3>C. ケース×トピック 2部ネットワーク — 「どの軸に、どれだけぶら下がるか」</h3>
+<p>6つの軸（大きな円）と95ケース（小さな円）を、<b>混合比15%以上の関係だけ</b>線で結んだ図。
+線の太さ=比率。1本の線しか持たないケース＝単一論点、複数の軸に線を張るケース＝横断的な訴訟です。</p>
+<div class="figure">
+  <canvas id="bip" width="960" height="640"></canvas>
+</div>
+
 <p class="dim">本分類は解析目的であり、訴訟当事者を類型化して評価する意図はありません。
 ケース本文の著作権はCALL4および執筆者に帰属します。各ケースの詳細・支援は各リンク先（CALL4）をご覧ください。</p>
 
@@ -318,6 +399,111 @@ sc.addEventListener('mousemove', ev => {{
 }});
 sc.addEventListener('mouseleave', () => {{ tip.style.display='none'; cur=-1; }});
 sc.addEventListener('click', () => {{ if (cur >= 0) window.open(CASES[ORDER[cur]].url, '_blank'); }});
+
+// ---------- appendix: three mixture views ----------
+const EDGES = {json.dumps([[int(a), int(b)] for a, b in edges])};
+const BIPE = {json.dumps([[int(a), int(b - len(ids)), round(w, 3)] for a, b, w in bip_edges])};
+const TPOS = {json.dumps([[round(float(x), 3), round(float(y), 3)] for x, y in tpos])};
+
+function scaler(canvas, pts, pad) {{
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  return p => [pad + (p[0]-x0)/(x1-x0)*(canvas.width-2*pad),
+               pad + (p[1]-y0)/(y1-y0)*(canvas.height-2*pad)];
+}}
+function mixText(c) {{
+  return c.nmf.map((v,t)=> v>0.08 ? `T${{t}} ${{TNAMES[t]}}: ${{(v*100).toFixed(0)}}%` : null)
+              .filter(Boolean).join('<br>');
+}}
+function hook(canvas, posOf) {{
+  let cur = null;
+  canvas.addEventListener('mousemove', ev => {{
+    const r = canvas.getBoundingClientRect();
+    const mx = (ev.clientX-r.left)*(canvas.width/r.width);
+    const my = (ev.clientY-r.top)*(canvas.height/r.height);
+    cur = null; let bd = 170;
+    CASES.forEach(c => {{
+      const [x,y] = posOf(c);
+      const d = (x-mx)**2 + (y-my)**2;
+      if (d < bd) {{ bd = d; cur = c; }}
+    }});
+    if (!cur) {{ tip.style.display='none'; canvas.style.cursor='default'; return; }}
+    canvas.style.cursor = 'pointer';
+    tip.innerHTML = `<b>${{cur.title}}</b><br>${{mixText(cur)}}<br><span style="color:#9db">クリックでCALL4のページへ</span>`;
+    tip.style.display = 'block';
+    tip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 350) + 'px';
+    tip.style.top = (ev.clientY + 12) + 'px';
+  }});
+  canvas.addEventListener('mouseleave', () => {{ tip.style.display='none'; cur=null; }});
+  canvas.addEventListener('click', () => {{ if (cur) window.open(cur.url, '_blank'); }});
+}}
+
+// A. pie-marker map (UMAP coords)
+const pc = document.getElementById('pies'), pctx = pc.getContext('2d');
+const pScale = scaler(pc, CASES.map(c => [c.x, c.y]), 26);
+const pPos = c => pScale([c.x, c.y]);
+CASES.forEach(c => {{
+  const [x, y] = pPos(c);
+  let a0 = -Math.PI/2;
+  c.nmf.forEach((r, t) => {{
+    if (r < 0.03) return;
+    const a1 = a0 + r * 2 * Math.PI;
+    pctx.beginPath(); pctx.moveTo(x, y);
+    pctx.arc(x, y, 8, a0, a1); pctx.closePath();
+    pctx.fillStyle = TCOLORS[t]; pctx.fill();
+    a0 = a1;
+  }});
+  pctx.beginPath(); pctx.arc(x, y, 8, 0, 2*Math.PI);
+  pctx.strokeStyle = '#fff'; pctx.lineWidth = 1; pctx.stroke();
+}});
+const plg = document.getElementById('legend-pies');
+TNAMES.forEach((n, t) => plg.insertAdjacentHTML('beforeend',
+  `<span style="font-size:12px"><span style="display:inline-block;width:11px;height:11px;background:${{TCOLORS[t]}};margin-right:4px;border-radius:6px"></span>T${{t}} ${{n}}</span>`));
+hook(pc, pPos);
+
+// B. case-case similarity network (blended node colors)
+const nc = document.getElementById('net'), nctx = nc.getContext('2d');
+const nScale = scaler(nc, CASES.map(c => [c.nx, c.ny]), 26);
+const nPos = c => nScale([c.nx, c.ny]);
+nctx.strokeStyle = 'rgba(120,130,145,0.35)'; nctx.lineWidth = 1;
+EDGES.forEach(([a, b]) => {{
+  const [x1,y1] = nPos(CASES[a]), [x2,y2] = nPos(CASES[b]);
+  nctx.beginPath(); nctx.moveTo(x1,y1); nctx.lineTo(x2,y2); nctx.stroke();
+}});
+CASES.forEach(c => {{
+  const [x, y] = nPos(c);
+  nctx.beginPath(); nctx.arc(x, y, 7, 0, 2*Math.PI);
+  nctx.fillStyle = c.blend; nctx.fill();
+  nctx.strokeStyle = '#fff'; nctx.lineWidth = 1; nctx.stroke();
+}});
+hook(nc, nPos);
+
+// C. case-topic bipartite network
+const bc = document.getElementById('bip'), bctx = bc.getContext('2d');
+const allPts = CASES.map(c => [c.bx, c.by]).concat(TPOS);
+const bScale = scaler(bc, allPts, 34);
+const bPos = c => bScale([c.bx, c.by]);
+BIPE.forEach(([i, t, w]) => {{
+  const [x1,y1] = bPos(CASES[i]), [x2,y2] = bScale(TPOS[t]);
+  bctx.beginPath(); bctx.moveTo(x1,y1); bctx.lineTo(x2,y2);
+  bctx.strokeStyle = TCOLORS[t] + '55'; bctx.lineWidth = Math.max(w * 5, 0.6); bctx.stroke();
+}});
+CASES.forEach(c => {{
+  const [x, y] = bPos(c);
+  bctx.beginPath(); bctx.arc(x, y, 5, 0, 2*Math.PI);
+  bctx.fillStyle = c.blend; bctx.fill();
+  bctx.strokeStyle = '#fff'; bctx.lineWidth = 0.8; bctx.stroke();
+}});
+TPOS.forEach((p, t) => {{
+  const [x, y] = bScale(p);
+  bctx.beginPath(); bctx.arc(x, y, 17, 0, 2*Math.PI);
+  bctx.fillStyle = TCOLORS[t]; bctx.fill();
+  bctx.strokeStyle = '#fff'; bctx.lineWidth = 2; bctx.stroke();
+  bctx.fillStyle = '#fff'; bctx.font = 'bold 12px sans-serif';
+  bctx.textAlign = 'center'; bctx.textBaseline = 'middle';
+  bctx.fillText('T' + t, x, y);
+}});
+hook(bc, bPos);
 </script>
 </body>
 </html>"""
