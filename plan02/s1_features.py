@@ -26,10 +26,15 @@ TOKENS_PATH = FEATURES_DIR / "tokens.json"
 
 # Frozen at the Stage 0 checkpoint (owner-approved, 20 words):
 # 18 words with DF>=80% + 2 donation-boilerplate words (使途, 弁護団).
+# Extended after the Stage 3 checkpoint (owner-approved):
+# 事務所 (lawyer-profile boilerplate: 127/127 uses of 法律事務所 are team intros;
+# dropping the unigram also removes the 法律_事務所 bigram) and ledge (English
+# boilerplate fragment that leaked into NMF topic words).
 STOPWORDS = {
     "こと", "訴訟", "ため", "もの", "よる", "いう", "裁判", "対する", "求める", "つく",
     "行う", "弁護士", "原告", "支援", "費用", "考える", "思う", "問題",
     "使途", "弁護団",
+    "事務所", "ledge",
 }
 
 
@@ -81,7 +86,19 @@ def build_lexical_matrices(docs):
 
 
 def build_embeddings(records):
-    """Re-encode the Stage-0 frozen text with bge-m3 (no updates, NFKC-normalized)."""
+    """Re-encode the Stage-0 frozen text with bge-m3 (no updates, NFKC-normalized).
+
+    Embeddings depend only on the raw text (not on tokens/stopwords), so reuse
+    the existing matrix when present - stopword changes must not trigger a
+    pointless re-encode.
+    """
+    emb_path = FEATURES_DIR / "emb.npz"
+    if emb_path.exists():
+        emb = np.load(emb_path)["matrix"]
+        if emb.shape[0] == len(records):
+            print("  [cache] emb.npz reused (text unchanged by stopword edits)")
+            return emb
+
     sys.path.insert(0, "plan02")
     from s0_tokenize import build_texts  # single source of truth for the text
 

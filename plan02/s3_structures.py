@@ -30,6 +30,10 @@ from sklearn.metrics import silhouette_score
 
 SEED = 42
 PRIMARY_K = 5
+# NMF/LDA topic count, frozen at the Stage 3 checkpoint (owner-approved 2026-07-21):
+# no elbow in the error curve; K=6 is where criminal procedure separates from
+# immigration detention and every topic stays one-sentence describable.
+FROZEN_TOPIC_K = 6
 FEATURES_DIR = Path("plan02/features")
 RESULTS_DIR = Path("plan02/results")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -227,21 +231,22 @@ def main():
 
     print("\n[3b] mixture membership")
     kselect, provisional = run_nmf_sweep(tfidf, vocab)
-    print(f"  provisional K = {provisional} (owner checkpoint decides)")
+    K = FROZEN_TOPIC_K
+    print(f"  adopted K = {K} (frozen at checkpoint; sweep provisional was {provisional})")
 
-    W = np.array(kselect[provisional]["W"])
+    W = np.array(kselect[K]["W"])
     ratios, dom, ent = membership_diagnostics(W)
-    save_membership("nmf", ratios, dom, ent, kselect[provisional]["topic_words"],
-                    {"method": "NMF(tfidf)", "K": provisional, "provisional": True})
+    save_membership("nmf", ratios, dom, ent, kselect[K]["topic_words"],
+                    {"method": "NMF(tfidf)", "K": K, "provisional": False})
 
-    lda = LatentDirichletAllocation(n_components=provisional, random_state=SEED,
+    lda = LatentDirichletAllocation(n_components=K, random_state=SEED,
                                     max_iter=30, learning_method="batch")
     W_lda = lda.fit_transform(count)
     ratios_l, dom_l, ent_l = membership_diagnostics(W_lda)
     save_membership("lda", ratios_l, dom_l, ent_l,
                     topic_top_words(lda.components_, vocab),
-                    {"method": "LDA(count)", "K": provisional, "provisional": True})
-    print(f"  LDA done at K={provisional}")
+                    {"method": "LDA(count)", "K": K, "provisional": False})
+    print(f"  LDA done at K={K}")
 
     print(f"\nSaved Stage 3 outputs to {RESULTS_DIR}/")
 

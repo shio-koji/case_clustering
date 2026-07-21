@@ -2,8 +2,8 @@
  "seed": 42,
  "variance_target": 0.8,
  "tfidf_svd": {
-  "dim": 67,
-  "cumulative_variance": 0.8001
+  "dim": 68,
+  "cumulative_variance": 0.8081
  },
  "emb_pca": {
   "dim": 48,
