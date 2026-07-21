@@ -1,0 +1,84 @@
+{
+ "_note": "LLM-assisted names (Claude), based ONLY on descriptor words + representative cases from interpretation.json. Existing tags were not consulted (circularity avoidance). Each entry cites its evidence. 'nameable: false' = fails the one-sentence test; that fact itself feeds the Stage-5 method comparison.",
+ "nmf": {
+  "0": {"name": "地域開発・環境と住民自治", "nameable": true,
+        "evidence": "words: 住民/条例/工事/再開発/伐採/議会; reps: 神戸石炭訴訟, 沖縄開発認可取消"},
+  "1": {"name": "情報公開・公文書", "nameable": true,
+        "evidence": "words: 文書/開示/財務省/ファイル/赤木; reps: イラク戦争検証報告書, 財務省補正要求"},
+  "2": {"name": "入管収容・難民・人種差別", "nameable": true,
+        "evidence": "words: 難民/デニズ(収容被害当事者名)/入管_収容/迫害/人種; reps: カメルーン人男性死亡, 入管職員暴行"},
+  "3": {"name": "婚姻の平等・性別のあり方", "nameable": true,
+        "evidence": "words: 同性/カップル/性別/民法/婚姻; reps: 同性婚訴訟, 同性婚仙台家事審判"},
+  "4": {"name": "選挙権・政治参加", "nameable": true,
+        "evidence": "words: 選挙/投票/選挙権/在外/立候補; reps: 在外選挙制度, 在外選挙権確認"},
+  "5": {"name": "刑事手続・人質司法", "nameable": true,
+        "evidence": "words: 勾留/保釈/黙秘権/取調べ/人質; reps: 取調べ拒否Tシャツ, 大川原化工機"}
+ },
+ "lda": {
+  "0": {"name": "刑事手続（＋優生保護が混入）", "nameable": true,
+        "evidence": "words: 取調べ/勾留/保釈/弁護人 に 不妊/不妊_手術 が混入。reps: 大川原化工機, 人質司法",
+        "caveat": "NMFのT5より不純。優生保護法系が混じる"},
+  "1": {"name": "（命名困難：入管・住民投票・帰化の混成）", "nameable": false,
+        "evidence": "words: デニズ/届出/帰化/旅券/沖縄県/気候_変動 — 一文でまとまらない"},
+  "2": {"name": "（命名困難：刑務所と公共工事の混成）", "nameable": false,
+        "evidence": "words: 刑務所/工事/イチョウ/水害/受刑者 — 異質な2系統が同居"},
+  "3": {"name": "情報公開・公文書", "nameable": true,
+        "evidence": "words: 文書/開示/財務省/開示_請求; reps: 学術会議, 国葬文書"},
+  "4": {"name": "選挙権・政治参加", "nameable": true,
+        "evidence": "words: 選挙/投票/立候補/選挙権; reps: 在外選挙制度"},
+  "5": {"name": "（命名困難：極小・n=2）", "nameable": false,
+        "evidence": "神宮外苑と裁判官罷免訴追の2件のみ。トピックとして成立していない"}
+ },
+ "kmeans_svd": {
+  "0": {"name": "（命名困難：家族・国籍・参政・消費者の混成、n=31）", "nameable": false,
+        "evidence": "words: 同性/在外/消費者/民法 — 複数系統の混成大クラスタ"},
+  "1": {"name": "地域開発・環境", "nameable": true, "evidence": "words: 工事/条例/再開発/伐採/神宮; medoid: 神宮外苑"},
+  "2": {"name": "情報公開・公文書", "nameable": true, "evidence": "words: 文書/開示/財務省/赤木; medoid: 入管の秘密主義"},
+  "3": {"name": "入管・難民・人種差別", "nameable": true, "evidence": "words: 難民/デニズ/人種/入管_収容/迫害; medoid: レイシャルプロファイリング"},
+  "4": {"name": "刑事手続・人質司法", "nameable": true, "evidence": "words: 勾留/保釈/黙秘権/取調べ/人質_司法; medoid: 人質司法に終止符"}
+ },
+ "kmeans_pca": {
+  "0": {"name": "労働・生活者の権利", "nameable": true, "evidence": "words: 消費者/労働/労災/共働き; medoid: 教員の働き方"},
+  "1": {"name": "身体拘束（刑事・入管）", "nameable": true, "evidence": "words: 保釈/収容/刑務所/人質_司法; medoid: 大川原化工機"},
+  "2": {"name": "地域開発・環境", "nameable": true, "evidence": "words: 住民/工事/再開発/伐採/気候; medoid: 神宮外苑"},
+  "3": {"name": "家族・ジェンダー・リプロダクション", "nameable": true, "evidence": "words: カップル/同性/不妊/婚姻 (不妊_手術=優生保護法系); medoid: 海外成立同性婚の受理"},
+  "4": {"name": "情報公開・国家の説明責任", "nameable": true, "evidence": "words: 文書/開示/財務省/情報_公開 (黙秘権が少数混入); medoid: 警察庁個人情報ファイル簿"}
+ },
+ "hier_svd": {
+  "_method_note": "average linkage×語彙空間は連鎖して巨大クラスタ+微小断片に退化。一文テストにほぼ全滅で、この手法自体を「解釈しづらい」とStage 5に記録する",
+  "0": {"name": "（微小 n=2: 在留資格）", "nameable": false, "evidence": "マクリーン事件系2件のみ"},
+  "1": {"name": "（微小 n=2: 水害）", "nameable": false, "evidence": "水害訴訟2件のみ"},
+  "2": {"name": "情報公開・公文書", "nameable": true, "evidence": "words: 文書/開示/財務省"},
+  "3": {"name": "（命名困難：n=79の巨大クラスタ）", "nameable": false, "evidence": "残り全部が1塊。構造をなしていない"},
+  "4": {"name": "（単独 n=1）", "nameable": false, "evidence": "LINE住民票1件"}
+ },
+ "hier_pca": {
+  "0": {"name": "情報公開・公文書", "nameable": true, "evidence": "words: 文書/財務省/公開_請求/赤木/学術_会議"},
+  "1": {"name": "地域開発・環境", "nameable": true, "evidence": "words: 工事/住民/再開発/伐採; medoid: 馬毛島"},
+  "2": {"name": "家族・ジェンダー（＋選挙が混入）", "nameable": true,
+        "evidence": "words: カップル/同性/不妊 に 選挙/投票 が混入", "caveat": "leiden_pcaでは選挙が分離するのにここでは混じる"},
+  "3": {"name": "労働・ケア", "nameable": true, "evidence": "words: 消費者/労働/保育園/労災; medoid: 児童相談所の労働環境"},
+  "4": {"name": "刑事手続・身体拘束", "nameable": true, "evidence": "words: 取調べ/勾留/保釈/弁護人; medoid: 新宿留置場"}
+ },
+ "leiden_svd": {
+  "0": {"name": "家族・ジェンダー・リプロダクション", "nameable": true, "evidence": "words: カップル/同性/不妊/民法/家事"},
+  "1": {"name": "身体拘束（刑事・入管）", "nameable": true, "evidence": "words: 収容/難民/取調べ/勾留/保釈 — 刑事と入管が融合"},
+  "2": {"name": "地域開発・環境", "nameable": true, "evidence": "words: 住民/工事/再開発/伐採/認可"},
+  "3": {"name": "情報公開・公文書", "nameable": true, "evidence": "words: 文書/開示/財務省/赤木"},
+  "4": {"name": "選挙権・政治参加", "nameable": true, "evidence": "words: 選挙/投票/選挙権/立候補_年齢"}
+ },
+ "leiden_pca": {
+  "0": {"name": "刑事手続・身体拘束", "nameable": true, "evidence": "words: 取調べ/勾留/保釈/収容/黙秘権; medoid: 新宿留置場"},
+  "1": {"name": "家族・ジェンダー（＋選挙が混入）", "nameable": true,
+        "evidence": "words: カップル/同性/不妊 に 選挙/投票 が混入", "caveat": "hier_pcaと同じ混入"},
+  "2": {"name": "地域開発・環境", "nameable": true, "evidence": "words: 住民/工事/再開発/伐採; medoid: 馬毛島"},
+  "3": {"name": "情報公開・公文書", "nameable": true, "evidence": "words: 文書/開示/財務省/情報_公開"}
+ },
+ "bertopic": {
+  "_method_note": "外れ値5件は妥当だがC0が62件の巨大受け皿に。UMAP5d上の密度が「はっきり濃い島（労働/選挙/家族）」だけを島と認定し残りを1塊にした",
+  "0": {"name": "（命名困難：n=62の巨大クラスタ）", "nameable": false, "evidence": "words: 住民/開示/収容/文書/取調べ — 複数系統の受け皿"},
+  "1": {"name": "労働・生活者の権利", "nameable": true, "evidence": "words: 消費者/共働き/労災/遺族年金/子育て"},
+  "2": {"name": "選挙権・政治参加", "nameable": true, "evidence": "words: 投票/選挙/立候補/在外"},
+  "3": {"name": "家族・ジェンダー・リプロダクション", "nameable": true, "evidence": "words: カップル/同性/不妊/優生/婚姻"}
+ }
+}
