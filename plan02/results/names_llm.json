@@ -72,7 +72,8 @@
   "1": {"name": "家族・ジェンダー（＋選挙が混入）", "nameable": true,
         "evidence": "words: カップル/同性/不妊 に 選挙/投票 が混入", "caveat": "hier_pcaと同じ混入"},
   "2": {"name": "地域開発・環境", "nameable": true, "evidence": "words: 住民/工事/再開発/伐採; medoid: 馬毛島"},
-  "3": {"name": "情報公開・公文書", "nameable": true, "evidence": "words: 文書/開示/財務省/情報_公開"}
+  "3": {"name": "情報公開・公文書", "nameable": true, "evidence": "words: 文書/開示/財務省/情報_公開"},
+  "4": {"name": "労働・生活者の権利", "nameable": true, "evidence": "words: 消費者/労働/労災/共働き; medoid: 教員の働き方"}
  },
  "bertopic": {
   "_method_note": "外れ値5件は妥当だがC0が62件の巨大受け皿に。UMAP5d上の密度が「はっきり濃い島（労働/選挙/家族）」だけを島と認定し残りを1塊にした",
