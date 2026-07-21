@@ -23,9 +23,12 @@ cache/*.pkl
 *.cache
 
 # 結果ファイル（HTMLレポート・解析結果は追跡する）
-# results/
 # Artifact公開用の派生HTML（本体レポートの重複なので除外）
-results/report_artifact.html
+plan01/results/report_artifact.html
+
+# plan02: 中間成果物の派生バイナリは除外（JSON結果・レポートは追跡）
+plan02/features/*.npz
+plan02/features/*.pkl
 
 # Jupyter
 .ipynb_checkpoints/

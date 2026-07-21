@@ -20,8 +20,9 @@ from datetime import datetime
 
 warnings.filterwarnings("ignore")
 
+# Frozen plan01 pipeline: run from the repo root (cache/ is shared with plan02).
 CACHE_DIR = Path("cache")
-RESULTS_DIR = Path("results")
+RESULTS_DIR = Path("plan01/results")
 RESULTS_DIR.mkdir(exist_ok=True)
 SEED = 42
 np.random.seed(SEED)

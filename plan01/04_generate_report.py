@@ -16,8 +16,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
+# Frozen plan01 pipeline: run from the repo root (cache/ is shared with plan02).
 CACHE_DIR = Path("cache")
-RESULTS_DIR = Path("results")
+RESULTS_DIR = Path("plan01/results")
 
 # Japanese font setup
 JP_FONT_PATH = "/System/Library/AssetsV2/com_apple_MobileAsset_Font7/54ef167d6c8e99a69a0d41ce252cc5995ba47580.asset/AssetData/YuGothic-Medium.otf"
