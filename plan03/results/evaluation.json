@@ -1,0 +1,619 @@
+{
+  "note": "silhouettes are Jaccard-space only and NOT comparable to plan02's embedding-space values.",
+  "resolution_ceiling": {
+    "n_unique_tag_combinations": 37,
+    "frac_zero_similarity_pairs": 0.68
+  },
+  "Q1_internal": {
+    "LCA(BIC K=2)": {
+      "K": 2,
+      "silhouette_jaccard": 0.2327,
+      "largest_cluster_frac": 0.547
+    },
+    "LCA(K=6)": {
+      "K": 6,
+      "silhouette_jaccard": 0.4191,
+      "largest_cluster_frac": 0.242
+    },
+    "NMF-tags(K=6)": {
+      "K": 6,
+      "silhouette_jaccard": 0.4056,
+      "largest_cluster_frac": 0.295
+    },
+    "MCA+kmeans(K=6)": {
+      "K": 6,
+      "silhouette_jaccard": 0.2942,
+      "largest_cluster_frac": 0.253
+    },
+    "Leiden-tags": {
+      "K": 6,
+      "silhouette_jaccard": 0.4111,
+      "largest_cluster_frac": 0.232
+    },
+    "Jaccard-hier(k=5)": {
+      "K": 5,
+      "silhouette_jaccard": 0.2623,
+      "largest_cluster_frac": 0.589
+    },
+    "Jaccard-hier(k=6)": {
+      "K": 6,
+      "silhouette_jaccard": 0.3146,
+      "largest_cluster_frac": 0.589
+    },
+    "co-cluster(K=6)": {
+      "K": 6,
+      "silhouette_jaccard": 0.3789,
+      "largest_cluster_frac": 0.263
+    }
+  },
+  "Q2_method_names": [
+    "LCA(BIC K=2)",
+    "LCA(K=6)",
+    "NMF-tags(K=6)",
+    "MCA+kmeans(K=6)",
+    "Leiden-tags",
+    "Jaccard-hier(k=5)",
+    "Jaccard-hier(k=6)",
+    "co-cluster(K=6)"
+  ],
+  "Q2_ari_matrix": [
+    [
+      1.0,
+      0.186,
+      0.261,
+      0.246,
+      0.204,
+      0.288,
+      0.239,
+      0.214
+    ],
+    [
+      0.186,
+      1.0,
+      0.656,
+      0.786,
+      0.579,
+      0.257,
+      0.287,
+      0.779
+    ],
+    [
+      0.261,
+      0.656,
+      1.0,
+      0.597,
+      0.625,
+      0.304,
+      0.337,
+      0.636
+    ],
+    [
+      0.246,
+      0.786,
+      0.597,
+      1.0,
+      0.436,
+      0.295,
+      0.225,
+      0.713
+    ],
+    [
+      0.204,
+      0.579,
+      0.625,
+      0.436,
+      1.0,
+      0.277,
+      0.307,
+      0.494
+    ],
+    [
+      0.288,
+      0.257,
+      0.304,
+      0.295,
+      0.277,
+      1.0,
+      0.948,
+      0.268
+    ],
+    [
+      0.239,
+      0.287,
+      0.337,
+      0.225,
+      0.307,
+      0.948,
+      1.0,
+      0.279
+    ],
+    [
+      0.214,
+      0.779,
+      0.636,
+      0.713,
+      0.494,
+      0.268,
+      0.279,
+      1.0
+    ]
+  ],
+  "Q2_nmi_matrix": [
+    [
+      1.0,
+      0.302,
+      0.355,
+      0.319,
+      0.336,
+      0.394,
+      0.364,
+      0.322
+    ],
+    [
+      0.302,
+      1.0,
+      0.736,
+      0.824,
+      0.757,
+      0.476,
+      0.553,
+      0.815
+    ],
+    [
+      0.355,
+      0.736,
+      1.0,
+      0.698,
+      0.765,
+      0.495,
+      0.572,
+      0.69
+    ],
+    [
+      0.319,
+      0.824,
+      0.698,
+      1.0,
+      0.621,
+      0.503,
+      0.482,
+      0.785
+    ],
+    [
+      0.336,
+      0.757,
+      0.765,
+      0.621,
+      1.0,
+      0.524,
+      0.599,
+      0.648
+    ],
+    [
+      0.394,
+      0.476,
+      0.495,
+      0.503,
+      0.524,
+      1.0,
+      0.936,
+      0.472
+    ],
+    [
+      0.364,
+      0.553,
+      0.572,
+      0.482,
+      0.599,
+      0.936,
+      1.0,
+      0.513
+    ],
+    [
+      0.322,
+      0.815,
+      0.69,
+      0.785,
+      0.648,
+      0.472,
+      0.513,
+      1.0
+    ]
+  ],
+  "Q3_vs_plan02": {
+    "LCA(BIC K=2)": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.135,
+        "NMI": 0.19
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.149,
+        "NMI": 0.163
+      }
+    },
+    "LCA(K=6)": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.291,
+        "NMI": 0.399
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.346,
+        "NMI": 0.453
+      }
+    },
+    "NMF-tags(K=6)": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.274,
+        "NMI": 0.379
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.402,
+        "NMI": 0.478
+      }
+    },
+    "MCA+kmeans(K=6)": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.315,
+        "NMI": 0.435
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.37,
+        "NMI": 0.494
+      }
+    },
+    "Leiden-tags": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.231,
+        "NMI": 0.377
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.246,
+        "NMI": 0.417
+      }
+    },
+    "Jaccard-hier(k=5)": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.116,
+        "NMI": 0.313
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.184,
+        "NMI": 0.285
+      }
+    },
+    "Jaccard-hier(k=6)": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.117,
+        "NMI": 0.343
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.197,
+        "NMI": 0.329
+      }
+    },
+    "co-cluster(K=6)": {
+      "text-Leiden(K=5)": {
+        "ARI": 0.282,
+        "NMI": 0.412
+      },
+      "text-NMF(K=6)": {
+        "ARI": 0.351,
+        "NMI": 0.459
+      }
+    }
+  },
+  "Q3_best_recovery": {
+    "text-Leiden(K=5)": [
+      {
+        "method": "MCA+kmeans(K=6)",
+        "ARI": 0.315
+      },
+      {
+        "method": "LCA(K=6)",
+        "ARI": 0.291
+      },
+      {
+        "method": "co-cluster(K=6)",
+        "ARI": 0.282
+      }
+    ],
+    "text-NMF(K=6)": [
+      {
+        "method": "NMF-tags(K=6)",
+        "ARI": 0.402
+      },
+      {
+        "method": "MCA+kmeans(K=6)",
+        "ARI": 0.37
+      },
+      {
+        "method": "co-cluster(K=6)",
+        "ARI": 0.351
+      }
+    ]
+  },
+  "Q4_tag_spread_over_textNMF": {
+    "ジェンダー・セクシュアリティ": {
+      "n": 13,
+      "max_topic_frac": 0.69,
+      "n_topics_touched": 5,
+      "topic_dist": [
+        1,
+        0,
+        1,
+        9,
+        1,
+        1
+      ]
+    },
+    "個人情報・プライバシー": {
+      "n": 1,
+      "max_topic_frac": 1.0,
+      "n_topics_touched": 1,
+      "topic_dist": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "働き方": {
+      "n": 10,
+      "max_topic_frac": 0.4,
+      "n_topics_touched": 5,
+      "topic_dist": [
+        4,
+        0,
+        1,
+        3,
+        1,
+        1
+      ]
+    },
+    "公正な手続": {
+      "n": 43,
+      "max_topic_frac": 0.6,
+      "n_topics_touched": 6,
+      "topic_dist": [
+        26,
+        4,
+        5,
+        1,
+        3,
+        4
+      ]
+    },
+    "刑事司法": {
+      "n": 14,
+      "max_topic_frac": 0.57,
+      "n_topics_touched": 4,
+      "topic_dist": [
+        0,
+        1,
+        4,
+        1,
+        0,
+        8
+      ]
+    },
+    "医療・福祉・障がい": {
+      "n": 9,
+      "max_topic_frac": 0.44,
+      "n_topics_touched": 4,
+      "topic_dist": [
+        4,
+        0,
+        3,
+        1,
+        1,
+        0
+      ]
+    },
+    "外国にルーツを持つ人々": {
+      "n": 16,
+      "max_topic_frac": 0.69,
+      "n_topics_touched": 5,
+      "topic_dist": [
+        0,
+        1,
+        11,
+        2,
+        1,
+        1
+      ]
+    },
+    "情報公開": {
+      "n": 11,
+      "max_topic_frac": 0.91,
+      "n_topics_touched": 2,
+      "topic_dist": [
+        0,
+        10,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "政治参加・表現の自由": {
+      "n": 17,
+      "max_topic_frac": 0.47,
+      "n_topics_touched": 4,
+      "topic_dist": [
+        5,
+        1,
+        0,
+        0,
+        8,
+        3
+      ]
+    },
+    "沖縄": {
+      "n": 4,
+      "max_topic_frac": 1.0,
+      "n_topics_touched": 1,
+      "topic_dist": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "環境・災害": {
+      "n": 14,
+      "max_topic_frac": 1.0,
+      "n_topics_touched": 1,
+      "topic_dist": [
+        14,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "Q4_meta_tags": {
+    "0": [
+      "ジェンダー・セクシュアリティ",
+      "働き方",
+      "外国にルーツを持つ人々"
+    ],
+    "1": [
+      "公正な手続",
+      "環境・災害"
+    ],
+    "2": [
+      "刑事司法",
+      "医療・福祉・障がい"
+    ],
+    "3": [
+      "個人情報・プライバシー",
+      "政治参加・表現の自由"
+    ],
+    "4": [
+      "情報公開"
+    ],
+    "5": [
+      "沖縄"
+    ]
+  },
+  "Q4_splitting_tags": [
+    {
+      "tag": "公正な手続",
+      "n": 43,
+      "max_topic_frac": 0.6,
+      "n_topics_touched": 6,
+      "topic_dist": [
+        26,
+        4,
+        5,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "tag": "働き方",
+      "n": 10,
+      "max_topic_frac": 0.4,
+      "n_topics_touched": 5,
+      "topic_dist": [
+        4,
+        0,
+        1,
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "tag": "ジェンダー・セクシュアリティ",
+      "n": 13,
+      "max_topic_frac": 0.69,
+      "n_topics_touched": 5,
+      "topic_dist": [
+        1,
+        0,
+        1,
+        9,
+        1,
+        1
+      ]
+    },
+    {
+      "tag": "外国にルーツを持つ人々",
+      "n": 16,
+      "max_topic_frac": 0.69,
+      "n_topics_touched": 5,
+      "topic_dist": [
+        0,
+        1,
+        11,
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "tag": "医療・福祉・障がい",
+      "n": 9,
+      "max_topic_frac": 0.44,
+      "n_topics_touched": 4,
+      "topic_dist": [
+        4,
+        0,
+        3,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "tag": "政治参加・表現の自由",
+      "n": 17,
+      "max_topic_frac": 0.47,
+      "n_topics_touched": 4,
+      "topic_dist": [
+        5,
+        1,
+        0,
+        0,
+        8,
+        3
+      ]
+    }
+  ],
+  "Q4_integration_topics": {
+    "0": [
+      [
+        "公正な手続",
+        43
+      ],
+      [
+        "環境・災害",
+        14
+      ],
+      [
+        "働き方",
+        10
+      ],
+      [
+        "医療・福祉・障がい",
+        9
+      ],
+      [
+        "沖縄",
+        4
+      ],
+      [
+        "個人情報・プライバシー",
+        1
+      ]
+    ]
+  }
+}
