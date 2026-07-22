@@ -263,6 +263,53 @@ def fig_sankey(tags, labels, clusters, order):
     return svg_of(fig)
 
 
+def grouped_layout(g, labels, order):
+    """Cluster-separated layout: cluster centers on a big circle, members laid
+    out (FR on the induced subgraph) inside their own disk. Makes groups obvious."""
+    import math
+    import random as pyr
+    N = g.vcount()
+    pos = np.zeros((N, 2))
+    K = len(order)
+    for slot, c in enumerate(order):
+        ang = 2 * math.pi * slot / K
+        cx, cy = 3.2 * math.cos(ang), 3.2 * math.sin(ang)
+        members = [i for i in range(N) if int(labels[i]) == c]
+        sub = g.subgraph(members)
+        if sub.ecount() > 0:
+            pyr.seed(SEED)
+            sl = np.array(sub.layout_fruchterman_reingold(niter=500).coords, dtype=float)
+        else:
+            sl = np.array([[math.cos(2 * math.pi * j / max(len(members), 1)),
+                            math.sin(2 * math.pi * j / max(len(members), 1))]
+                           for j in range(len(members))], dtype=float)
+        sl -= sl.mean(axis=0)
+        scale = np.abs(sl).max() or 1.0
+        sl = sl / scale * 0.95
+        for j, i in enumerate(members):
+            pos[i] = [cx + sl[j, 0], cy + sl[j, 1]]
+    return pos
+
+
+def compute_layouts(g, coords, labels, order):
+    """Several 2D layouts of the same graph, each normalized to [0,1]."""
+    import random as pyr
+    raw = {}
+    pyr.seed(SEED); raw["grouped"] = grouped_layout(g, labels, order)
+    pyr.seed(SEED); raw["fr"] = np.array(g.layout_fruchterman_reingold(niter=800).coords, dtype=float)
+    pyr.seed(SEED); raw["kk"] = np.array(g.layout_kamada_kawai().coords, dtype=float)
+    try:
+        pyr.seed(SEED); raw["drl"] = np.array(g.layout_drl().coords, dtype=float)
+    except Exception:
+        raw["drl"] = raw["fr"]
+    raw["umap"] = np.asarray(coords, dtype=float)
+    norm = {}
+    for k, v in raw.items():
+        mn = v.min(axis=0); rng = np.ptp(v, axis=0); rng[rng == 0] = 1.0
+        norm[k] = np.round((v - mn) / rng, 4)
+    return norm
+
+
 def fig_dendro():
     lk = json.loads((RESULTS_DIR / "linkages.json").read_text(encoding="utf-8"))
     Z = np.array(lk["linkages"]["pca"])
@@ -346,15 +393,13 @@ def main():
   <details><summary>所属{cl['size']}件すべて</summary><ul class="small">{allc}</ul></details>
 </div>""")
 
-    # JS data: nodes (with cluster color slot), edges, layouts
-    gg = ig.Graph(n=len(ids), edges=edges)
-    import random as pyr; pyr.seed(SEED)
-    net = np.array(gg.layout_fruchterman_reingold(niter=800).coords)
-    nodes = [{"title": titles[i], "url": url(ids[i]), "tags": tags[i],
+    # JS data: nodes (with cluster color slot), edges, and several layouts
+    layouts = compute_layouts(g, coords, labels, order)
+    nodes = [{"i": i, "title": titles[i], "url": url(ids[i]), "tags": tags[i],
               "c": cidx[int(labels[i])], "cname": clusters[int(labels[i])]["name"],
-              "x": round(float(coords[i, 0]), 2), "y": round(float(coords[i, 1]), 2),
-              "nx": round(float(net[i, 0]), 2), "ny": round(float(net[i, 1]), 2)}
+              "x": round(float(coords[i, 0]), 2), "y": round(float(coords[i, 1]), 2)}
              for i in range(len(ids))]
+    layouts_js = {k: [[float(x), float(y)] for x, y in v] for k, v in layouts.items()}
     # cross-cluster edges flagged for the network view
     edge_js = [[int(a), int(b), int(labels[a] != labels[b])] for a, b in edges]
     cnames = [clusters[c]["name"] for c in order]
@@ -477,7 +522,12 @@ ul.small li {{ font-size:.85em; }}
 <h3>B. ネットワーク図 — 「機械が実際に見た繋がり」</h3>
 <p>Leidenは「ネットワークの塊を見つける」手法なので、この図は<b>手法そのものが見ている絵</b>です。
 線＝意味が近い関係、色＝グループ。<b>灰色の線＝グループをまたぐ繋がり</b>（複数論点の橋渡しケース）。</p>
+<p class="dim"><b>配置について</b>: ネットワーク図では「どのノードがどこに繋がるか（線）」だけがデータで、
+<b>各ノードを2次元のどこに置くかは配置アルゴリズムの選択</b>です。目的の違う手法がいくつもあるので、
+下のボタンで切り替えて見比べられます（既定は同じ色をまとめる「クラスタ分離配置」）。</p>
 <div class="figure">
+  <div id="layout-btns"></div>
+  <p class="dim" id="layout-desc" style="margin:4px 0;"></p>
   <label class="dim"><input type="checkbox" id="cross-only"> グループをまたぐ線だけ表示</label>
   <canvas id="net" width="960" height="600"></canvas>
 </div>
@@ -532,6 +582,7 @@ const NODES = {json.dumps(nodes, ensure_ascii=False)};
 const EDGES = {json.dumps(edge_js)};
 const CN = {json.dumps(cnames, ensure_ascii=False)};
 const CC = {json.dumps(CL_COLORS)};
+const LAYOUTS = {json.dumps(layouts_js)};
 const tip = document.getElementById('tip');
 function showTip(h, ev) {{
   tip.innerHTML = h; tip.style.display = 'block';
@@ -578,11 +629,23 @@ function drawMap() {{
 }}
 drawMap(); hook(mc, mPos);
 
-// B. network
+// B. network (switchable layout)
 const nc=document.getElementById('net'), nx=nc.getContext('2d');
-const nScale=mkScale(nc,'n',30), nPos=n=>nScale(n);
 const crossOnly=document.getElementById('cross-only');
+const LMETA = [
+  ['grouped','クラスタ分離配置','各グループを別々の区画に置いて、まとまりを最優先で見せる配置。'],
+  ['fr','力学（繋がりベース）','バネと反発でつり合わせる古典的な力学配置。クラスタは考慮せず、繋がりだけで決まる。'],
+  ['kk','力学（Kamada-Kawai）','グラフ上の最短距離を2次元の距離にできるだけ忠実に写す力学配置。'],
+  ['drl','コミュニティ強調（DrL）','大規模グラフ向けで、密な塊（コミュニティ）を離して見せやすい配置。'],
+  ['umap','意味マップ（UMAP座標）','冒頭の地図と同じ、埋め込みの意味座標をそのまま使った配置。'],
+];
+let curL='grouped', nPos=null;
+function rescaleNet() {{
+  const P=LAYOUTS[curL], pad=32;
+  nPos = n => [pad + P[n.i][0]*(nc.width-2*pad), pad + P[n.i][1]*(nc.height-2*pad)];
+}}
 function drawNet() {{
+  rescaleNet();
   nx.clearRect(0,0,nc.width,nc.height);
   EDGES.forEach(([a,b,cross]) => {{
     if (crossOnly.checked && !cross) return;
@@ -595,7 +658,18 @@ function drawNet() {{
     nx.beginPath(); nx.arc(x,y,6,0,7); nx.fillStyle=CC[n.c]; nx.fill();
     nx.strokeStyle='#fff'; nx.lineWidth=1; nx.stroke(); }});
 }}
-drawNet(); hook(nc, nPos);
+const lb=document.getElementById('layout-btns'), ld=document.getElementById('layout-desc');
+LMETA.forEach(([k,label,desc],i) => lb.insertAdjacentHTML('beforeend',
+  `<button class="btn ${{i===0?'active':''}}" data-k="${{k}}">${{label}}</button>`));
+function setDesc() {{ ld.textContent = LMETA.find(m=>m[0]===curL)[2]; }}
+lb.addEventListener('click', ev => {{
+  if (ev.target.tagName!=='BUTTON') return;
+  curL = ev.target.dataset.k;
+  lb.querySelectorAll('.btn').forEach(b=>b.classList.toggle('active', b===ev.target));
+  setDesc(); drawNet();
+}});
+setDesc(); drawNet();
+hook(nc, n => nPos(n));
 crossOnly.addEventListener('change', drawNet);
 </script>
 </body>
