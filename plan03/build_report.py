@@ -187,20 +187,33 @@ def main():
         sh = [w for w in top_terms(a, TOPW) if w in wsets[b]]
         if len(sh) >= MINSHARE:
             edges_w.append((a, b, sh[:6]))
-    connected = sorted({x for a, b, _ in edges_w for x in (a, b)})
-    sub_i = {n: k for k, n in enumerate(connected)}
-    netc = np.zeros((len(ids), 2))
-    import random as pyr; pyr.seed(SEED)
-    if connected:
-        subg = ig.Graph(n=len(connected), edges=[(sub_i[a], sub_i[b]) for a, b, _ in edges_w])
-        lay = np.array(subg.layout_fruchterman_reingold(niter=800).coords)
-        lay -= lay.min(0); lay /= np.ptp(lay, 0)
-        for k, n in enumerate(connected):
-            netc[n] = [0.04 + lay[k, 0] * 0.92, 0.03 + lay[k, 1] * 0.75]
-    iso = [i for i in range(len(ids)) if i not in set(connected)]
-    for k, i in enumerate(iso):
-        netc[i] = [0.06 + (k % 12) / 11 * 0.88, 0.88 + (k // 12) * 0.05]
-    print(f"[wordnet] edges={len(edges_w)}, connected={len(connected)}, isolated={len(iso)}")
+    import random as pyr
+    iso = [i for i in range(len(ids)) if i not in {x for a, b, _ in edges_w for x in (a, b)}]
+    # layout with group gravity: real shared-word edges pull hard; a weak virtual
+    # link between same-dominant-topic cases pulls each group together spatially.
+    gedges, gw = [], []
+    for a, b, _ in edges_w:
+        gedges.append((a, b)); gw.append(3.0)
+    for t in range(6):
+        grp = [i for i in range(len(ids)) if dom[i] == t]
+        for a, b in combinations(grp, 2):
+            gedges.append((a, b)); gw.append(0.35)
+    pyr.seed(SEED)
+    lay = np.array(ig.Graph(n=len(ids), edges=gedges).layout_fruchterman_reingold(
+        weights=gw, niter=1200).coords)
+    lay -= lay.min(0); lay /= np.maximum(np.ptp(lay, 0), 1e-9)
+    netc = 0.05 + lay * 0.90
+    # translucent convex hull per dominant topic (padded out from its centroid)
+    from scipy.spatial import ConvexHull
+    hulls = {}
+    for t in range(6):
+        pts = netc[[i for i in range(len(ids)) if dom[i] == t]]
+        try:
+            poly = pts[ConvexHull(pts).vertices]; c = poly.mean(0)
+            hulls[t] = (c + (poly - c) * 1.13).round(3).tolist()
+        except Exception:
+            hulls[t] = None
+    print(f"[wordnet] edges={len(edges_w)}, word-isolated={len(iso)}")
     nodes = [{"i": i, "title": titles[i], "url": url(ids[i]), "f": int(dom[i]),
               "words": case_words[i][:6], "nmf": [round(float(r), 3) for r in ratios[i]],
               "iso": int(i in set(iso)),
@@ -350,7 +363,8 @@ NMFは解釈可能な6軸で表すため、根拠を名指しできます。
 <b>使い方: 点をクリック</b>すると、その訴訟とつながる相手が下に一覧され、
 <b>相手ごとに「どの語が共通か」</b>が表示されます。もう一度背景をクリックで解除。点にカーソルでその訴訟の特徴語。
 <span class="note">補足: 各訴訟の特徴語（TF-IDF上位20語）のうち2語以上が一致するペアを線にしています。
-どの訴訟とも語を共有しない訴訟は、図の下段に並べています。</span>
+<b>同じ主テーマの訴訟が近くに集まるよう配置</b>し（背景の薄い色がその主テーマの範囲）、
+どの訴訟とも語を共有しない訴訟は<b>白抜きの点</b>で表しています。</span>
 </div>
 <div class="figure">
   <div id="lg-net" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px;"></div>
@@ -407,6 +421,7 @@ Kを増やせば必ず下がるため「どこで頭打ちか（肘）」で止�
 <script>
 const NODES = {json.dumps(nodes, ensure_ascii=False)};
 const EDGES = {json.dumps(edge_js)};
+const HULLS = {json.dumps(hulls)};
 const TN = {json.dumps(names, ensure_ascii=False)};
 const TC = {json.dumps(TC)};
 const ORDER = {json.dumps([int(i) for i in order_idx])};
@@ -437,22 +452,25 @@ function neighbors(i){{ const o=[]; EDGES.forEach(([a,b,sh])=>{{ if(a===i)o.push
 let sel=null;
 function draw(){{
   nx.clearRect(0,0,nc.width,nc.height);
+  // group hulls (same dominant topic region)
+  for(const t in HULLS){{ const poly=HULLS[t]; if(!poly) continue;
+    nx.beginPath(); poly.forEach((p,k)=>{{ const [x,y]=nPos({{wx:p[0],wy:p[1]}}); k?nx.lineTo(x,y):nx.moveTo(x,y); }});
+    nx.closePath(); const c=TC[t].replace('#','');
+    const r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),bl=parseInt(c.slice(4,6),16);
+    nx.fillStyle=`rgba(${{r}},${{g}},${{bl}},${{sel===null?0.09:0.05}})`; nx.fill(); }}
   const nb = sel!==null ? new Set(neighbors(sel).map(x=>x[0])) : null;
   EDGES.forEach(([a,b,sh])=>{{ const hot = sel!==null && (a===sel||b===sel);
     if(sel!==null && !hot) return;
     const [x1,y1]=nPos(NODES[a]),[x2,y2]=nPos(NODES[b]);
-    nx.strokeStyle = sel!==null ? 'rgba(70,80,100,0.6)' : 'rgba(150,155,165,0.28)';
+    nx.strokeStyle = sel!==null ? 'rgba(70,80,100,0.6)' : 'rgba(130,135,145,0.30)';
     nx.lineWidth = sel!==null ? 1.6 : 0.8; nx.beginPath(); nx.moveTo(x1,y1); nx.lineTo(x2,y2); nx.stroke(); }});
   NODES.forEach(n=>{{ const [x,y]=nPos(n);
     const dim = sel!==null && n.i!==sel && !(nb&&nb.has(n.i));
-    nx.globalAlpha = dim?0.18:(n.iso?0.55:1);
-    nx.beginPath(); nx.arc(x,y,n.i===sel?8.5:(n.iso?4.5:6.5),0,7);
-    nx.fillStyle=TC[n.f]; nx.fill(); nx.globalAlpha=1;
-    nx.strokeStyle=n.i===sel?'#222':'#fff'; nx.lineWidth=n.i===sel?2.5:1; nx.stroke(); }});
-  nx.setLineDash([5,4]); nx.strokeStyle='rgba(120,120,120,0.3)';
-  nx.beginPath(); nx.moveTo(0,0.85*(nc.height-pad)); nx.lineTo(nc.width,0.85*(nc.height-pad)); nx.stroke(); nx.setLineDash([]);
-  nx.fillStyle='#999'; nx.font='11px sans-serif';
-  nx.fillText('↓ どの訴訟とも特徴語を共有しない訴訟', 8, 0.85*(nc.height-pad)-5);
+    nx.globalAlpha = dim?0.15:1;
+    nx.beginPath(); nx.arc(x,y,n.i===sel?8.5:6,0,7);
+    if(n.iso){{ nx.fillStyle='#fff'; nx.fill(); nx.strokeStyle=TC[n.f]; nx.lineWidth=2; nx.stroke(); }}
+    else {{ nx.fillStyle=TC[n.f]; nx.fill(); nx.strokeStyle=n.i===sel?'#222':'#fff'; nx.lineWidth=n.i===sel?2.5:1; nx.stroke(); }}
+    nx.globalAlpha=1; }});
 }}
 function showPanel(i){{
   const nb=neighbors(i).sort((a,b)=>b[1].length-a[1].length);
