@@ -30,6 +30,10 @@ plan01/results/report_artifact.html
 plan02/features/*.npz
 plan02/features/*.pkl
 
+# plan04: 同上（plan02からコピーした派生バイナリも追跡しない）
+plan04/features/*.npz
+plan04/features/*.pkl
+
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb

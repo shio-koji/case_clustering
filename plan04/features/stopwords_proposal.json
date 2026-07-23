@@ -1,0 +1,96 @@
+{
+ "df_threshold_ratio": 0.8,
+ "note": "Candidates only - the owner decides what is actually removed (Stage 0 checkpoint).",
+ "candidates": [
+  {
+   "word": "こと",
+   "df": 95,
+   "df_ratio": 1.0
+  },
+  {
+   "word": "訴訟",
+   "df": 94,
+   "df_ratio": 0.989
+  },
+  {
+   "word": "ため",
+   "df": 92,
+   "df_ratio": 0.968
+  },
+  {
+   "word": "もの",
+   "df": 91,
+   "df_ratio": 0.958
+  },
+  {
+   "word": "よる",
+   "df": 90,
+   "df_ratio": 0.947
+  },
+  {
+   "word": "いう",
+   "df": 89,
+   "df_ratio": 0.937
+  },
+  {
+   "word": "裁判",
+   "df": 89,
+   "df_ratio": 0.937
+  },
+  {
+   "word": "対する",
+   "df": 86,
+   "df_ratio": 0.905
+  },
+  {
+   "word": "求める",
+   "df": 85,
+   "df_ratio": 0.895
+  },
+  {
+   "word": "つく",
+   "df": 85,
+   "df_ratio": 0.895
+  },
+  {
+   "word": "行う",
+   "df": 84,
+   "df_ratio": 0.884
+  },
+  {
+   "word": "弁護士",
+   "df": 83,
+   "df_ratio": 0.874
+  },
+  {
+   "word": "原告",
+   "df": 81,
+   "df_ratio": 0.853
+  },
+  {
+   "word": "支援",
+   "df": 81,
+   "df_ratio": 0.853
+  },
+  {
+   "word": "費用",
+   "df": 79,
+   "df_ratio": 0.832
+  },
+  {
+   "word": "考える",
+   "df": 78,
+   "df_ratio": 0.821
+  },
+  {
+   "word": "思う",
+   "df": 77,
+   "df_ratio": 0.811
+  },
+  {
+   "word": "問題",
+   "df": 77,
+   "df_ratio": 0.811
+  }
+ ]
+}
