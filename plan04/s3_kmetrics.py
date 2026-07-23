@@ -112,6 +112,10 @@ def main():
         print(f"K={K:2d}  coherence={coh[-1]:8.2f}  stability={stab[-1]:.3f}  "
               f"redundancy={red[-1]:.3f}  tagARI={tagari[-1]:.3f}")
 
+    Path("plan04/results/kmetrics.json").write_text(json.dumps(
+        {"Ks": Ks, "coherence": coh, "stability": stab, "redundancy": red,
+         "tag_ari": tagari, "n_seeds": N_SEEDS}, ensure_ascii=False, indent=1), encoding="utf-8")
+
     # figure
     fig, ax = plt.subplots(2, 2, figsize=(12, 8))
     # kind: "peak" -> mark argmax (metric has a genuine optimum);
