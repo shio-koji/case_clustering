@@ -47,6 +47,9 @@ def svg_of(fig):
 
 PAL = ["#4C8C2B", "#2B6CB0", "#B0532B", "#8A4FA8", "#C29B2C", "#2BA8A0",
        "#C0392B", "#7F8C8D"]
+# 11 distinct colors for tag nodes (one per subject tag)
+TAGPAL = ["#e6194B", "#3cb44b", "#4363d8", "#f58231", "#911eb4", "#00A0B0",
+          "#f032e6", "#9A6324", "#469990", "#808000", "#e6ac00"]
 
 # ---- load ----------------------------------------------------------------
 sz = np.load(os.path.join(FEAT, "tag_sim.npz"), allow_pickle=True)
@@ -178,6 +181,81 @@ def fig_network():
 
 
 # ==========================================================================
+# Fig 3b. Bipartite case<->tag network (cases colored by NMF archetype)
+# ==========================================================================
+_bip = {}
+
+
+def bipartite_layout():
+    """Shared deterministic FR layout for the case<->tag bipartite graph.
+    nodes: 0..T-1 = tags, T..T+N-1 = cases. Returns (coords, edges)."""
+    if _bip:
+        return _bip["P"], _bip["edges"]
+    edges = [(j, T + i) for i in range(N) for j in range(T) if M[i, j] > 0]
+    g = ig.Graph(n=T + N, edges=edges)
+    import random as _r
+    _r.seed(42)
+    try:
+        ig.set_random_number_generator(_r)
+    except Exception:
+        pass
+    P = np.array(g.layout_fruchterman_reingold(niter=1200).coords)
+    _bip["P"], _bip["edges"] = P, edges
+    return P, edges
+
+
+CASE_COLOR = "#8593a6"      # single neutral color for all case circles
+
+
+def fig_bipartite():
+    P, edges = bipartite_layout()
+    fig, ax = plt.subplots(figsize=(10.5, 8.5))
+    for (a, b) in edges:
+        ax.plot([P[a, 0], P[b, 0]], [P[a, 1], P[b, 1]],
+                color="#c8ccd2", lw=0.4, alpha=0.55, zorder=1)
+    # case nodes: single-color circles; size = #tags held
+    deg = M.sum(1)
+    cidx = np.arange(T, T + N)
+    ax.scatter(P[cidx, 0], P[cidx, 1],
+               s=[22 + 26 * (deg[i] - 1) for i in range(N)],
+               c=CASE_COLOR, alpha=0.8, edgecolors="white", linewidths=0.4,
+               marker="o", zorder=2)
+    # tag nodes: squares, one distinct color each; size = #cases
+    tsize = np.array([counts[tags[j]] for j in range(T)])
+    for j in range(T):
+        ax.scatter(P[j, 0], P[j, 1], s=340 + tsize[j] * 28, marker="s",
+                   c=TAGPAL[j], edgecolors="white", linewidths=1.6, zorder=3)
+        ax.annotate(tags[j], (P[j, 0], P[j, 1]), fontproperties=jp(9),
+                    color="#fff", ha="center", va="center", zorder=4,
+                    bbox=dict(boxstyle="round,pad=0.15", fc=TAGPAL[j],
+                              ec="white", lw=0.8))
+    ax.set_axis_off()
+    ax.set_title("二部グラフ：タグ（■＝色つき四角）↔ ケース（●＝丸, 大きさ＝タグ数）\n"
+                 "Bipartite: tags (colored squares) ↔ cases (circles, size = #tags)",
+                 fontproperties=jp(11))
+    fig.tight_layout()
+    return svg_of(fig)
+
+
+def build_bipartite_json():
+    """Embed layout + node metadata for the interactive canvas version."""
+    dom = np.asarray(nmf["dominant_topic"])
+    P, edges = bipartite_layout()
+    subj = s0["subject_tags_per_case"]
+    tag_nodes = [{"name": tags[j], "count": int(counts[tags[j]]),
+                  "color": TAGPAL[j], "x": float(P[j, 0]), "y": float(P[j, 1])}
+                 for j in range(T)]
+    case_nodes = [{"title": titles[i], "id": case_ids[i],
+                   "arche": int(dom[i]), "tags": subj[i],
+                   "x": float(P[T + i, 0]), "y": float(P[T + i, 1])}
+                  for i in range(N)]
+    edge_pairs = [[j, i] for (j, ci) in edges for i in [ci - T]]
+    return (json.dumps(tag_nodes, ensure_ascii=False),
+            json.dumps(case_nodes, ensure_ascii=False),
+            json.dumps(edge_pairs), json.dumps(PAL))
+
+
+# ==========================================================================
 # Fig 4. NMF-tag mixture stacked bar (95 cases sorted by dominant archetype)
 # ==========================================================================
 def fig_stack():
@@ -300,6 +378,10 @@ def meta_tag_items():
 best = ev["Q3_best_recovery"]
 ari_leiden = best["text-Leiden(K=5)"][0]
 ari_nmf = best["text-NMF(K=6)"][0]
+bip_tags_json, bip_cases_json, bip_edges_json, bip_pal_json = build_bipartite_json()
+arche_names_json = json.dumps(
+    [f"A{g['archetype']} {g['name']}" for g in interp["mixture"]["nmf_tags"]],
+    ensure_ascii=False)
 
 # ---- closing essay (plain string; no braces so it can sit in the f-string) --
 ESSAY = """
@@ -468,6 +550,15 @@ padding:1px 7px;margin:2px;font-size:.82em;}}
 .kpi{{display:flex;gap:24px;flex-wrap:wrap;margin:1em 0;}}
 .kpi div{{background:#f5f8fc;border:1px solid var(--line);border-radius:8px;padding:12px 18px;min-width:180px;}}
 code{{background:#f2f2f2;padding:1px 5px;border-radius:3px;}}
+#bip-wrap{{border:1px solid var(--line);border-radius:8px;padding:8px;background:#fbfcfe;}}
+#bip{{width:100%;height:auto;cursor:default;display:block;}}
+#bip-legend{{display:flex;flex-wrap:wrap;gap:10px 16px;margin:8px 4px 2px;}}
+#bip-legend span{{font-size:12px;}}
+#tip{{position:fixed;display:none;background:#20293a;color:#fff;padding:8px 11px;
+border-radius:6px;font-size:12px;max-width:340px;box-shadow:0 3px 12px rgba(0,0,0,.28);
+z-index:50;line-height:1.5;pointer-events:none;}}
+#tip a{{color:#9ecbff;}}
+.hint{{color:var(--muted);font-size:.84em;margin:.3em 0 .6em;}}
 .essay{{font-size:.98em;}}
 .essay h3{{font-size:1.06rem;margin-top:1.7em;color:#243b53;}}
 .essay p{{margin:.7em 0;}}
@@ -525,6 +616,24 @@ Tag frequency and co-occurrence.</figcaption></figure>
 MCA biplot; nearby tags co-occur.</figcaption></figure>
 <figure>{fig_network()}<figcaption>タグ共起ネットワーク。色は共起コミュニティ（メタタグ）、線の太さ＝共起数、丸の大きさ＝件数。
 Tag co-occurrence network.</figcaption></figure>
+<p><b>二部グラフ / bipartite graph.</b> ノードを〈ケース〉と〈タグ〉の2種類に分け、
+「そのケースがそのタグを持つ」ときだけ線で結んだ図（上の共起網が“タグ↔タグ”なのに対し、これは
+“ケース↔タグ”の所属そのものを描く）。<b>複数のタグ・ハブ（◆）にまたがって伸びるケース（●）＝
+論点を横断する橋渡しケース</b>で、点の大きさはそのケースが持つタグ数を表す。
+<span class="en">Two node types (cases ●, tags ◆); an edge means the case carries that tag.
+Cases stretched between several tag hubs are the cross-cutting ones.</span></p>
+<figure>{fig_bipartite()}<figcaption>ケース↔タグ二部グラフ（力学レイアウト・静的版）。
+タグ＝色つき四角■、ケース＝単色の丸●（大きさ＝保有タグ数）、四角の大きさ＝件数。
+Static bipartite network; tags = colored squares, cases = circles (size = #tags).</figcaption></figure>
+
+<h4>インタラクティブ版 <span class="en">Interactive version</span></h4>
+<p class="hint">🖱 ケース（丸）にカーソルを合わせると<b>ケース名・タグ</b>を表示、
+<b>クリックでCALL4のページ</b>へ。タグ（四角）に合わせると件数を表示。丸の大きさ＝保有タグ数。
+Hover a circle for details; click it to open its CALL4 page.</p>
+<div id="bip-wrap">
+  <canvas id="bip" width="1040" height="720"></canvas>
+  <div id="bip-legend"></div>
+</div>
 
 <h2>3. 混合メンバーシップ（タグ由来） <span class="en">Mixture membership from tags</span></h2>
 <p>NMFをタグ行列に適用すると、各ケースを<b>{6}個のタグ・アーキタイプの混合比</b>で表せる
@@ -583,6 +692,101 @@ scipy階層(average, Jaccard)・igraph+leidenalg。スクリプト：<code>plan0
 <p style="color:var(--muted);font-size:.82em;margin-top:2em">
 本レポートは探索的データ解析であり、既存タグ体系や当事者の評価を目的としない。
 This is exploratory analysis; it is not an evaluation of the tag system or of the parties involved.</p>
+
+<div id="tip"></div>
+<script>
+const BTAGS = {bip_tags_json};
+const BCASES = {bip_cases_json};
+const BEDGES = {bip_edges_json};
+const CASECOL = "#8593a6";
+(function() {{
+  const cv = document.getElementById('bip'), cx = cv.getContext('2d');
+  const tip = document.getElementById('tip');
+  const PAD = 46;
+  const xs = BTAGS.concat(BCASES).map(n => n.x);
+  const ys = BTAGS.concat(BCASES).map(n => n.y);
+  const xmin = Math.min(...xs), xmax = Math.max(...xs);
+  const ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const PX = n => PAD + (n.x - xmin) / (xmax - xmin) * (cv.width - 2 * PAD);
+  const PY = n => PAD + (n.y - ymin) / (ymax - ymin) * (cv.height - 2 * PAD);
+  const caseR = c => 4 + (c.tags.length - 1) * 2.2;
+  const tagHalf = t => 9 + Math.sqrt(t.count) * 2.2;
+
+  function draw() {{
+    cx.clearRect(0, 0, cv.width, cv.height);
+    // edges
+    cx.strokeStyle = 'rgba(150,158,170,0.45)'; cx.lineWidth = 0.5;
+    BEDGES.forEach(([ti, ci]) => {{
+      const t = BTAGS[ti], c = BCASES[ci];
+      cx.beginPath(); cx.moveTo(PX(t), PY(t)); cx.lineTo(PX(c), PY(c)); cx.stroke();
+    }});
+    // case circles (single neutral color; size = #tags)
+    BCASES.forEach(c => {{
+      cx.beginPath(); cx.arc(PX(c), PY(c), caseR(c), 0, Math.PI * 2);
+      cx.fillStyle = CASECOL; cx.globalAlpha = 0.85; cx.fill();
+      cx.globalAlpha = 1; cx.strokeStyle = '#fff'; cx.lineWidth = 1; cx.stroke();
+    }});
+    // tag squares + labels
+    BTAGS.forEach(t => {{
+      const h = tagHalf(t), x = PX(t), y = PY(t);
+      cx.fillStyle = t.color; cx.strokeStyle = '#fff'; cx.lineWidth = 1.8;
+      cx.beginPath(); cx.rect(x - h, y - h, 2 * h, 2 * h); cx.fill(); cx.stroke();
+      cx.fillStyle = '#fff'; cx.font = 'bold 12px sans-serif';
+      cx.textAlign = 'center'; cx.textBaseline = 'middle';
+      cx.fillText(t.name, x, y);
+    }});
+  }}
+  draw();
+
+  // legend
+  const lg = document.getElementById('bip-legend');
+  lg.insertAdjacentHTML('beforeend',
+    `<span><span style="display:inline-block;width:11px;height:11px;background:${{CASECOL}};border-radius:50%;margin-right:5px"></span>● ケース case（大きさ = 保有タグ数）</span>`);
+  lg.insertAdjacentHTML('beforeend',
+    `<span style="color:#666">■ = タグ tag（色は個別・大きさ = 件数）</span>`);
+
+  function hit(ev) {{
+    const r = cv.getBoundingClientRect();
+    const mx = (ev.clientX - r.left) * (cv.width / r.width);
+    const my = (ev.clientY - r.top) * (cv.height / r.height);
+    for (let i = 0; i < BTAGS.length; i++) {{
+      const t = BTAGS[i], h = tagHalf(t);
+      if (Math.abs(mx - PX(t)) <= h && Math.abs(my - PY(t)) <= h)
+        return {{kind: 'tag', obj: t}};
+    }}
+    let bestD = 1e9, best = null;
+    BCASES.forEach(c => {{
+      const d = Math.hypot(mx - PX(c), my - PY(c)), rr = caseR(c) + 3;
+      if (d <= rr && d < bestD) {{ bestD = d; best = c; }}
+    }});
+    return best ? {{kind: 'case', obj: best}} : null;
+  }}
+
+  cv.addEventListener('mousemove', ev => {{
+    const h = hit(ev);
+    if (!h) {{ tip.style.display = 'none'; cv.style.cursor = 'default'; return; }}
+    let html;
+    if (h.kind === 'tag') {{
+      html = `<b>${{h.obj.name}}</b><br>${{h.obj.count}} 件のケースに付与 / cases`;
+      cv.style.cursor = 'default';
+    }} else {{
+      const c = h.obj;
+      html = `<b>${{c.title}}</b><br>タグ: ${{c.tags.join('・') || '—'}}<br>`
+           + `<span style="color:#9ecbff">クリックで開く / click to open</span>`;
+      cv.style.cursor = 'pointer';
+    }}
+    tip.innerHTML = html; tip.style.display = 'block';
+    tip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 350) + 'px';
+    tip.style.top = (ev.clientY + 12) + 'px';
+  }});
+  cv.addEventListener('mouseleave', () => {{ tip.style.display = 'none'; }});
+  cv.addEventListener('click', ev => {{
+    const h = hit(ev);
+    if (h && h.kind === 'case')
+      window.open('https://www.call4.jp/info.php?type=items&id=' + h.obj.id, '_blank');
+  }});
+}})();
+</script>
 
 </body></html>"""
 
