@@ -76,6 +76,30 @@ def fig_sizes(names, sizes):
     ax.set_title("各テーマを主とする訴訟の件数", fontproperties=jp(11))
     return svg_of(fig)
 
+def fig_group_links(pair_ct, sizes, names):
+    """B (overview): 6 themes on a ring, lines between them, width = #cross-group links."""
+    import math
+    fig, ax = plt.subplots(figsize=(7.2, 7.2))
+    ang = {t: 2 * math.pi * t / 6 + math.pi / 2 for t in range(6)}
+    pos = {t: (math.cos(ang[t]), math.sin(ang[t])) for t in range(6)}
+    maxc = max(pair_ct.values()) if pair_ct else 1
+    for (i, j), c in pair_ct.items():
+        ax.plot([pos[i][0], pos[j][0]], [pos[i][1], pos[j][1]],
+                color="#7a8290", lw=1 + 6 * c / maxc, alpha=0.45,
+                solid_capstyle="round", zorder=1)
+        mx, my = (pos[i][0] + pos[j][0]) / 2, (pos[i][1] + pos[j][1]) / 2
+        ax.text(mx, my, str(c), fontsize=9, ha="center", va="center", zorder=2,
+                bbox=dict(boxstyle="circle,pad=0.25", fc="white", ec="#bbb"))
+    for t in range(6):
+        ax.scatter(*pos[t], s=420 + sizes[t] * 45, color=TC[t], zorder=3,
+                   edgecolors="white", linewidths=2)
+        ax.text(pos[t][0] * 1.28, pos[t][1] * 1.28, f"{names[t]}\n({sizes[t]}件)",
+                ha="center", va="center", fontproperties=jp(9))
+    ax.set_xlim(-1.7, 1.7); ax.set_ylim(-1.7, 1.7); ax.axis("off"); ax.set_aspect("equal")
+    ax.set_title("テーマ間のつながり（線の太さ＝グループを越えるペアの数）", fontproperties=jp(11))
+    return svg_of(fig)
+
+
 def fig_words(topics, names):
     fig, axes = plt.subplots(2, 3, figsize=(13, 5))
     for k, ax in enumerate(axes.ravel()):
@@ -214,6 +238,32 @@ def main():
         except Exception:
             hulls[t] = None
     print(f"[wordnet] edges={len(edges_w)}, word-isolated={len(iso)}")
+
+    # --- cross-group bridges (A + B) ---
+    from collections import defaultdict
+    cross = [(a, b, sh) for a, b, sh in edges_w if dom[a] != dom[b]]
+    pair_ct = Counter(tuple(sorted((int(dom[a]), int(dom[b])))) for a, b, _ in cross)
+    chord_svg = fig_group_links(pair_ct, sizes, names)
+    by_pair = defaultdict(list)
+    for a, b, sh in cross:
+        i, j = int(dom[a]), int(dom[b])
+        if i > j:  # display the lower-index theme's case first, consistently
+            i, j, a, b = j, i, b, a
+        by_pair[(i, j)].append((a, b, sh))
+    blocks = []
+    for (i, j), c in sorted(pair_ct.items(), key=lambda x: -x[1]):
+        items = "".join(
+            f'<li>[{SHORT[i]}] <a href="{url(ids[a])}" target="_blank">{titles[a]}</a> ×'
+            f' [{SHORT[j]}] <a href="{url(ids[b])}" target="_blank">{titles[b]}</a>'
+            f'<br><span class="cw">共通語: {" / ".join(sh)}</span></li>'
+            for a, b, sh in by_pair[(i, j)])
+        blocks.append(
+            f'<div class="pairblock"><h4><span class="dot" style="background:{TC[i]}"></span>'
+            f'<span class="dot" style="background:{TC[j]}"></span> {SHORT[i]} ↔ {SHORT[j]} '
+            f'<span class="dim">({c}組)</span></h4><ul class="cases small">{items}</ul></div>')
+    bridges_list = "".join(blocks)
+    cross_js = [[int(a), int(b), sh] for a, b, sh in cross]
+
     nodes = [{"i": i, "title": titles[i], "url": url(ids[i]), "f": int(dom[i]),
               "words": case_words[i][:6], "nmf": [round(float(r), 3) for r in ratios[i]],
               "iso": int(i in set(iso)),
@@ -257,6 +307,9 @@ table.wtab td {{ text-align:right; min-width:52px; font-variant-numeric:tabular-
 table.wtab th {{ background:#f0e8e2; }}
 .panel {{ margin-top:10px; padding:10px 14px; background:#faf7f2; border:1px solid #e2d8cc; border-radius:8px; font-size:.9em; min-height:2.4em; }}
 .panel ul {{ margin:6px 0 0; }}
+.bridges {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:12px; }}
+.pairblock {{ background:#fff; border:1px solid #e6ded3; border-radius:8px; padding:10px 14px; }}
+.pairblock h4 {{ font-size:.98em; }}
 .tech {{ background:#f0efe9; border-radius:8px; padding:12px 16px; font-size:.82em; color:#555; }}
 </style>
 </head>
@@ -372,7 +425,22 @@ NMFは解釈可能な6軸で表すため、根拠を名指しできます。
   <div id="net-panel" class="panel">点をクリックすると、共通語でつながる訴訟がここに一覧されます。</div>
 </div>
 
-<h3>C. 各テーマを特徴づける言葉</h3>
+<h3>C. グループを越えるつながり（越境ビュー）</h3>
+<div class="explain">
+<span class="h">ここがいちばんの見どころ。</span> 同じテーマ内でつながるのは当たり前なので、
+<b>異なるテーマの訴訟どうしが共通語で結ばれている「越境リンク」だけ</b>を取り出しました
+（全131本の線のうち30本）。まず全体像（どのテーマ同士が結びつきやすいか）、次に個々の橋とその根拠（共通語）を示します。
+</div>
+<h4>俯瞰: テーマ間のつながりの太さ</h4>
+<div class="figure">{chord_svg}</div>
+<h4>越境リンクの地図（線の上の語＝つながる根拠）</h4>
+<p class="dim">点＝訴訟（色＝主テーマ、薄い背景＝テーマの範囲）。<b>描いた線はテーマを越える30本だけ</b>で、
+線の上にその根拠となる共通語を表示しています。点にカーソルで詳細。</p>
+<div class="figure"><canvas id="bridgenet" width="940" height="600"></canvas></div>
+<h4>越境リンクの一覧（テーマ対ごと・共通語つき）</h4>
+<div class="bridges">{bridges_list}</div>
+
+<h3>D. 各テーマを特徴づける言葉</h3>
 <div class="figure">{figs['words']}</div>
 
 <h2>5. 頑健性 — この結果はたまたまではないか</h2>
@@ -422,6 +490,7 @@ Kを増やせば必ず下がるため「どこで頭打ちか（肘）」で止�
 const NODES = {json.dumps(nodes, ensure_ascii=False)};
 const EDGES = {json.dumps(edge_js)};
 const HULLS = {json.dumps(hulls)};
+const CROSS = {json.dumps(cross_js, ensure_ascii=False)};
 const TN = {json.dumps(names, ensure_ascii=False)};
 const TC = {json.dumps(TC)};
 const ORDER = {json.dumps([int(i) for i in order_idx])};
@@ -493,6 +562,36 @@ lgn.insertAdjacentHTML('beforeend','<span style="font-size:12px;color:#555">点�
 TN.forEach((n,t)=>lgn.insertAdjacentHTML('beforeend',
   `<span style="font-size:12px"><span style="display:inline-block;width:11px;height:11px;background:${{TC[t]}};margin-right:4px;border-radius:6px"></span>${{n}}</span>`));
 draw();
+
+// --- C. cross-group bridge map (edges only across groups, labeled with shared word) ---
+const bnet=document.getElementById('bridgenet'), bx=bnet.getContext('2d'); const bpad=28;
+function bPos(n){{ return [bpad+n.wx*(bnet.width-2*bpad), n.wy*(bnet.height-bpad)]; }}
+const bridgeSet=new Set(); CROSS.forEach(([a,b])=>{{bridgeSet.add(a);bridgeSet.add(b);}});
+function drawBridge(){{
+  bx.clearRect(0,0,bnet.width,bnet.height);
+  for(const t in HULLS){{ const poly=HULLS[t]; if(!poly) continue;
+    bx.beginPath(); poly.forEach((p,k)=>{{ const [x,y]=bPos({{wx:p[0],wy:p[1]}}); k?bx.lineTo(x,y):bx.moveTo(x,y); }});
+    bx.closePath(); const c=TC[t].replace('#',''); const r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),bl=parseInt(c.slice(4,6),16);
+    bx.fillStyle=`rgba(${{r}},${{g}},${{bl}},0.08)`; bx.fill(); }}
+  NODES.forEach(n=>{{ const [x,y]=bPos(n); const on=bridgeSet.has(n.i);
+    bx.globalAlpha=on?1:0.22; bx.beginPath(); bx.arc(x,y,on?6:3.5,0,7);
+    bx.fillStyle=TC[n.f]; bx.fill(); bx.strokeStyle='#fff'; bx.lineWidth=1; bx.stroke(); bx.globalAlpha=1; }});
+  CROSS.forEach(([a,b,sh])=>{{ const [x1,y1]=bPos(NODES[a]),[x2,y2]=bPos(NODES[b]);
+    bx.strokeStyle='rgba(55,65,85,0.6)'; bx.lineWidth=1.6; bx.beginPath(); bx.moveTo(x1,y1); bx.lineTo(x2,y2); bx.stroke();
+    const mx=(x1+x2)/2,my=(y1+y2)/2, lab=sh[0]; bx.font='10px sans-serif';
+    const w=bx.measureText(lab).width; bx.fillStyle='rgba(255,255,255,0.86)'; bx.fillRect(mx-w/2-2,my-7,w+4,13);
+    bx.fillStyle='#333'; bx.textAlign='center'; bx.textBaseline='middle'; bx.fillText(lab,mx,my); bx.textAlign='left'; }});
+}}
+drawBridge();
+function pickB(ev){{ const r=bnet.getBoundingClientRect(); const mx=(ev.clientX-r.left)*(bnet.width/r.width), my=(ev.clientY-r.top)*(bnet.height/r.height);
+  let best=null,bd=200; NODES.forEach(n=>{{const [x,y]=bPos(n);const d=(x-mx)**2+(y-my)**2;if(d<bd){{bd=d;best=n;}}}}); return best; }}
+bnet.addEventListener('mousemove', ev=>{{ const n=pickB(ev);
+  if(!n){{hideTip();bnet.style.cursor='default';return;}} bnet.style.cursor='pointer';
+  const nb=CROSS.filter(([a,b])=>a===n.i||b===n.i);
+  const links = nb.length ? '<br><span style="color:#c8b">越境: '+nb.map(([a,b,sh])=>{{const o=a===n.i?b:a; return TN[NODES[o].f]+'（'+sh.slice(0,2).join('/')+'）';}}).join('、')+'</span>' : '';
+  showTip(`<b>${{n.title}}</b><br><span style="color:${{TC[n.f]}}">主テーマ: ${{TN[n.f]}}</span>${{wordsText(n)}}${{links}}`, ev); }});
+bnet.addEventListener('mouseleave', hideTip);
+bnet.addEventListener('click', ev=>{{ const n=pickB(ev); if(n) window.open(n.url,'_blank'); }});
 </script>
 </body>
 </html>"""
