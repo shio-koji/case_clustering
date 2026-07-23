@@ -183,11 +183,41 @@ def main():
     import random as pyr; pyr.seed(SEED)
     net = np.array(ig.Graph(n=len(ids), edges=edges).layout_fruchterman_reingold(niter=800).coords)
     nmn = net - net.min(0); nmn /= np.ptp(net, 0)
+    # --- second network: color = 1st topic, edge = shared 2nd topic ---
+    from itertools import combinations
+    N = len(ids)
+    order2 = np.argsort(-ratios, axis=1)
+    first = order2[:, 0]; second = order2[:, 1]
+    sr = ratios[np.arange(N), second]
+    THR2 = 0.15  # only link cases with a genuine secondary theme
+    qual = sr >= THR2
+    edges2 = [(a, b) for a, b in combinations(range(N), 2)
+              if qual[a] and qual[b] and second[a] == second[b]]
+    connected = sorted({x for e in edges2 for x in e})
+    sub_i = {node: k for k, node in enumerate(connected)}
+    net2 = np.zeros((N, 2))
+    if connected:
+        subg = ig.Graph(n=len(connected), edges=[(sub_i[a], sub_i[b]) for a, b in edges2])
+        pyr.seed(SEED)
+        lay = np.array(subg.layout_fruchterman_reingold(niter=800).coords)
+        lay -= lay.min(0); lay /= np.ptp(lay, 0)
+        for k, node in enumerate(connected):
+            net2[node] = [0.04 + lay[k, 0] * 0.92, 0.03 + lay[k, 1] * 0.76]
+    iso = [i for i in range(N) if i not in set(connected)]
+    cols = 16
+    for k, i in enumerate(iso):
+        net2[i] = [0.04 + (k % cols) / (cols - 1) * 0.92, 0.87 + (k // cols) * 0.045]
+    print(f"[net2] 第2成分あり={int(qual.sum())}/95, edges={len(edges2)}, isolated(ほぼ単一)={len(iso)}")
+
     nodes = [{"i": i, "title": titles[i], "url": url(ids[i]), "blend": blend(Rn[i]/Rn[i].sum()),
               "ent": round(float(ent[i]), 2), "nmf": [round(float(r), 3) for r in ratios[i]],
               "words": case_words[i][:6],
-              "nx": round(float(nmn[i, 0]), 3), "ny": round(float(nmn[i, 1]), 3)} for i in range(len(ids))]
+              "f": int(first[i]), "s2": int(second[i]), "iso": int(i in set(iso)),
+              "nx": round(float(nmn[i, 0]), 3), "ny": round(float(nmn[i, 1]), 3),
+              "n2x": round(float(net2[i, 0]), 3), "n2y": round(float(net2[i, 1]), 3)}
+             for i in range(len(ids))]
     edge_js = [[int(a), int(b)] for a, b in edges]
+    edge_js2 = [[int(a), int(b), int(second[a])] for a, b in edges2]
 
     gen = date.today().isoformat()
     html = f"""<!DOCTYPE html>
@@ -331,7 +361,21 @@ NMFは解釈可能な6軸で表すため、根拠を名指しできます。
 </div>
 <div class="figure"><canvas id="net" width="940" height="580"></canvas></div>
 
-<h3>C. 各テーマを特徴づける言葉</h3>
+<h3>C. 主テーマ×副テーマのネットワーク</h3>
+<div class="explain">
+<span class="h">この図の読み方。</span> 点の<b>色＝第1成分（最も配合が高いテーマ＝主テーマ）</b>。
+<b>線＝第2成分（2番目に高いテーマ＝副テーマ）が同じ</b>訴訟どうしを結んでいます（線の色は共有する副テーマの色）。
+<b>色が違う点どうしが線で結ばれていたら、「主テーマは違うが同じ副テーマを併せ持つ」</b>訴訟です
+（例: 主テーマは刑事手続だが、副テーマとして入管を含む、など）。
+<span class="note">補足: 副テーマの配合が15%未満のケース（＝ほぼ単一テーマ）は、結ぶ相手を持たないため
+図の下段に並べています。図の上段が「複数テーマを併せ持つ訴訟」、下段が「単一テーマに近い訴訟」です。</span>
+</div>
+<div class="figure">
+  <div id="lg2" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px;"></div>
+  <canvas id="net2" width="940" height="600"></canvas>
+</div>
+
+<h3>D. 各テーマを特徴づける言葉</h3>
 <div class="figure">{figs['words']}</div>
 
 <h2>5. 頑健性 — この結果はたまたまではないか</h2>
@@ -380,6 +424,7 @@ Kを増やせば必ず下がるため「どこで頭打ちか（肘）」で止�
 <script>
 const NODES = {json.dumps(nodes, ensure_ascii=False)};
 const EDGES = {json.dumps(edge_js)};
+const EDGES2 = {json.dumps(edge_js2)};
 const TN = {json.dumps(names, ensure_ascii=False)};
 const TC = {json.dumps(TC)};
 const ORDER = {json.dumps([int(i) for i in order_idx])};
@@ -415,6 +460,35 @@ nc.addEventListener('mousemove', ev=>{{ const r=nc.getBoundingClientRect(); cons
   showTip(`<b>${{ncur.title}}</b><br>${{mixText(ncur)}}${{wordsText(ncur)}}`, ev); }});
 nc.addEventListener('mouseleave', hideTip);
 nc.addEventListener('click', ()=>{{ if(ncur) window.open(ncur.url,'_blank'); }});
+
+// C. first-topic color / second-topic edge network
+const n2=document.getElementById('net2'), n2x=n2.getContext('2d'); const p2=26;
+function n2Pos(n){{ return [p2+n.n2x*(n2.width-2*p2), n.n2y*(n2.height-p2)]; }}
+EDGES2.forEach(([a,b,s])=>{{ const [x1,y1]=n2Pos(NODES[a]),[x2,y2]=n2Pos(NODES[b]);
+  const c=TC[s].replace('#',''); const r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),bl=parseInt(c.slice(4,6),16);
+  n2x.strokeStyle=`rgba(${{r}},${{g}},${{bl}},0.30)`; n2x.lineWidth=1; n2x.beginPath(); n2x.moveTo(x1,y1); n2x.lineTo(x2,y2); n2x.stroke(); }});
+NODES.forEach(n=>{{ const [x,y]=n2Pos(n); n2x.beginPath(); n2x.arc(x,y,n.iso?4.5:6.5,0,7);
+  n2x.fillStyle=TC[n.f]; n2x.globalAlpha=n.iso?0.5:1; n2x.fill(); n2x.globalAlpha=1;
+  n2x.strokeStyle='#fff'; n2x.lineWidth=1; n2x.stroke(); }});
+// divider between connected (top) and near-single-theme (bottom) bands
+n2x.strokeStyle='rgba(120,120,120,0.35)'; n2x.setLineDash([5,4]);
+n2x.beginPath(); n2x.moveTo(0, 0.83*(n2.height-p2)); n2x.lineTo(n2.width, 0.83*(n2.height-p2)); n2x.stroke();
+n2x.setLineDash([]);
+n2x.fillStyle='#888'; n2x.font='11px sans-serif';
+n2x.fillText('↑ 複数テーマを併せ持つ訴訟（副テーマで結ぶ）　／　↓ ほぼ単一テーマの訴訟', 8, 0.83*(n2.height-p2)-5);
+const lg2=document.getElementById('lg2');
+lg2.insertAdjacentHTML('beforeend','<span style="font-size:12px;color:#555">点の色＝主テーマ：</span>');
+TN.forEach((n,t)=>lg2.insertAdjacentHTML('beforeend',
+  `<span style="font-size:12px"><span style="display:inline-block;width:11px;height:11px;background:${{TC[t]}};margin-right:4px;border-radius:6px"></span>${{n}}</span>`));
+let n2cur=null;
+n2.addEventListener('mousemove', ev=>{{ const r=n2.getBoundingClientRect(); const mx=(ev.clientX-r.left)*(n2.width/r.width), my=(ev.clientY-r.top)*(n2.height/r.height);
+  n2cur=null; let bd=180; NODES.forEach(n=>{{const [x,y]=n2Pos(n);const d=(x-mx)**2+(y-my)**2;if(d<bd){{bd=d;n2cur=n;}}}});
+  if(!n2cur){{hideTip();n2.style.cursor='default';return;}} n2.style.cursor='pointer';
+  const f=n2cur.f, s=n2cur.s2;
+  const sub = n2cur.iso ? '（ほぼ単一テーマ）' : `<span style="color:${{TC[s]}}">副テーマ: ${{TN[s]}}</span>`;
+  showTip(`<b>${{n2cur.title}}</b><br><span style="color:${{TC[f]}}">主テーマ: ${{TN[f]}}</span><br>${{sub}}<br>${{mixText(n2cur)}}${{wordsText(n2cur)}}`, ev); }});
+n2.addEventListener('mouseleave', hideTip);
+n2.addEventListener('click', ()=>{{ if(n2cur) window.open(n2cur.url,'_blank'); }});
 </script>
 </body>
 </html>"""
