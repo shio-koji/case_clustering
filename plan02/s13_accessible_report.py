@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-plan03: accessible NMF report for a non-statistical audience (a legal NPO).
+plan02 accessible report: NMF mixture, for a non-statistical audience (a legal NPO).
 
-Differences from plan02's NMF report:
-- No "should we use tags" section (dropped per request).
-- Plain-language explainer boxes throughout; jargon (NMF/ARI/...) moved to a
-  small technical footnote for the presenter.
+A more developed, audience-tuned variant of s12_nmf_report.py:
+- No "should we use tags" section.
+- Plain-language explainer boxes; jargon (NMF/ARI/...) in a technical footnote.
+- Per-case TF-IDF term lists surfaced throughout.
+- Shared-word network (edges = shared >=2 top terms) with group-gravity layout.
+- Cross-group "bridge" view (overview chord + labeled bridge map + list).
 
-Reads plan02 outputs. Run from the repo root:  python plan03/build_report.py
+Reads plan02 outputs. Run from the repo root:  python plan02/s13_accessible_report.py
 """
 
 import io
@@ -26,7 +28,7 @@ import igraph as ig
 SEED = 42
 FEATURES_DIR = Path("plan02/features")
 RESULTS_DIR = Path("plan02/results")
-OUT = Path("plan03/report/call4_plan03_report.html")
+OUT = Path("plan02/report/call4_accessible_report.html")
 
 JP_FONT_PATH = ("/System/Library/AssetsV2/com_apple_MobileAsset_Font7/"
                 "54ef167d6c8e99a69a0d41ce252cc5995ba47580.asset/AssetData/"
@@ -478,7 +480,7 @@ Kを増やせば必ず下がるため「どこで頭打ちか（肘）」で止�
 テーマ数の選択は再構成誤差に明確な肘がなく解釈可能性で決定（K=5で刑事/入管が融合、K=7で定型語トピックが発生）。
 頑健性: 80%サブサンプル×100回のブートストラップで優勢トピックの中央値ARI={boot:.3f}。
 別手法（bge-m3埋め込み+Leiden, K=6）との一致 ARI=0.44。既存タグとの一致 ARI={ari_tag:.3f}（参照的一致）。
-乱数シード42固定。コード・データ: GitHub shio-koji/case_clustering の plan02/（plan03はこの説明用HTML）。
+乱数シード42固定。コード・データ: GitHub shio-koji/case_clustering の plan02/（本HTMLは plan02/s13_accessible_report.py が生成）。
 「似ている」の判定は混合比ベクトルのコサイン類似度。ネットワーク配置はigraphのFruchterman-Reingold。<br>
 本分類は解析目的であり、訴訟当事者を類型化して評価する意図はありません。ケース本文の著作権はCALL4および執筆者に帰属します。
 </div>
@@ -596,7 +598,7 @@ bnet.addEventListener('click', ev=>{{ const n=pickB(ev); if(n) window.open(n.url
 </body>
 </html>"""
     OUT.write_text(html, encoding="utf-8")
-    print(f"plan03 report saved: {OUT} ({OUT.stat().st_size//1024} KB)")
+    print(f"accessible report saved: {OUT} ({OUT.stat().st_size//1024} KB)")
 
 
 if __name__ == "__main__":
