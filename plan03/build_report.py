@@ -177,17 +177,36 @@ def main():
   <p class="dim">なぜなら、同じテーマを同じくらいの割合で含むから:</p><ul class="small">{sh}</ul>
 </div>""")
 
-    # mixture-similarity network
-    sims = Rn @ Rn.T; np.fill_diagonal(sims, -1)
-    edges = sorted({(min(i, int(j)), max(i, int(j))) for i in range(len(ids)) for j in np.argsort(sims[i])[-3:]})
+    # word-overlap network: an edge = the two cases share >=2 of their top-20 TF-IDF terms.
+    # The edge is thus self-explanatory (the shared words ARE the meaning of the link).
+    from itertools import combinations
+    TOPW, MINSHARE = 20, 2
+    wsets = [set(top_terms(i, TOPW)) for i in range(len(ids))]
+    edges_w = []
+    for a, b in combinations(range(len(ids)), 2):
+        sh = [w for w in top_terms(a, TOPW) if w in wsets[b]]
+        if len(sh) >= MINSHARE:
+            edges_w.append((a, b, sh[:6]))
+    connected = sorted({x for a, b, _ in edges_w for x in (a, b)})
+    sub_i = {n: k for k, n in enumerate(connected)}
+    netc = np.zeros((len(ids), 2))
     import random as pyr; pyr.seed(SEED)
-    net = np.array(ig.Graph(n=len(ids), edges=edges).layout_fruchterman_reingold(niter=800).coords)
-    nmn = net - net.min(0); nmn /= np.ptp(net, 0)
-    nodes = [{"i": i, "title": titles[i], "url": url(ids[i]), "blend": blend(Rn[i]/Rn[i].sum()),
-              "ent": round(float(ent[i]), 2), "nmf": [round(float(r), 3) for r in ratios[i]],
-              "words": case_words[i][:6],
-              "nx": round(float(nmn[i, 0]), 3), "ny": round(float(nmn[i, 1]), 3)} for i in range(len(ids))]
-    edge_js = [[int(a), int(b)] for a, b in edges]
+    if connected:
+        subg = ig.Graph(n=len(connected), edges=[(sub_i[a], sub_i[b]) for a, b, _ in edges_w])
+        lay = np.array(subg.layout_fruchterman_reingold(niter=800).coords)
+        lay -= lay.min(0); lay /= np.ptp(lay, 0)
+        for k, n in enumerate(connected):
+            netc[n] = [0.04 + lay[k, 0] * 0.92, 0.03 + lay[k, 1] * 0.75]
+    iso = [i for i in range(len(ids)) if i not in set(connected)]
+    for k, i in enumerate(iso):
+        netc[i] = [0.06 + (k % 12) / 11 * 0.88, 0.88 + (k // 12) * 0.05]
+    print(f"[wordnet] edges={len(edges_w)}, connected={len(connected)}, isolated={len(iso)}")
+    nodes = [{"i": i, "title": titles[i], "url": url(ids[i]), "f": int(dom[i]),
+              "words": case_words[i][:6], "nmf": [round(float(r), 3) for r in ratios[i]],
+              "iso": int(i in set(iso)),
+              "wx": round(float(netc[i, 0]), 3), "wy": round(float(netc[i, 1]), 3)}
+             for i in range(len(ids))]
+    edge_js = [[int(a), int(b), sh] for a, b, sh in edges_w]
 
     gen = date.today().isoformat()
     html = f"""<!DOCTYPE html>
@@ -223,6 +242,8 @@ ul.cases li {{ margin:5px 0; }}
 table.wtab {{ font-size:.85em; }}
 table.wtab td {{ text-align:right; min-width:52px; font-variant-numeric:tabular-nums; }}
 table.wtab th {{ background:#f0e8e2; }}
+.panel {{ margin-top:10px; padding:10px 14px; background:#faf7f2; border:1px solid #e2d8cc; border-radius:8px; font-size:.9em; min-height:2.4em; }}
+.panel ul {{ margin:6px 0 0; }}
 .tech {{ background:#f0efe9; border-radius:8px; padding:12px 16px; font-size:.82em; color:#555; }}
 </style>
 </head>
@@ -322,14 +343,20 @@ NMFは解釈可能な6軸で表すため、根拠を名指しできます。
   <canvas id="stack" width="940" height="320"></canvas>
 </div>
 
-<h3>B. 似た訴訟のつながり（ネットワーク図）</h3>
+<h3>B. 共通語でつながる訴訟のネットワーク</h3>
 <div class="explain">
-<span class="h">この図の読み方。</span> 配合が似た訴訟どうしを線でつないだ図です。
-<b>近くに集まっている＝似た訴訟</b>。点の色は配合を混ぜた色で、
-<b>中間的な色の点＝複数テーマをまたぐ「橋渡し」の訴訟</b>です。
-点にカーソルで内訳、クリックでその訴訟のCALL4ページが開きます。
+<span class="h">この図の読み方。</span> <b>2つの訴訟が同じ特徴語を2つ以上共有するとき、線で結んで</b>います。
+つまり<b>線の意味は「これらの語が共通している」</b>ということ。点の色は主テーマ（最も配合が高いテーマ）。<br>
+<b>使い方: 点をクリック</b>すると、その訴訟とつながる相手が下に一覧され、
+<b>相手ごとに「どの語が共通か」</b>が表示されます。もう一度背景をクリックで解除。点にカーソルでその訴訟の特徴語。
+<span class="note">補足: 各訴訟の特徴語（TF-IDF上位20語）のうち2語以上が一致するペアを線にしています。
+どの訴訟とも語を共有しない訴訟は、図の下段に並べています。</span>
 </div>
-<div class="figure"><canvas id="net" width="940" height="580"></canvas></div>
+<div class="figure">
+  <div id="lg-net" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px;"></div>
+  <canvas id="net" width="940" height="600"></canvas>
+  <div id="net-panel" class="panel">点をクリックすると、共通語でつながる訴訟がここに一覧されます。</div>
+</div>
 
 <h3>C. 各テーマを特徴づける言葉</h3>
 <div class="figure">{figs['words']}</div>
@@ -402,19 +429,52 @@ sc.addEventListener('mousemove', ev=>{{ const r=sc.getBoundingClientRect(); cons
   showTip(`<b>${{n.title}}</b><br>${{mixText(n)}}${{wordsText(n)}}`, ev); sc.style.cursor='pointer'; }});
 sc.addEventListener('mouseleave', ()=>{{hideTip();scur=-1;}});
 sc.addEventListener('click', ()=>{{ if(scur>=0) window.open(NODES[ORDER[scur]].url,'_blank'); }});
-// network
-const nc=document.getElementById('net'), nx=nc.getContext('2d'); const pad=30;
-function nPos(n){{ return [pad+n.nx*(nc.width-2*pad), pad+n.ny*(nc.height-2*pad)]; }}
-nx.strokeStyle='rgba(150,155,165,0.4)'; nx.lineWidth=0.9;
-EDGES.forEach(([a,b])=>{{ const [x1,y1]=nPos(NODES[a]),[x2,y2]=nPos(NODES[b]); nx.beginPath(); nx.moveTo(x1,y1); nx.lineTo(x2,y2); nx.stroke(); }});
-NODES.forEach(n=>{{ const [x,y]=nPos(n); nx.beginPath(); nx.arc(x,y,6.5,0,7); nx.fillStyle=n.blend; nx.fill(); nx.strokeStyle='#fff'; nx.lineWidth=1; nx.stroke(); }});
-let ncur=null;
-nc.addEventListener('mousemove', ev=>{{ const r=nc.getBoundingClientRect(); const mx=(ev.clientX-r.left)*(nc.width/r.width), my=(ev.clientY-r.top)*(nc.height/r.height);
-  ncur=null; let bd=180; NODES.forEach(n=>{{const [x,y]=nPos(n);const d=(x-mx)**2+(y-my)**2;if(d<bd){{bd=d;ncur=n;}}}});
-  if(!ncur){{hideTip();nc.style.cursor='default';return;}} nc.style.cursor='pointer';
-  showTip(`<b>${{ncur.title}}</b><br>${{mixText(ncur)}}${{wordsText(ncur)}}`, ev); }});
+// word-overlap network with click-to-explore
+const nc=document.getElementById('net'), nx=nc.getContext('2d'); const pad=26;
+const panel=document.getElementById('net-panel');
+function nPos(n){{ return [pad+n.wx*(nc.width-2*pad), n.wy*(nc.height-pad)]; }}
+function neighbors(i){{ const o=[]; EDGES.forEach(([a,b,sh])=>{{ if(a===i)o.push([b,sh]); else if(b===i)o.push([a,sh]); }}); return o; }}
+let sel=null;
+function draw(){{
+  nx.clearRect(0,0,nc.width,nc.height);
+  const nb = sel!==null ? new Set(neighbors(sel).map(x=>x[0])) : null;
+  EDGES.forEach(([a,b,sh])=>{{ const hot = sel!==null && (a===sel||b===sel);
+    if(sel!==null && !hot) return;
+    const [x1,y1]=nPos(NODES[a]),[x2,y2]=nPos(NODES[b]);
+    nx.strokeStyle = sel!==null ? 'rgba(70,80,100,0.6)' : 'rgba(150,155,165,0.28)';
+    nx.lineWidth = sel!==null ? 1.6 : 0.8; nx.beginPath(); nx.moveTo(x1,y1); nx.lineTo(x2,y2); nx.stroke(); }});
+  NODES.forEach(n=>{{ const [x,y]=nPos(n);
+    const dim = sel!==null && n.i!==sel && !(nb&&nb.has(n.i));
+    nx.globalAlpha = dim?0.18:(n.iso?0.55:1);
+    nx.beginPath(); nx.arc(x,y,n.i===sel?8.5:(n.iso?4.5:6.5),0,7);
+    nx.fillStyle=TC[n.f]; nx.fill(); nx.globalAlpha=1;
+    nx.strokeStyle=n.i===sel?'#222':'#fff'; nx.lineWidth=n.i===sel?2.5:1; nx.stroke(); }});
+  nx.setLineDash([5,4]); nx.strokeStyle='rgba(120,120,120,0.3)';
+  nx.beginPath(); nx.moveTo(0,0.85*(nc.height-pad)); nx.lineTo(nc.width,0.85*(nc.height-pad)); nx.stroke(); nx.setLineDash([]);
+  nx.fillStyle='#999'; nx.font='11px sans-serif';
+  nx.fillText('↓ どの訴訟とも特徴語を共有しない訴訟', 8, 0.85*(nc.height-pad)-5);
+}}
+function showPanel(i){{
+  const nb=neighbors(i).sort((a,b)=>b[1].length-a[1].length);
+  if(!nb.length){{ panel.innerHTML=`<b>${{NODES[i].title}}</b><br><span class="dim">この訴訟は、他と2語以上の共通特徴語を持ちません（＝語彙的に独立）。</span>`; return; }}
+  const rows=nb.map(([j,sh])=>`<li><a href="${{NODES[j].url}}" target="_blank">${{NODES[j].title}}</a>`
+    +`<br><span class="cw">共通語: ${{sh.join(' / ')}}</span></li>`).join('');
+  panel.innerHTML=`<b>「${{NODES[i].title}}」と特徴語を共有する訴訟（${{nb.length}}件）</b>`
+    +`<ul class="cases small">${{rows}}</ul><span class="dim">背景クリックで解除</span>`;
+}}
+function pick(ev){{ const r=nc.getBoundingClientRect(); const mx=(ev.clientX-r.left)*(nc.width/r.width), my=(ev.clientY-r.top)*(nc.height/r.height);
+  let best=null,bd=200; NODES.forEach(n=>{{const [x,y]=nPos(n);const d=(x-mx)**2+(y-my)**2;if(d<bd){{bd=d;best=n;}}}}); return best; }}
+nc.addEventListener('mousemove', ev=>{{ const n=pick(ev);
+  if(!n){{hideTip();nc.style.cursor='default';return;}} nc.style.cursor='pointer';
+  showTip(`<b>${{n.title}}</b><br><span style="color:${{TC[n.f]}}">主テーマ: ${{TN[n.f]}}</span>${{wordsText(n)}}`, ev); }});
 nc.addEventListener('mouseleave', hideTip);
-nc.addEventListener('click', ()=>{{ if(ncur) window.open(ncur.url,'_blank'); }});
+nc.addEventListener('click', ev=>{{ const n=pick(ev); sel = (n && !n.iso) ? n.i : null; draw(); if(sel!==null) showPanel(sel);
+  else panel.innerHTML='点をクリックすると、共通語でつながる訴訟がここに一覧されます。'; }});
+const lgn=document.getElementById('lg-net');
+lgn.insertAdjacentHTML('beforeend','<span style="font-size:12px;color:#555">点の色＝主テーマ：</span>');
+TN.forEach((n,t)=>lgn.insertAdjacentHTML('beforeend',
+  `<span style="font-size:12px"><span style="display:inline-block;width:11px;height:11px;background:${{TC[t]}};margin-right:4px;border-radius:6px"></span>${{n}}</span>`));
+draw();
 </script>
 </body>
 </html>"""
