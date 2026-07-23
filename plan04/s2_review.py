@@ -60,32 +60,28 @@ def fig_alluvial(sweep, kmin, kmax):
         for t in range(len(sweep[str(K)]["topics"])):
             root[(K, t)] = root[(K - 1, gen[t])]
 
-    fig, ax = plt.subplots(figsize=(14, 6.5))
+    fig, ax = plt.subplots(figsize=(19, 9))
+    # ribbons parent(K-1) -> child(K)
     for K in Ks[1:]:
         gen = {g["topic"]: g["from_prev_topic"] for g in sweep[str(K)]["genealogy_from_prevK"]}
         for t in range(len(sweep[str(K)]["topics"])):
             p = gen[t]
-            x0, x1 = K - 1, K
+            xs = np.linspace(K - 1, K, 30)
             y0, y1 = yp[K - 1][p], yp[K][t]
-            xs = np.linspace(x0, x1, 30)
             ys = y0 + (y1 - y0) * (1 - np.cos(np.linspace(0, np.pi, 30))) / 2
             ax.plot(xs, ys, color=ROOT_COLORS[root[(K, t)] % len(ROOT_COLORS)],
-                    alpha=0.5, lw=1.4)
+                    alpha=0.4, lw=1.2, zorder=1)
+    # every node labeled with its #1 (highest-weight) word
     for K in Ks:
         for t, tp in enumerate(sweep[str(K)]["topics"]):
-            ax.scatter(K, yp[K][t], s=40 + tp["dominant_size"] * 12,
-                       color=ROOT_COLORS[root[(K, t)] % len(ROOT_COLORS)],
-                       edgecolors="white", zorder=3)
-    # label leftmost and rightmost topics with their top word
-    for K in (kmin, kmax):
-        ha = "right" if K == kmin else "left"
-        dx = -0.12 if K == kmin else 0.12
-        for t, tp in enumerate(sweep[str(K)]["topics"]):
-            ax.text(K + dx, yp[K][t], tp["top_words"][0], ha=ha, va="center",
-                    fontproperties=jp(8))
-    ax.set_xticks(Ks); ax.set_xlabel("トピック数 K", fontproperties=jp(10))
-    ax.set_yticks([]); ax.set_xlim(kmin - 1.2, kmax + 1.2)
-    ax.set_title("トピックの系譜: Kを増やすと各トピックがどう枝分かれするか（色＝K=4の起源）",
+            col = ROOT_COLORS[root[(K, t)] % len(ROOT_COLORS)]
+            ax.text(K, yp[K][t], f"{tp['top_words'][0]}\n({tp['dominant_size']})",
+                    ha="center", va="center", fontproperties=jp(8), color=col, zorder=3,
+                    bbox=dict(boxstyle="round,pad=0.22", fc="white", ec=col, lw=1.1))
+    ax.set_xticks(Ks); ax.set_xlabel("トピック数 K", fontproperties=jp(11))
+    ax.set_yticks([]); ax.set_xlim(kmin - 0.6, kmax + 0.6)
+    ax.set_ylim(-(kmax) / 2 - 1, kmax / 2 + 1)
+    ax.set_title("トピックの系譜: 各ノード＝そのトピックの最重み語（括弧=主となるケース数）／色＝K=4の起源",
                  fontproperties=jp(12))
     for s in ["top", "right", "left"]:
         ax.spines[s].set_visible(False)
@@ -151,9 +147,11 @@ h2 {{ font-size:1.18em; margin-top:2em; border-left:5px solid #2E86C1; padding-l
 </div>
 
 <h2>1. トピックの系譜（Kを増やすと何が枝分かれするか）</h2>
-<p>左（K=4）から右（K=14）へ、各トピックが親からどう分岐するか。色は起源（K=4の4トピック）。
-点の大きさ＝そのトピックが主となるケース数。分岐が意味を持つうちは細分化が有効、
-極小の点や混線が増え始めたら過分割のサインです。</p>
+<p>左（K=4）から右（K=14）へ、各トピックが親からどう分岐するか。<b>各ノードのラベルは、そのトピックで
+最も重みの大きい第1位語</b>（NMFのH行列の最大重み語）で、括弧内はそのトピックを主とするケース数。色は起源（K=4の4トピック）。
+分岐が意味を持つうちは細分化が有効、同じ語の重複や極小トピックが増え始めたら過分割のサインです。</p>
+<p class="dim">※ラベルは<b>機械的な第1位語であり、LLMによる要約ではありません</b>。
+LLMに要約ラベルを付けさせることも可能です（その場合は根拠の特徴語を併記）。</p>
 <div class="figure">{alluvial}</div>
 
 <h2>2. 各Kのトピック一覧</h2>
