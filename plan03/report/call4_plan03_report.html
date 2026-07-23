@@ -26,6 +26,8 @@ canvas { max-width:100%; }
 #tip { position:fixed; display:none; background:rgba(20,25,35,.94); color:#fff; padding:8px 11px; border-radius:6px; font-size:12px; max-width:340px; pointer-events:none; z-index:10; }
 a { color:#B0532B; }
 .small li { font-size:.85em; }
+ul.cases li { margin:5px 0; }
+.cw { color:#8a5a2b; font-size:.82em; }
 .tech { background:#f0efe9; border-radius:8px; padding:12px 16px; font-size:.82em; color:#555; }
 </style>
 </head>
@@ -59,12 +61,19 @@ TF-IDF＝その訴訟に特徴的な語ほど重く、どの訴訟にも出る�
 （イメージとしては絵の具の混色に近く、6色＝6トピックの配合で各訴訟の“色”が決まります。）</p>
 
 <h2>2. 見つかった6つのテーマ</h2>
+<div class="explain">
+各カードには2種類の<b>特徴語</b>を出しています。<b>テーマの特徴語</b>＝そのテーマ全体を特徴づける語（c-TF-IDF）。
+<b>各ケースの特徴語</b>＝その訴訟1件で特に重み付けが高かった語（TF-IDF上位）で、
+<b>分析が実際に何を手がかりにしたかの“生データ”</b>です。抽象的なテーマ名だけでなく、
+個々の訴訟でどんな語が効いたかを確かめられます（「すべて見る」で全件分を展開）。
+<span class="note">補足: TF-IDF上位語＝その訴訟に相対的に特徴的な語。頻出でもどの訴訟にも出る一般語は自動的に下がる。</span>
+</div>
 <div class="figure"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="518.016887pt" height="228.701344pt" viewBox="0 0 518.016887 228.701344" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-07-23T14:24:20.355276</dc:date>
+    <dc:date>2026-07-23T14:30:29.736685</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -101,7 +110,7 @@ L 140.682718 172.568
 L 140.682718 30.008 
 L 84.707796 30.008 
 z
-" clip-path="url(#pa60651f328)" style="fill: #4c8c2b"/>
+" clip-path="url(#p7178a55cd0)" style="fill: #4c8c2b"/>
    </g>
    <g id="patch_4">
     <path d="M 154.676448 172.568 
@@ -109,7 +118,7 @@ L 210.65137 172.568
 L 210.65137 101.288 
 L 154.676448 101.288 
 z
-" clip-path="url(#pa60651f328)" style="fill: #b0532b"/>
+" clip-path="url(#p7178a55cd0)" style="fill: #b0532b"/>
    </g>
    <g id="patch_5">
     <path d="M 224.6451 172.568 
@@ -117,7 +126,7 @@ L 280.620022 172.568
 L 280.620022 118.059765 
 L 224.6451 118.059765 
 z
-" clip-path="url(#pa60651f328)" style="fill: #8a4fa8"/>
+" clip-path="url(#p7178a55cd0)" style="fill: #8a4fa8"/>
    </g>
    <g id="patch_6">
     <path d="M 294.613752 172.568 
@@ -125,7 +134,7 @@ L 350.588674 172.568
 L 350.588674 126.445647 
 L 294.613752 126.445647 
 z
-" clip-path="url(#pa60651f328)" style="fill: #c29b2c"/>
+" clip-path="url(#p7178a55cd0)" style="fill: #c29b2c"/>
    </g>
    <g id="patch_7">
     <path d="M 364.582404 172.568 
@@ -133,7 +142,7 @@ L 420.557326 172.568
 L 420.557326 130.638588 
 L 364.582404 130.638588 
 z
-" clip-path="url(#pa60651f328)" style="fill: #2ba8a0"/>
+" clip-path="url(#p7178a55cd0)" style="fill: #2ba8a0"/>
    </g>
    <g id="patch_8">
     <path d="M 434.551056 172.568 
@@ -141,18 +150,18 @@ L 490.525978 172.568
 L 490.525978 130.638588 
 L 434.551056 130.638588 
 z
-" clip-path="url(#pa60651f328)" style="fill: #2b6cb0"/>
+" clip-path="url(#p7178a55cd0)" style="fill: #2b6cb0"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
      <g id="line2d_1">
       <defs>
-       <path id="m10b99b8316" d="M 0 0 
+       <path id="m418d07a7b6" d="M 0 0 
 L 0 3.5 
 " style="stroke: #000000; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m10b99b8316" x="112.695257" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m418d07a7b6" x="112.695257" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
@@ -1189,7 +1198,7 @@ z
     <g id="xtick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#m10b99b8316" x="182.663909" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m418d07a7b6" x="182.663909" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
@@ -2048,7 +2057,7 @@ z
     <g id="xtick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#m10b99b8316" x="252.632561" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m418d07a7b6" x="252.632561" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
@@ -2739,7 +2748,7 @@ z
     <g id="xtick_4">
      <g id="line2d_4">
       <g>
-       <use xlink:href="#m10b99b8316" x="322.601213" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m418d07a7b6" x="322.601213" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
@@ -3427,7 +3436,7 @@ z
     <g id="xtick_5">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#m10b99b8316" x="392.569865" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m418d07a7b6" x="392.569865" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
@@ -4137,7 +4146,7 @@ z
     <g id="xtick_6">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#m10b99b8316" x="462.538517" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m418d07a7b6" x="462.538517" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
@@ -4644,12 +4653,12 @@ z
     <g id="ytick_1">
      <g id="line2d_7">
       <defs>
-       <path id="m7f71c660ae" d="M 0 0 
+       <path id="m0556dd5ebd" d="M 0 0 
 L -3.5 0 
 " style="stroke: #000000; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m7f71c660ae" x="64.416887" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m0556dd5ebd" x="64.416887" y="172.568" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
@@ -4677,7 +4686,7 @@ z
     <g id="ytick_2">
      <g id="line2d_8">
       <g>
-       <use xlink:href="#m7f71c660ae" x="64.416887" y="130.638588" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m0556dd5ebd" x="64.416887" y="130.638588" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_8">
@@ -4707,7 +4716,7 @@ z
     <g id="ytick_3">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#m7f71c660ae" x="64.416887" y="88.709176" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m0556dd5ebd" x="64.416887" y="88.709176" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
@@ -4739,7 +4748,7 @@ z
     <g id="ytick_4">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#m7f71c660ae" x="64.416887" y="46.779765" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m0556dd5ebd" x="64.416887" y="46.779765" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_10">
@@ -5700,7 +5709,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pa60651f328">
+  <clipPath id="p7178a55cd0">
    <rect x="64.416887" y="22.88" width="446.4" height="149.688"/>
   </clipPath>
  </defs>
@@ -5710,38 +5719,50 @@ z
 <div class="card" style="border-top:5px solid #4C8C2B">
   <h4><span class="dot" style="background:#4C8C2B"></span>テーマ1: 地域開発・環境と住民自治
       <span class="dim">（この論点が主な訴訟 34件）</span></h4>
-  <p><b>よく出る言葉:</b> 住民 / 条例 / 工事 / 再開発 / 伐採 / 議会 / 自治 / 計画</p>
-  <p><b>代表的な訴訟:</b></p><ul><li><a href="https://www.call4.jp/info.php?type=items&id=I0000121" target="_blank">神戸石炭訴訟｜気候変動と大気汚染を防ぐため、石炭火力発電所新設は取り消しを！【アーカイブ】</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000050" target="_blank">海は誰のもの？沖縄県への「開発認可取消」訴訟【アーカイブ】</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000133" target="_blank">「イチョウと住民自治を守ろう」訴訟【アーカイブ】</a></li></ul>
+  <p><b>テーマの特徴語（c-TF-IDF）:</b> 住民 / 条例 / 工事 / 再開発 / 伐採 / 議会 / 自治 / 計画</p>
+  <p><b>代表的な訴訟（各ケースの特徴語つき）:</b></p><ul class="cases"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000121" target="_blank">神戸石炭訴訟｜気候変動と大気汚染を防ぐため、石炭火力発電所新設は取り消しを！【アーカイブ】</a><br><span class="cw">特徴語: 石炭 / 気候_変動 / 神戸 / 気候 / 大気_汚染 / 大気</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000050" target="_blank">海は誰のもの？沖縄県への「開発認可取消」訴訟【アーカイブ】</a><br><span class="cw">特徴語: 沖縄県 / 認可 / 開発 / ホテル / 沖縄 / 自然</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000133" target="_blank">「イチョウと住民自治を守ろう」訴訟【アーカイブ】</a><br><span class="cw">特徴語: 伐採 / イチョウ / 神田 / 区間 / 工事 / 議決</span></li></ul>
+  <details><summary>このテーマが主な34件をすべて見る（配合順）</summary>
+    <ul class="cases small"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000050" target="_blank">海は誰のもの？沖縄県への「開発認可取消」訴訟【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 沖縄県 / 認可 / 開発 / ホテル / 沖縄 / 自然</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000053" target="_blank">鬼怒川大水害訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 水害 / 堤防 / 地区 / 河川 / 豪雨 / 治水</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000169" target="_blank">平和の島であるために ― 馬毛島の自然と自治を守る裁判</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 基地 / 平和 / 売却 / 自治 / 地方_自治 / 防衛省</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000133" target="_blank">「イチョウと住民自治を守ろう」訴訟【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 伐採 / イチョウ / 神田 / 区間 / 工事 / 議決</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000121" target="_blank">神戸石炭訴訟｜気候変動と大気汚染を防ぐため、石炭火力発電所新設は取り消しを！【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 石炭 / 気候_変動 / 神戸 / 気候 / 大気_汚染 / 大気</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000120" target="_blank">神宮外苑を守ろう訴訟｜100年の歴史と3000本超の樹木を未来へ</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 神宮 / 外苑 / 神宮_外苑 / 再開発 / 伐採 / 都市_計画</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000115" target="_blank">市民との約束を無視して進む「新焼却炉建設」を止める訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 覚書 / 焼却 / 約束 / 処理 / ごみ_焼却 / ごみ</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000081" target="_blank">市街地でＢＳＬ４の研究をしないでください</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: ウイルス / 実験 / 感染 / 動物 / 長崎 / 施設</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000062" target="_blank">羽田空港新ルート設定の取消訴訟</a> <span class="dim">(配合99%)</span><br><span class="cw">特徴語: 上空 / 飛行 / ルート / 羽田空港 / 飛行機 / 落下</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000143" target="_blank">リニアトンネル工事で街を壊さないで 〜平穏生活権を侵害する大深度法の違憲性を問う〜</a> <span class="dim">(配合96%)</span><br><span class="cw">特徴語: トンネル / 認可 / 工事 / 新幹線 / 掘る / 平穏_生活</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000176" target="_blank">不透明な契約・区長の教育行政介入を問う住民訴訟 〜文京区の教育は誰のもの？</a> <span class="dim">(配合91%)</span><br><span class="cw">特徴語: 区長 / 研修 / 教育委員会 / 教育 / 教員 / 随意契約</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000170" target="_blank">再開発は誰のため？いわき市の「不公正な行政契約は違法」訴訟</a> <span class="dim">(配合90%)</span><br><span class="cw">特徴語: 再開発 / いわき市 / 随意契約 / 業務委託 / 公共_事業 / 契約</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000154" target="_blank">「無効のはずの廃園条例、なぜ続く？」— 子どもたちの保育環境を守るための訴訟</a> <span class="dim">(配合83%)</span><br><span class="cw">特徴語: 保育園 / 条例 / 再開 / 違法_無効 / 公立 / 保育</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000061" target="_blank">野村ダム緊急放流による水害訴訟</a> <span class="dim">(配合82%)</span><br><span class="cw">特徴語: 操作 / 規則 / 緊急 / 水害 / 浸水 / 河川</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000088" target="_blank">首里城火災の管理責任を問う住民訴訟〜責任者出てこい！〜</a> <span class="dim">(配合81%)</span><br><span class="cw">特徴語: 財団 / 沖縄 / 責任_所在 / 沖縄県 / 原告団 / 免れる</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000069" target="_blank">「LINE」を用いた住民票請求サービスの適法性確認請求事件【アーカイブ】</a> <span class="dim">(配合73%)</span><br><span class="cw">特徴語: マイナンバーカード / LINE / 住民票 / サービス / 総務省 / 交付</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000119" target="_blank">“コロナ感染者立ち寄りで店名公表”は違法！訴訟【アーカイブ】</a> <span class="dim">(配合68%)</span><br><span class="cw">特徴語: 飲食店 / 感染者 / 公表 / ラーメン / 近藤 / クラスター</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000167" target="_blank">気候正義訴訟－Climate Justice－</a> <span class="dim">(配合68%)</span><br><span class="cw">特徴語: 気候_変動 / 気候 / 変動 / 削減 / 温室_効果 / 温室</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000165" target="_blank">「ヒグマハンターの猟銃を取り戻す」訴訟【アーカイブ】</a> <span class="dim">(配合67%)</span><br><span class="cw">特徴語: 猟銃 / 到達 / 所持 / 建物 / 公安委員会 / 北海道</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000141" target="_blank">要件を満たす島民の請求を市長が拒否！石垣島住民投票の権利を問う裁判【アーカイブ】</a> <span class="dim">(配合66%)</span><br><span class="cw">特徴語: 自治 / 条例 / 基本 / 控訴審_判決 / 地方_自治 / 自治_理念</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000142" target="_blank">若者の志と人生を尊重する地域枠医師制度のために ～高額違約金は違法！～</a> <span class="dim">(配合64%)</span><br><span class="cw">特徴語: 消費者 / 条項 / 機構 / プログラム / キャリア形成 / 医学部</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000070" target="_blank">「人間を育てる教員に、人間らしい働き方を」訴訟【アーカイブ】</a> <span class="dim">(配合61%)</span><br><span class="cw">特徴語: 教員 / 長時間労働 / 学生 / 教育 / 田中 / 自主的</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000105" target="_blank">「子どもと向き合う時間がほしい」児童相談所の労働環境改善を！訴訟【アーカイブ】</a> <span class="dim">(配合57%)</span><br><span class="cw">特徴語: 一時 / 労働時間 / 児童 / 労働_環境 / 時間_労働時間 / 一人一人</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000072" target="_blank">行政による民泊事業届出拒否の適法性を問う</a> <span class="dim">(配合53%)</span><br><span class="cw">特徴語: 届出 / 宿泊 / 許認可 / 住宅 / 届出_受理 / 受け取り_拒否</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000076" target="_blank">「琉球人のご先祖の遺骨返還を」訴訟【アーカイブ】</a> <span class="dim">(配合52%)</span><br><span class="cw">特徴語: 返還 / 先祖 / 民族 / 沖縄県 / 慣習 / 沖縄</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000064" target="_blank">「セックスワークにも給付金を」訴訟 【アーカイブ】</a> <span class="dim">(配合47%)</span><br><span class="cw">特徴語: セックス / ワーク / 給付金 / セックス_ワーク / 職業 / 研究科</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000071" target="_blank">コロナ禍、日本社会の理不尽を問う（コロナ特措法違憲訴訟）【アーカイブ】</a> <span class="dim">(配合47%)</span><br><span class="cw">特徴語: コロナ / 営業 / 自由_制限 / コロナ禍 / 民主主義_国家 / 長谷川</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000156" target="_blank">病院でよく出る薬を、薬局ですぐ買える「零売」を守る訴訟</a> <span class="dim">(配合47%)</span><br><span class="cw">特徴語: 患者 / 販売 / 購入 / 医療費 / アレルギー / 広告</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000080" target="_blank">地方議会に横行する「少数派議員潰し」に立ち向かう訴訟【アーカイブ】</a> <span class="dim">(配合43%)</span><br><span class="cw">特徴語: 懲罰 / 地方_議会 / 議員 / 少数派 / オンブズマン / 議会</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000095" target="_blank">『宮本から君へ』助成金不交付決定取消訴訟【アーカイブ】</a> <span class="dim">(配合42%)</span><br><span class="cw">特徴語: 助成金 / 交付 / 映画 / 文化 / 内定 / 宮本</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000104" target="_blank">公安警察による市民運動の監視を許さない。市民の「もの言う」自由を守るための訴訟【アーカイブ】</a> <span class="dim">(配合41%)</span><br><span class="cw">特徴語: 岐阜県 / 公安 / 情報_収集 / 個人情報 / 警察 / 収集</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000078" target="_blank">教育公務員の兼業のあり方を問う訴訟【アーカイブ】</a> <span class="dim">(配合41%)</span><br><span class="cw">特徴語: 不許可 / 教員 / 東京都_教育委員会 / 教育委員会 / 許可_申請 / 報告_受ける</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000124" target="_blank">恵庭市「障害者虐待」隠ぺい事件 〜元市議への忖度による放置を許さない〜</a> <span class="dim">(配合38%)</span><br><span class="cw">特徴語: 障害者 / 虐待 / 北海道 / 忖度 / 札幌 / 住み込み</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000123" target="_blank">県知事の公務での護国神社参拝取りやめをー政教分離原則の違反を問うー</a> <span class="dim">(配合32%)</span><br><span class="cw">特徴語: 公務 / 信教 / 中谷 / 宗教 / 信教_自由 / 自衛官</span></li></ul></details>
 </div>
 <div class="card" style="border-top:5px solid #2B6CB0">
   <h4><span class="dot" style="background:#2B6CB0"></span>テーマ2: 情報公開・公文書
       <span class="dim">（この論点が主な訴訟 10件）</span></h4>
-  <p><b>よく出る言葉:</b> 文書 / 開示 / 財務省 / ファイル / 赤木 / 開示_決定 / 情報_公開 / 行政_文書</p>
-  <p><b>代表的な訴訟:</b></p><ul><li><a href="https://www.call4.jp/info.php?type=items&id=I0000092" target="_blank">イラク戦争検証報告書情報公開訴訟【アーカイブ】</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000100" target="_blank">不当な補正要求の繰り返しは開示請求権の侵害だ！〜財務省の姿勢を問う〜訴訟</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000097" target="_blank">財務省改ざん事件に真実を！〜改ざんの経緯を明らかに〜訴訟</a></li></ul>
+  <p><b>テーマの特徴語（c-TF-IDF）:</b> 文書 / 開示 / 財務省 / ファイル / 赤木 / 開示_決定 / 情報_公開 / 行政_文書</p>
+  <p><b>代表的な訴訟（各ケースの特徴語つき）:</b></p><ul class="cases"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000092" target="_blank">イラク戦争検証報告書情報公開訴訟【アーカイブ】</a><br><span class="cw">特徴語: 報告書 / 国際_機関 / 他国 / 外務省 / 戦争 / 開示</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000100" target="_blank">不当な補正要求の繰り返しは開示請求権の侵害だ！〜財務省の姿勢を問う〜訴訟</a><br><span class="cw">特徴語: 財務省 / 補正 / 赤木 / 行政_文書 / 件名 / 文書</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000097" target="_blank">財務省改ざん事件に真実を！〜改ざんの経緯を明らかに〜訴訟</a><br><span class="cw">特徴語: 赤木 / 財務省 / 改ざん / 俊夫 / 赤木_俊夫 / 財務局</span></li></ul>
+  <details><summary>このテーマが主な10件をすべて見る（配合順）</summary>
+    <ul class="cases small"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000092" target="_blank">イラク戦争検証報告書情報公開訴訟【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 報告書 / 国際_機関 / 他国 / 外務省 / 戦争 / 開示</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000097" target="_blank">財務省改ざん事件に真実を！〜改ざんの経緯を明らかに〜訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 赤木 / 財務省 / 改ざん / 俊夫 / 赤木_俊夫 / 財務局</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000100" target="_blank">不当な補正要求の繰り返しは開示請求権の侵害だ！〜財務省の姿勢を問う〜訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 財務省 / 補正 / 赤木 / 行政_文書 / 件名 / 文書</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000052" target="_blank">警察庁が保有する秘密個人情報ファイル簿の情報公開訴訟</a> <span class="dim">(配合95%)</span><br><span class="cw">特徴語: ファイル / 秘密 / 個人情報 / 警察庁 / 保有 / 開示_情報</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000089" target="_blank">過去の開示請求に対する意思決定プロセスを明らかに！〜入管の秘密主義を問う〜訴訟</a> <span class="dim">(配合91%)</span><br><span class="cw">特徴語: ウィシュマ / 開示_請求 / ウィシュマ_事件 / 在留_管理 / 開示 / 意思決定_プロセス</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000093" target="_blank">日米合同委員会議事録情報公開訴訟【アーカイブ】</a> <span class="dim">(配合84%)</span><br><span class="cw">特徴語: 日米 / 議事録 / メール / インカメラ / 合意 / 双方</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000102" target="_blank">大阪市はカジノ事業者との協議録を開示せよ！訴訟</a> <span class="dim">(配合78%)</span><br><span class="cw">特徴語: 大阪市 / 誘致 / 大阪府 / 事業者 / 協議 / 開示_理由</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000150" target="_blank">政府が開示を拒否する、安倍元首相の「国葬文書」開示を！訴訟</a> <span class="dim">(配合73%)</span><br><span class="cw">特徴語: 文書_作成 / 内閣官房 / 首相 / 文書 / 内閣府 / 内閣官房_内閣府</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000146" target="_blank">「学術会議の独立性」を市民で守ろう ～会員任命拒否理由の情報公開訴訟～</a> <span class="dim">(配合65%)</span><br><span class="cw">特徴語: 学術_会議 / 学術 / 日本_学術 / 開示_処分 / 会員 / 法律家</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000082" target="_blank">隠される「国の事故調査」プロセスを明らかに！訴訟</a> <span class="dim">(配合56%)</span><br><span class="cw">特徴語: 事故 / ライン / 合同会社 / 衝突 / 報告書 / 委員長</span></li></ul></details>
 </div>
 <div class="card" style="border-top:5px solid #B0532B">
   <h4><span class="dot" style="background:#B0532B"></span>テーマ3: 入管収容・難民・人種差別
       <span class="dim">（この論点が主な訴訟 17件）</span></h4>
-  <p><b>よく出る言葉:</b> 難民 / デニズ / 刑務所 / 人種 / 入管_収容 / 迫害 / 難民_認定 / フィリピン</p>
-  <p><b>代表的な訴訟:</b></p><ul><li><a href="https://www.call4.jp/info.php?type=items&id=I0000041" target="_blank">カメルーン人男性死亡事件国賠訴訟【アーカイブ】</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000171" target="_blank">入管職員による人種差別と暴行事件【アーカイブ】</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000096" target="_blank">「日本の入管収容は国際人権法違反」訴訟</a></li></ul>
+  <p><b>テーマの特徴語（c-TF-IDF）:</b> 難民 / デニズ / 刑務所 / 人種 / 入管_収容 / 迫害 / 難民_認定 / フィリピン</p>
+  <p><b>代表的な訴訟（各ケースの特徴語つき）:</b></p><ul class="cases"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000041" target="_blank">カメルーン人男性死亡事件国賠訴訟【アーカイブ】</a><br><span class="cw">特徴語: 午前 / ベッド / 入管_職員 / 入管 / 診療 / 到着</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000171" target="_blank">入管職員による人種差別と暴行事件【アーカイブ】</a><br><span class="cw">特徴語: 入管_職員 / 入管 / 暴力 / 拷問 / 押さえつける / 虐待</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000096" target="_blank">「日本の入管収容は国際人権法違反」訴訟</a><br><span class="cw">特徴語: 恣意的_拘禁 / デニズ / 仮放免 / 収容 / 入管_収容 / 入管</span></li></ul>
+  <details><summary>このテーマが主な17件をすべて見る（配合順）</summary>
+    <ul class="cases small"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000041" target="_blank">カメルーン人男性死亡事件国賠訴訟【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 午前 / ベッド / 入管_職員 / 入管 / 診療 / 到着</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000171" target="_blank">入管職員による人種差別と暴行事件【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 入管_職員 / 入管 / 暴力 / 拷問 / 押さえつける / 虐待</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000063" target="_blank">クルド難民収容者暴行被害国賠訴訟【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: デニズ / 入管 / 制圧 / 暴行 / 手足 / 入管_職員</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000096" target="_blank">「日本の入管収容は国際人権法違反」訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 恣意的_拘禁 / デニズ / 仮放免 / 収容 / 入管_収容 / 入管</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000178" target="_blank">私として生きる権利を求めて。アイコさん難民不認定取消訴訟</a> <span class="dim">(配合90%)</span><br><span class="cw">特徴語: 迫害 / フィリピン / トランス / アイコ / 難民 / トランス_ジェンダー</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000094" target="_blank">ウィシュマさん名古屋入管死亡事件</a> <span class="dim">(配合85%)</span><br><span class="cw">特徴語: ウィシュマ / 名古屋_入管 / 看守 / 名古屋 / 入管 / ご遺族</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000135" target="_blank">難民帰化訴訟〜真に社会の一員へ〜</a> <span class="dim">(配合67%)</span><br><span class="cw">特徴語: 帰化 / 難民 / 難民_条約 / 難民_認定 / 締約国 / 条約</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000148" target="_blank">おかゆ強制はおかしい！刑事施設における不要な食事制限の撤廃を求める裁判</a> <span class="dim">(配合62%)</span><br><span class="cw">特徴語: 代替 / 拘置所 / 食事 / 刑事_施設 / 裁量_認める / 食べる</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000085" target="_blank">「人種差別を許さない」訴訟 ～警察官による母子の不当聴取と個人情報の漏洩～</a> <span class="dim">(配合62%)</span><br><span class="cw">特徴語: 警察官 / 人種 / 言動 / 人種_差別的 / 承諾 / 差別的</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000054" target="_blank">ネパール人取調べ中死亡国賠訴訟事件【アーカイブ】</a> <span class="dim">(配合58%)</span><br><span class="cw">特徴語: アルジュン / ネパール / 戒具 / 手錠 / 留置 / 保護室</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000128" target="_blank">人種差別的な職務質問をやめさせよう！訴訟｜#STOPレイシャルプロファイリング</a> <span class="dim">(配合54%)</span><br><span class="cw">特徴語: 職務質問 / 人種 / 警察官 / 外国_ルーツ / ルーツ / 人種_差別</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000114" target="_blank">受刑者にも適切な医療を！刑務所医療過誤事件</a> <span class="dim">(配合53%)</span><br><span class="cw">特徴語: 刑務所 / がん / 受刑者 / 償う / 医療 / 息子</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000160" target="_blank">刑務所での強制ひげ剃りと懲罰 ～医師の所見を無視した処遇の違法性を問う手書き裁判～【アーカイブ】</a> <span class="dim">(配合49%)</span><br><span class="cw">特徴語: 刑務所 / 受刑者 / 懲罰 / アレルギー / 処遇 / アレルギー_症状</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000068" target="_blank">「鳥は空に魚は水に人は社会に」訴訟【アーカイブ】</a> <span class="dim">(配合44%)</span><br><span class="cw">特徴語: 精神科 / 入院 / 精神 / 我が国 / 医療 / ベッド</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000060" target="_blank">ジャーナリストに渡航の自由を！訴訟【アーカイブ】</a> <span class="dim">(配合42%)</span><br><span class="cw">特徴語: 旅券 / 一般_旅券 / 渡航 / 発給 / 旅券_発給 / 海外_渡航</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000116" target="_blank">「会計年度任用職員にも労働基本権を！」訴訟</a> <span class="dim">(配合31%)</span><br><span class="cw">特徴語: 労働条件 / 交渉 / 向上 / 公務員 / 労働者 / 切り替える</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000087" target="_blank">赤ちゃん取り違え被害者に「出自を知る権利を」訴訟【アーカイブ】</a> <span class="dim">(配合25%)</span><br><span class="cw">特徴語: 出自 / 両親 / 知る_権利 / 赤ちゃん / 東京都 / 前訴</span></li></ul></details>
 </div>
 <div class="card" style="border-top:5px solid #8A4FA8">
   <h4><span class="dot" style="background:#8A4FA8"></span>テーマ4: 婚姻の平等・性別のあり方
       <span class="dim">（この論点が主な訴訟 13件）</span></h4>
-  <p><b>よく出る言葉:</b> 同性 / カップル / 同性_カップル / 性別 / 民法 / 婚姻 / 結婚 / 同性婚</p>
-  <p><b>代表的な訴訟:</b></p><ul><li><a href="https://www.call4.jp/info.php?type=items&id=I0000031" target="_blank">結婚の自由をすべての人に訴訟（同性婚訴訟）</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000134" target="_blank">わたしたちはもう待てない〜同性婚仙台家事審判事件</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000139" target="_blank">既婚を理由に法的性別取扱い変更を認めないのは違憲！「なんでうちらが離婚せなあかんの？」裁判</a></li></ul>
+  <p><b>テーマの特徴語（c-TF-IDF）:</b> 同性 / カップル / 同性_カップル / 性別 / 民法 / 婚姻 / 結婚 / 同性婚</p>
+  <p><b>代表的な訴訟（各ケースの特徴語つき）:</b></p><ul class="cases"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000031" target="_blank">結婚の自由をすべての人に訴訟（同性婚訴訟）</a><br><span class="cw">特徴語: 法律上_性別 / 同性 / 一斉 / 結婚 / 結婚_自由 / 自由_すべて</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000134" target="_blank">わたしたちはもう待てない〜同性婚仙台家事審判事件</a><br><span class="cw">特徴語: 婚姻届 / 家事_審判 / 民法 / 婚姻届_受理 / 審判 / 同性</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000139" target="_blank">既婚を理由に法的性別取扱い変更を認めないのは違憲！「なんでうちらが離婚せなあかんの？」裁判</a><br><span class="cw">特徴語: 性別 / 取扱い / 離婚 / カップル / 婚姻 / 性同一性_障害者</span></li></ul>
+  <details><summary>このテーマが主な13件をすべて見る（配合順）</summary>
+    <ul class="cases small"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000031" target="_blank">結婚の自由をすべての人に訴訟（同性婚訴訟）</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 法律上_性別 / 同性 / 一斉 / 結婚 / 結婚_自由 / 自由_すべて</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000134" target="_blank">わたしたちはもう待てない〜同性婚仙台家事審判事件</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 婚姻届 / 家事_審判 / 民法 / 婚姻届_受理 / 審判 / 同性</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000139" target="_blank">既婚を理由に法的性別取扱い変更を認めないのは違憲！「なんでうちらが離婚せなあかんの？」裁判</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 性別 / 取扱い / 離婚 / カップル / 婚姻 / 性同一性_障害者</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000159" target="_blank">日本でもマリアージュしたいねん～海外で成立した同性婚の受理を求める裁判～</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 民法 / 同性_結婚 / 同性 / 結婚_認める / ふうふ / フランス</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000067" target="_blank">「同性パートナーにも犯罪被害の遺族給付金を」訴訟</a> <span class="dim">(配合97%)</span><br><span class="cw">特徴語: 犯罪_被害者 / 同性 / 打撃 / 同性_パートナー / 犯罪_被害 / パートナー</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000075" target="_blank">オペなしで！戸籍上も「俺」になりたい裁判【アーカイブ】</a> <span class="dim">(配合77%)</span><br><span class="cw">特徴語: 手術 / 生殖腺 / 手術_要件 / 性別_変更 / 性別 / 戸籍</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000111" target="_blank">日米同性カップル在留資格訴訟 〜家族そろって日本で暮らすために〜【アーカイブ】</a> <span class="dim">(配合72%)</span><br><span class="cw">特徴語: カップル / 同性 / 在留資格 / 同性_カップル / ふたり / 安定</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000129" target="_blank">「共働き妻を亡くした夫にも遺族年金を」訴訟</a> <span class="dim">(配合67%)</span><br><span class="cw">特徴語: 遺族年金 / 共働き / 世帯 / 労災 / 遺族 / 支給</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000131" target="_blank">夫婦別姓も選べる社会へ！訴訟</a> <span class="dim">(配合61%)</span><br><span class="cw">特徴語: 名字 / 通称 / 名乗る / 名字_名乗る / カップル / 併記</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000125" target="_blank">婚外子国籍訴訟 —国籍法3条1項は違憲—【アーカイブ】</a> <span class="dim">(配合48%)</span><br><span class="cw">特徴語: 国籍法 / 父親 / 日本国籍 / 両親 / 日本国籍_取得 / 認知</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000086" target="_blank">優生保護法に奪われた人生を取り戻す裁判【アーカイブ】</a> <span class="dim">(配合44%)</span><br><span class="cw">特徴語: 優生 / 優生_保護 / 不妊 / 不妊_手術 / 手術 / 除斥_期間</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000112" target="_blank">家事労働者にも労災認定を！訴訟 【アーカイブ】</a> <span class="dim">(配合41%)</span><br><span class="cw">特徴語: 家事 / 労働者 / 労働基準法 / 労災 / 労災認定 / 契約書</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000136" target="_blank">地域による報酬格差は違憲！裁判官の独立と良心を守る訴訟</a> <span class="dim">(配合28%)</span><br><span class="cw">特徴語: 竹内 / 転勤 / 良心 / 格差 / 裁判官 / 独立</span></li></ul></details>
 </div>
 <div class="card" style="border-top:5px solid #C29B2C">
   <h4><span class="dot" style="background:#C29B2C"></span>テーマ5: 選挙権・政治参加
       <span class="dim">（この論点が主な訴訟 11件）</span></h4>
-  <p><b>よく出る言葉:</b> 選挙 / 投票 / 選挙権 / 在外 / 立候補 / 成年者 / 立候補_年齢 / 年齢</p>
-  <p><b>代表的な訴訟:</b></p><ul><li><a href="https://www.call4.jp/info.php?type=items&id=I0000179" target="_blank">海外有権者の一票を守れ！在外選挙制度を問う訴訟</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000046" target="_blank">在外選挙権確認訴訟【アーカイブケース】</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000030" target="_blank">「海外でも国民審査を」訴訟【アーカイブ】</a></li></ul>
+  <p><b>テーマの特徴語（c-TF-IDF）:</b> 選挙 / 投票 / 選挙権 / 在外 / 立候補 / 成年者 / 立候補_年齢 / 年齢</p>
+  <p><b>代表的な訴訟（各ケースの特徴語つき）:</b></p><ul class="cases"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000179" target="_blank">海外有権者の一票を守れ！在外選挙制度を問う訴訟</a><br><span class="cw">特徴語: 投票 / 在外 / 有権者 / 日程 / 国民_審査権 / 解散</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000046" target="_blank">在外選挙権確認訴訟【アーカイブケース】</a><br><span class="cw">特徴語: 選挙区 / 選挙_おく / 選挙 / 議員 / 選挙権 / 参議院</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000030" target="_blank">「海外でも国民審査を」訴訟【アーカイブ】</a><br><span class="cw">特徴語: 国民_審査 / 国民_審査権 / 審査権 / 在外 / 海外_国民 / 国民_認める</span></li></ul>
+  <details><summary>このテーマが主な11件をすべて見る（配合順）</summary>
+    <ul class="cases small"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000030" target="_blank">「海外でも国民審査を」訴訟【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 国民_審査 / 国民_審査権 / 審査権 / 在外 / 海外_国民 / 国民_認める</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000046" target="_blank">在外選挙権確認訴訟【アーカイブケース】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 選挙区 / 選挙_おく / 選挙 / 議員 / 選挙権 / 参議院</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000179" target="_blank">海外有権者の一票を守れ！在外選挙制度を問う訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 投票 / 在外 / 有権者 / 日程 / 国民_審査権 / 解散</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000164" target="_blank">引越しで選挙権が制限されない未来へ！訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 国政_選挙 / 選挙 / 転居 / 名簿 / 選挙_参加 / 名簿_登録</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000117" target="_blank">立候補年齢引き下げ訴訟</a> <span class="dim">(配合96%)</span><br><span class="cw">特徴語: 立候補 / 立候補_年齢 / 年齢 / 被選挙権 / 若者 / 若い_世代</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000151" target="_blank">「18歳未満にも選挙で応援する自由を」訴訟</a> <span class="dim">(配合93%)</span><br><span class="cw">特徴語: 成年者 / 選挙 / 候補者 / 罰則 / 運動 / 未満</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000132" target="_blank">「わたしの体は母体じゃない」訴訟</a> <span class="dim">(配合46%)</span><br><span class="cw">特徴語: 不妊 / 不妊_手術 / 優生 / 生殖 / 手術 / 産む</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000049" target="_blank">レペタ訴訟【アーカイブ】</a> <span class="dim">(配合45%)</span><br><span class="cw">特徴語: メモ_取る / メモ / 取る / アーカイブ_プロジェクト / 取れる / 退ける</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000056" target="_blank">マクリーン事件【アーカイブ】</a> <span class="dim">(配合40%)</span><br><span class="cw">特徴語: 期間_更新 / 在留_期間 / 法務_大臣 / 在留 / 政治活動 / 非難</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000152" target="_blank">保育料を経費に！訴訟</a> <span class="dim">(配合39%)</span><br><span class="cw">特徴語: 子育て / 保育 / 保育園 / 経費 / 家事 / 育児</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000106" target="_blank">本人の意思を無視して日本国籍を一方的にはく奪する「国籍法11条1項は違憲」訴訟</a> <span class="dim">(配合38%)</span><br><span class="cw">特徴語: 国籍法 / 日本国籍 / はく奪 / 国籍 / 旅券 / 取得_日本国籍</span></li></ul></details>
 </div>
 <div class="card" style="border-top:5px solid #2BA8A0">
   <h4><span class="dot" style="background:#2BA8A0"></span>テーマ6: 刑事手続・人質司法
       <span class="dim">（この論点が主な訴訟 10件）</span></h4>
-  <p><b>よく出る言葉:</b> 勾留 / 保釈 / 弁護人 / 黙秘権 / 取調べ / 人質 / 人質_司法 / 無罪</p>
-  <p><b>代表的な訴訟:</b></p><ul><li><a href="https://www.call4.jp/info.php?type=items&id=I0000157" target="_blank">「取調べ拒否」Tシャツを奪うな！―黙秘権と表現の自由を守る訴訟</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000084" target="_blank">大川原化工機事件 〜無実で約１年勾留「人質司法」問題をただす〜【アーカイブ】</a></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000130" target="_blank">日本の「黙秘権」を問う訴訟 〜56時間にわたる侮辱的な取調べは違法〜</a></li></ul>
+  <p><b>テーマの特徴語（c-TF-IDF）:</b> 勾留 / 保釈 / 弁護人 / 黙秘権 / 取調べ / 人質 / 人質_司法 / 無罪</p>
+  <p><b>代表的な訴訟（各ケースの特徴語つき）:</b></p><ul class="cases"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000157" target="_blank">「取調べ拒否」Tシャツを奪うな！―黙秘権と表現の自由を守る訴訟</a><br><span class="cw">特徴語: 黙秘権 / 着る / 取調べ / 黙秘 / 松本 / 着用</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000084" target="_blank">大川原化工機事件 〜無実で約１年勾留「人質司法」問題をただす〜【アーカイブ】</a><br><span class="cw">特徴語: 大川原 / 噴霧 / 化工機 / 輸出 / 人質_司法 / 人質</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000130" target="_blank">日本の「黙秘権」を問う訴訟 〜56時間にわたる侮辱的な取調べは違法〜</a><br><span class="cw">特徴語: 黙秘権 / 取調べ / 黙秘権_行使 / 被疑者 / 弁護人 / 検察官</span></li></ul>
+  <details><summary>このテーマが主な10件をすべて見る（配合順）</summary>
+    <ul class="cases small"><li><a href="https://www.call4.jp/info.php?type=items&id=I0000084" target="_blank">大川原化工機事件 〜無実で約１年勾留「人質司法」問題をただす〜【アーカイブ】</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 大川原 / 噴霧 / 化工機 / 輸出 / 人質_司法 / 人質</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000157" target="_blank">「取調べ拒否」Tシャツを奪うな！―黙秘権と表現の自由を守る訴訟</a> <span class="dim">(配合100%)</span><br><span class="cw">特徴語: 黙秘権 / 着る / 取調べ / 黙秘 / 松本 / 着用</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000130" target="_blank">日本の「黙秘権」を問う訴訟 〜56時間にわたる侮辱的な取調べは違法〜</a> <span class="dim">(配合99%)</span><br><span class="cw">特徴語: 黙秘権 / 取調べ / 黙秘権_行使 / 被疑者 / 弁護人 / 検察官</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000173" target="_blank">【大川原化工機事件】裁判官の責任を問う訴訟</a> <span class="dim">(配合99%)</span><br><span class="cw">特徴語: 静夫 / 保釈 / 相嶋 / 勾留 / 保釈_請求 / 大川原</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000172" target="_blank">袴田巌さん国家賠償請求訴訟 ―半世紀のえん罪、国の責任を問う</a> <span class="dim">(配合97%)</span><br><span class="cw">特徴語: 再審 / 無罪_判決 / 無罪 / 犯人 / 総長 / 再審_開始</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000155" target="_blank">人質司法に終止符を！訴訟</a> <span class="dim">(配合92%)</span><br><span class="cw">特徴語: 人質 / 人質_司法 / 保釈 / 勾留 / 被告人 / 身体_拘束</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000083" target="_blank">ベトナム人技能実習生リンさんの死体遺棄罪刑事事件【アーカイブ】</a> <span class="dim">(配合86%)</span><br><span class="cw">特徴語: 無罪_主張 / 実習 / 無罪 / 遺体 / 公判 / 被告人</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000149" target="_blank">オープンコート訴訟 —法廷の“秩序”を問う—</a> <span class="dim">(配合59%)</span><br><span class="cw">特徴語: 袴田 / レインボー / 法廷_おく / 傍聴 / パーカー / 清水</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000109" target="_blank">新宿留置場事件【アーカイブ】</a> <span class="dim">(配合49%)</span><br><span class="cw">特徴語: 保護室 / 留置 / 戒具 / 留置_施設 / 保護室_収容 / 新宿</span></li><li><a href="https://www.call4.jp/info.php?type=items&id=I0000090" target="_blank">司法の独立を脅かす岡口裁判官の罷免訴追に反対します！【アーカイブ】</a> <span class="dim">(配合41%)</span><br><span class="cw">特徴語: 訴追 / 裁判官 / 投稿 / 独立 / 司法_独立 / 国会議員</span></li></ul></details>
 </div></div>
 
 <h2>3. 類似の「説明可能性」— なぜ似ているかを言葉で言える</h2>
@@ -5806,7 +5827,7 @@ NMFは解釈可能な6軸で表すため、根拠を名指しできます。
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-07-23T14:24:20.449808</dc:date>
+    <dc:date>2026-07-23T14:30:29.843469</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -5843,7 +5864,7 @@ L 103.826803 179.250994
 L 103.826803 164.454804 
 L 71.62 164.454804 
 z
-" clip-path="url(#pab87beef83)" style="fill: #4c8c2b"/>
+" clip-path="url(#pf8a98eeac5)" style="fill: #4c8c2b"/>
    </g>
    <g id="patch_4">
     <path d="M 71.62 160.755757 
@@ -5851,7 +5872,7 @@ L 136.033605 160.755757
 L 136.033605 145.959567 
 L 71.62 145.959567 
 z
-" clip-path="url(#pab87beef83)" style="fill: #4c8c2b"/>
+" clip-path="url(#pf8a98eeac5)" style="fill: #4c8c2b"/>
    </g>
    <g id="patch_5">
     <path d="M 71.62 142.26052 
@@ -5859,7 +5880,7 @@ L 168.240408 142.26052
 L 168.240408 127.46433 
 L 71.62 127.46433 
 z
-" clip-path="url(#pab87beef83)" style="fill: #4c8c2b"/>
+" clip-path="url(#pf8a98eeac5)" style="fill: #4c8c2b"/>
    </g>
    <g id="patch_6">
     <path d="M 71.62 123.765282 
@@ -5867,7 +5888,7 @@ L 200.447211 123.765282
 L 200.447211 108.969093 
 L 71.62 108.969093 
 z
-" clip-path="url(#pab87beef83)" style="fill: #4c8c2b"/>
+" clip-path="url(#pf8a98eeac5)" style="fill: #4c8c2b"/>
    </g>
    <g id="patch_7">
     <path d="M 71.62 105.270045 
@@ -5875,7 +5896,7 @@ L 232.654014 105.270045
 L 232.654014 90.473855 
 L 71.62 90.473855 
 z
-" clip-path="url(#pab87beef83)" style="fill: #4c8c2b"/>
+" clip-path="url(#pf8a98eeac5)" style="fill: #4c8c2b"/>
    </g>
    <g id="patch_8">
     <path d="M 71.62 86.774808 
@@ -5883,7 +5904,7 @@ L 264.860816 86.774808
 L 264.860816 71.978618 
 L 71.62 71.978618 
 z
-" clip-path="url(#pab87beef83)" style="fill: #4c8c2b"/>
+" clip-path="url(#pf8a98eeac5)" style="fill: #4c8c2b"/>
    </g>
    <g id="patch_9">
     <path d="M 71.62 68.279571 
@@ -5891,19 +5912,19 @@ L 297.067619 68.279571
 L 297.067619 53.483381 
 L 71.62 53.483381 
 z
-" clip-path="url(#pab87beef83)" style="fill: #4c8c2b"/>
+" clip-path="url(#pf8a98eeac5)" style="fill: #4c8c2b"/>
    </g>
    <g id="matplotlib.axis_1"/>
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
      <g id="line2d_1">
       <defs>
-       <path id="mcb7d296248" d="M 0 0 
+       <path id="mdab5362464" d="M 0 0 
 L -3.5 0 
 " style="stroke: #000000; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="171.852899" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="171.852899" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
@@ -6055,7 +6076,7 @@ z
     <g id="ytick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="153.357662" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="153.357662" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
@@ -6369,7 +6390,7 @@ z
     <g id="ytick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="134.862425" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="134.862425" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
@@ -6586,7 +6607,7 @@ z
     <g id="ytick_4">
      <g id="line2d_4">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="116.367187" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="116.367187" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
@@ -6900,7 +6921,7 @@ z
     <g id="ytick_5">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="97.87195" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="97.87195" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
@@ -7064,7 +7085,7 @@ z
     <g id="ytick_6">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="79.376713" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="79.376713" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
@@ -7245,7 +7266,7 @@ z
     <g id="ytick_7">
      <g id="line2d_7">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="60.881476" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="60.881476" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
@@ -8076,7 +8097,7 @@ L 409.466803 179.250994
 L 409.466803 164.454804 
 L 377.26 164.454804 
 z
-" clip-path="url(#p36bfaf6783)" style="fill: #2b6cb0"/>
+" clip-path="url(#p9458c514aa)" style="fill: #2b6cb0"/>
    </g>
    <g id="patch_16">
     <path d="M 377.26 160.755757 
@@ -8084,7 +8105,7 @@ L 441.673605 160.755757
 L 441.673605 145.959567 
 L 377.26 145.959567 
 z
-" clip-path="url(#p36bfaf6783)" style="fill: #2b6cb0"/>
+" clip-path="url(#p9458c514aa)" style="fill: #2b6cb0"/>
    </g>
    <g id="patch_17">
     <path d="M 377.26 142.26052 
@@ -8092,7 +8113,7 @@ L 473.880408 142.26052
 L 473.880408 127.46433 
 L 377.26 127.46433 
 z
-" clip-path="url(#p36bfaf6783)" style="fill: #2b6cb0"/>
+" clip-path="url(#p9458c514aa)" style="fill: #2b6cb0"/>
    </g>
    <g id="patch_18">
     <path d="M 377.26 123.765282 
@@ -8100,7 +8121,7 @@ L 506.087211 123.765282
 L 506.087211 108.969093 
 L 377.26 108.969093 
 z
-" clip-path="url(#p36bfaf6783)" style="fill: #2b6cb0"/>
+" clip-path="url(#p9458c514aa)" style="fill: #2b6cb0"/>
    </g>
    <g id="patch_19">
     <path d="M 377.26 105.270045 
@@ -8108,7 +8129,7 @@ L 538.294014 105.270045
 L 538.294014 90.473855 
 L 377.26 90.473855 
 z
-" clip-path="url(#p36bfaf6783)" style="fill: #2b6cb0"/>
+" clip-path="url(#p9458c514aa)" style="fill: #2b6cb0"/>
    </g>
    <g id="patch_20">
     <path d="M 377.26 86.774808 
@@ -8116,7 +8137,7 @@ L 570.500816 86.774808
 L 570.500816 71.978618 
 L 377.26 71.978618 
 z
-" clip-path="url(#p36bfaf6783)" style="fill: #2b6cb0"/>
+" clip-path="url(#p9458c514aa)" style="fill: #2b6cb0"/>
    </g>
    <g id="patch_21">
     <path d="M 377.26 68.279571 
@@ -8124,14 +8145,14 @@ L 602.707619 68.279571
 L 602.707619 53.483381 
 L 377.26 53.483381 
 z
-" clip-path="url(#p36bfaf6783)" style="fill: #2b6cb0"/>
+" clip-path="url(#p9458c514aa)" style="fill: #2b6cb0"/>
    </g>
    <g id="matplotlib.axis_3"/>
    <g id="matplotlib.axis_4">
     <g id="ytick_8">
      <g id="line2d_8">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="171.852899" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="171.852899" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
@@ -8476,7 +8497,7 @@ z
     <g id="ytick_9">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="153.357662" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="153.357662" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_10">
@@ -8714,7 +8735,7 @@ z
     <g id="ytick_10">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="134.862425" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="134.862425" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
@@ -8846,7 +8867,7 @@ z
     <g id="ytick_11">
      <g id="line2d_11">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="116.367187" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="116.367187" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_12">
@@ -8964,7 +8985,7 @@ z
     <g id="ytick_12">
      <g id="line2d_12">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="97.87195" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="97.87195" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_13">
@@ -9293,7 +9314,7 @@ z
     <g id="ytick_13">
      <g id="line2d_13">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="79.376713" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="79.376713" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_14">
@@ -9307,7 +9328,7 @@ z
     <g id="ytick_14">
      <g id="line2d_14">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="60.881476" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="60.881476" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_15">
@@ -9558,7 +9579,7 @@ L 715.106803 179.250994
 L 715.106803 164.454804 
 L 682.9 164.454804 
 z
-" clip-path="url(#p15981cdd46)" style="fill: #b0532b"/>
+" clip-path="url(#paca07148e5)" style="fill: #b0532b"/>
    </g>
    <g id="patch_28">
     <path d="M 682.9 160.755757 
@@ -9566,7 +9587,7 @@ L 747.313605 160.755757
 L 747.313605 145.959567 
 L 682.9 145.959567 
 z
-" clip-path="url(#p15981cdd46)" style="fill: #b0532b"/>
+" clip-path="url(#paca07148e5)" style="fill: #b0532b"/>
    </g>
    <g id="patch_29">
     <path d="M 682.9 142.26052 
@@ -9574,7 +9595,7 @@ L 779.520408 142.26052
 L 779.520408 127.46433 
 L 682.9 127.46433 
 z
-" clip-path="url(#p15981cdd46)" style="fill: #b0532b"/>
+" clip-path="url(#paca07148e5)" style="fill: #b0532b"/>
    </g>
    <g id="patch_30">
     <path d="M 682.9 123.765282 
@@ -9582,7 +9603,7 @@ L 811.727211 123.765282
 L 811.727211 108.969093 
 L 682.9 108.969093 
 z
-" clip-path="url(#p15981cdd46)" style="fill: #b0532b"/>
+" clip-path="url(#paca07148e5)" style="fill: #b0532b"/>
    </g>
    <g id="patch_31">
     <path d="M 682.9 105.270045 
@@ -9590,7 +9611,7 @@ L 843.934014 105.270045
 L 843.934014 90.473855 
 L 682.9 90.473855 
 z
-" clip-path="url(#p15981cdd46)" style="fill: #b0532b"/>
+" clip-path="url(#paca07148e5)" style="fill: #b0532b"/>
    </g>
    <g id="patch_32">
     <path d="M 682.9 86.774808 
@@ -9598,7 +9619,7 @@ L 876.140816 86.774808
 L 876.140816 71.978618 
 L 682.9 71.978618 
 z
-" clip-path="url(#p15981cdd46)" style="fill: #b0532b"/>
+" clip-path="url(#paca07148e5)" style="fill: #b0532b"/>
    </g>
    <g id="patch_33">
     <path d="M 682.9 68.279571 
@@ -9606,14 +9627,14 @@ L 908.347619 68.279571
 L 908.347619 53.483381 
 L 682.9 53.483381 
 z
-" clip-path="url(#p15981cdd46)" style="fill: #b0532b"/>
+" clip-path="url(#paca07148e5)" style="fill: #b0532b"/>
    </g>
    <g id="matplotlib.axis_5"/>
    <g id="matplotlib.axis_6">
     <g id="ytick_15">
      <g id="line2d_15">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="171.852899" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="171.852899" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_17">
@@ -9991,7 +10012,7 @@ z
     <g id="ytick_16">
      <g id="line2d_16">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="153.357662" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="153.357662" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_18">
@@ -10196,7 +10217,7 @@ z
     <g id="ytick_17">
      <g id="line2d_17">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="134.862425" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="134.862425" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_19">
@@ -10522,7 +10543,7 @@ z
     <g id="ytick_18">
      <g id="line2d_18">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="116.367187" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="116.367187" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_20">
@@ -10702,7 +10723,7 @@ z
     <g id="ytick_19">
      <g id="line2d_19">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="97.87195" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="97.87195" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_21">
@@ -10874,7 +10895,7 @@ z
     <g id="ytick_20">
      <g id="line2d_20">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="79.376713" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="79.376713" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_22">
@@ -11013,7 +11034,7 @@ z
     <g id="ytick_21">
      <g id="line2d_21">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="60.881476" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="60.881476" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_23">
@@ -11282,7 +11303,7 @@ L 103.826803 342.911619
 L 103.826803 328.115429 
 L 71.62 328.115429 
 z
-" clip-path="url(#pd263e840cc)" style="fill: #8a4fa8"/>
+" clip-path="url(#p020bbb8397)" style="fill: #8a4fa8"/>
    </g>
    <g id="patch_40">
     <path d="M 71.62 324.416382 
@@ -11290,7 +11311,7 @@ L 136.033605 324.416382
 L 136.033605 309.620192 
 L 71.62 309.620192 
 z
-" clip-path="url(#pd263e840cc)" style="fill: #8a4fa8"/>
+" clip-path="url(#p020bbb8397)" style="fill: #8a4fa8"/>
    </g>
    <g id="patch_41">
     <path d="M 71.62 305.921145 
@@ -11298,7 +11319,7 @@ L 168.240408 305.921145
 L 168.240408 291.124955 
 L 71.62 291.124955 
 z
-" clip-path="url(#pd263e840cc)" style="fill: #8a4fa8"/>
+" clip-path="url(#p020bbb8397)" style="fill: #8a4fa8"/>
    </g>
    <g id="patch_42">
     <path d="M 71.62 287.425907 
@@ -11306,7 +11327,7 @@ L 200.447211 287.425907
 L 200.447211 272.629718 
 L 71.62 272.629718 
 z
-" clip-path="url(#pd263e840cc)" style="fill: #8a4fa8"/>
+" clip-path="url(#p020bbb8397)" style="fill: #8a4fa8"/>
    </g>
    <g id="patch_43">
     <path d="M 71.62 268.93067 
@@ -11314,7 +11335,7 @@ L 232.654014 268.93067
 L 232.654014 254.13448 
 L 71.62 254.13448 
 z
-" clip-path="url(#pd263e840cc)" style="fill: #8a4fa8"/>
+" clip-path="url(#p020bbb8397)" style="fill: #8a4fa8"/>
    </g>
    <g id="patch_44">
     <path d="M 71.62 250.435433 
@@ -11322,7 +11343,7 @@ L 264.860816 250.435433
 L 264.860816 235.639243 
 L 71.62 235.639243 
 z
-" clip-path="url(#pd263e840cc)" style="fill: #8a4fa8"/>
+" clip-path="url(#p020bbb8397)" style="fill: #8a4fa8"/>
    </g>
    <g id="patch_45">
     <path d="M 71.62 231.940196 
@@ -11330,14 +11351,14 @@ L 297.067619 231.940196
 L 297.067619 217.144006 
 L 71.62 217.144006 
 z
-" clip-path="url(#pd263e840cc)" style="fill: #8a4fa8"/>
+" clip-path="url(#p020bbb8397)" style="fill: #8a4fa8"/>
    </g>
    <g id="matplotlib.axis_7"/>
    <g id="matplotlib.axis_8">
     <g id="ytick_22">
      <g id="line2d_22">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="335.513524" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="335.513524" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_25">
@@ -11612,7 +11633,7 @@ z
     <g id="ytick_23">
      <g id="line2d_23">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="317.018287" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="317.018287" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_26">
@@ -11732,7 +11753,7 @@ z
     <g id="ytick_24">
      <g id="line2d_24">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="298.52305" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="298.52305" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_27">
@@ -11838,7 +11859,7 @@ z
     <g id="ytick_25">
      <g id="line2d_25">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="280.027812" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="280.027812" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_28">
@@ -11949,7 +11970,7 @@ z
     <g id="ytick_26">
      <g id="line2d_26">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="261.532575" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="261.532575" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_29">
@@ -12136,7 +12157,7 @@ z
     <g id="ytick_27">
      <g id="line2d_27">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="243.037338" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="243.037338" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_30">
@@ -12152,7 +12173,7 @@ z
     <g id="ytick_28">
      <g id="line2d_28">
       <g>
-       <use xlink:href="#mcb7d296248" x="71.62" y="224.542101" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="71.62" y="224.542101" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_31">
@@ -12591,7 +12612,7 @@ L 409.466803 342.911619
 L 409.466803 328.115429 
 L 377.26 328.115429 
 z
-" clip-path="url(#pa3b19c711a)" style="fill: #c29b2c"/>
+" clip-path="url(#pedd11e8f71)" style="fill: #c29b2c"/>
    </g>
    <g id="patch_52">
     <path d="M 377.26 324.416382 
@@ -12599,7 +12620,7 @@ L 441.673605 324.416382
 L 441.673605 309.620192 
 L 377.26 309.620192 
 z
-" clip-path="url(#pa3b19c711a)" style="fill: #c29b2c"/>
+" clip-path="url(#pedd11e8f71)" style="fill: #c29b2c"/>
    </g>
    <g id="patch_53">
     <path d="M 377.26 305.921145 
@@ -12607,7 +12628,7 @@ L 473.880408 305.921145
 L 473.880408 291.124955 
 L 377.26 291.124955 
 z
-" clip-path="url(#pa3b19c711a)" style="fill: #c29b2c"/>
+" clip-path="url(#pedd11e8f71)" style="fill: #c29b2c"/>
    </g>
    <g id="patch_54">
     <path d="M 377.26 287.425907 
@@ -12615,7 +12636,7 @@ L 506.087211 287.425907
 L 506.087211 272.629718 
 L 377.26 272.629718 
 z
-" clip-path="url(#pa3b19c711a)" style="fill: #c29b2c"/>
+" clip-path="url(#pedd11e8f71)" style="fill: #c29b2c"/>
    </g>
    <g id="patch_55">
     <path d="M 377.26 268.93067 
@@ -12623,7 +12644,7 @@ L 538.294014 268.93067
 L 538.294014 254.13448 
 L 377.26 254.13448 
 z
-" clip-path="url(#pa3b19c711a)" style="fill: #c29b2c"/>
+" clip-path="url(#pedd11e8f71)" style="fill: #c29b2c"/>
    </g>
    <g id="patch_56">
     <path d="M 377.26 250.435433 
@@ -12631,7 +12652,7 @@ L 570.500816 250.435433
 L 570.500816 235.639243 
 L 377.26 235.639243 
 z
-" clip-path="url(#pa3b19c711a)" style="fill: #c29b2c"/>
+" clip-path="url(#pedd11e8f71)" style="fill: #c29b2c"/>
    </g>
    <g id="patch_57">
     <path d="M 377.26 231.940196 
@@ -12639,14 +12660,14 @@ L 602.707619 231.940196
 L 602.707619 217.144006 
 L 377.26 217.144006 
 z
-" clip-path="url(#pa3b19c711a)" style="fill: #c29b2c"/>
+" clip-path="url(#pedd11e8f71)" style="fill: #c29b2c"/>
    </g>
    <g id="matplotlib.axis_9"/>
    <g id="matplotlib.axis_10">
     <g id="ytick_29">
      <g id="line2d_29">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="335.513524" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="335.513524" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_33">
@@ -13216,7 +13237,7 @@ z
     <g id="ytick_30">
      <g id="line2d_30">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="317.018287" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="317.018287" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_34">
@@ -13388,7 +13409,7 @@ z
     <g id="ytick_31">
      <g id="line2d_31">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="298.52305" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="298.52305" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_35">
@@ -13403,7 +13424,7 @@ z
     <g id="ytick_32">
      <g id="line2d_32">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="280.027812" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="280.027812" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_36">
@@ -13551,7 +13572,7 @@ z
     <g id="ytick_33">
      <g id="line2d_33">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="261.532575" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="261.532575" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_37">
@@ -13999,7 +14020,7 @@ z
     <g id="ytick_34">
      <g id="line2d_34">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="243.037338" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="243.037338" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_38">
@@ -14238,7 +14259,7 @@ z
     <g id="ytick_35">
      <g id="line2d_35">
       <g>
-       <use xlink:href="#mcb7d296248" x="377.26" y="224.542101" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="377.26" y="224.542101" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_39">
@@ -14561,7 +14582,7 @@ L 715.106803 342.911619
 L 715.106803 328.115429 
 L 682.9 328.115429 
 z
-" clip-path="url(#p78e0f4c5e9)" style="fill: #2ba8a0"/>
+" clip-path="url(#pef103dc39b)" style="fill: #2ba8a0"/>
    </g>
    <g id="patch_64">
     <path d="M 682.9 324.416382 
@@ -14569,7 +14590,7 @@ L 747.313605 324.416382
 L 747.313605 309.620192 
 L 682.9 309.620192 
 z
-" clip-path="url(#p78e0f4c5e9)" style="fill: #2ba8a0"/>
+" clip-path="url(#pef103dc39b)" style="fill: #2ba8a0"/>
    </g>
    <g id="patch_65">
     <path d="M 682.9 305.921145 
@@ -14577,7 +14598,7 @@ L 779.520408 305.921145
 L 779.520408 291.124955 
 L 682.9 291.124955 
 z
-" clip-path="url(#p78e0f4c5e9)" style="fill: #2ba8a0"/>
+" clip-path="url(#pef103dc39b)" style="fill: #2ba8a0"/>
    </g>
    <g id="patch_66">
     <path d="M 682.9 287.425907 
@@ -14585,7 +14606,7 @@ L 811.727211 287.425907
 L 811.727211 272.629718 
 L 682.9 272.629718 
 z
-" clip-path="url(#p78e0f4c5e9)" style="fill: #2ba8a0"/>
+" clip-path="url(#pef103dc39b)" style="fill: #2ba8a0"/>
    </g>
    <g id="patch_67">
     <path d="M 682.9 268.93067 
@@ -14593,7 +14614,7 @@ L 843.934014 268.93067
 L 843.934014 254.13448 
 L 682.9 254.13448 
 z
-" clip-path="url(#p78e0f4c5e9)" style="fill: #2ba8a0"/>
+" clip-path="url(#pef103dc39b)" style="fill: #2ba8a0"/>
    </g>
    <g id="patch_68">
     <path d="M 682.9 250.435433 
@@ -14601,7 +14622,7 @@ L 876.140816 250.435433
 L 876.140816 235.639243 
 L 682.9 235.639243 
 z
-" clip-path="url(#p78e0f4c5e9)" style="fill: #2ba8a0"/>
+" clip-path="url(#pef103dc39b)" style="fill: #2ba8a0"/>
    </g>
    <g id="patch_69">
     <path d="M 682.9 231.940196 
@@ -14609,14 +14630,14 @@ L 908.347619 231.940196
 L 908.347619 217.144006 
 L 682.9 217.144006 
 z
-" clip-path="url(#p78e0f4c5e9)" style="fill: #2ba8a0"/>
+" clip-path="url(#pef103dc39b)" style="fill: #2ba8a0"/>
    </g>
    <g id="matplotlib.axis_11"/>
    <g id="matplotlib.axis_12">
     <g id="ytick_36">
      <g id="line2d_36">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="335.513524" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="335.513524" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_41">
@@ -14821,7 +14842,7 @@ z
     <g id="ytick_37">
      <g id="line2d_37">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="317.018287" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="317.018287" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_42">
@@ -14835,7 +14856,7 @@ z
     <g id="ytick_38">
      <g id="line2d_38">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="298.52305" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="298.52305" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_43">
@@ -15143,7 +15164,7 @@ z
     <g id="ytick_39">
      <g id="line2d_39">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="280.027812" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="280.027812" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_44">
@@ -15425,7 +15446,7 @@ z
     <g id="ytick_40">
      <g id="line2d_40">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="261.532575" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="261.532575" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_45">
@@ -15746,7 +15767,7 @@ z
     <g id="ytick_41">
      <g id="line2d_41">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="243.037338" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="243.037338" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_46">
@@ -15942,7 +15963,7 @@ z
     <g id="ytick_42">
      <g id="line2d_42">
       <g>
-       <use xlink:href="#mcb7d296248" x="682.9" y="224.542101" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#mdab5362464" x="682.9" y="224.542101" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_47">
@@ -17019,22 +17040,22 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pab87beef83">
+  <clipPath id="pf8a98eeac5">
    <rect x="71.62" y="47.195" width="236.72" height="138.344375"/>
   </clipPath>
-  <clipPath id="p36bfaf6783">
+  <clipPath id="p9458c514aa">
    <rect x="377.26" y="47.195" width="236.72" height="138.344375"/>
   </clipPath>
-  <clipPath id="p15981cdd46">
+  <clipPath id="paca07148e5">
    <rect x="682.9" y="47.195" width="236.72" height="138.344375"/>
   </clipPath>
-  <clipPath id="pd263e840cc">
+  <clipPath id="p020bbb8397">
    <rect x="71.62" y="210.855625" width="236.72" height="138.344375"/>
   </clipPath>
-  <clipPath id="pa3b19c711a">
+  <clipPath id="pedd11e8f71">
    <rect x="377.26" y="210.855625" width="236.72" height="138.344375"/>
   </clipPath>
-  <clipPath id="p78e0f4c5e9">
+  <clipPath id="pef103dc39b">
    <rect x="682.9" y="210.855625" width="236.72" height="138.344375"/>
   </clipPath>
  </defs>
@@ -17085,7 +17106,7 @@ Kを増やせば必ず下がるため「どこで頭打ちか（肘）」で止�
 <div id="tip"></div>
 
 <script>
-const NODES = [{"i": 0, "title": "「海外でも国民審査を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000030", "blend": "#c29b2c", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "nx": 0.855, "ny": 0.886}, {"i": 1, "title": "結婚の自由をすべての人に訴訟（同性婚訴訟）", "url": "https://www.call4.jp/info.php?type=items&id=I0000031", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "nx": 0.23, "ny": 0.946}, {"i": 2, "title": "カメルーン人男性死亡事件国賠訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000041", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "nx": 0.89, "ny": 0.583}, {"i": 3, "title": "在外選挙権確認訴訟【アーカイブケース】", "url": "https://www.call4.jp/info.php?type=items&id=I0000046", "blend": "#c29b2c", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "nx": 0.882, "ny": 0.925}, {"i": 4, "title": "レペタ訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000049", "blend": "#6f9170", "ent": 0.6, "nmf": [0.0, 0.282, 0.0, 0.0, 0.451, 0.267], "nx": 0.909, "ny": 0.881}, {"i": 5, "title": "海は誰のもの？沖縄県への「開発認可取消」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000050", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.493, "ny": 0.08}, {"i": 6, "title": "警察庁が保有する秘密個人情報ファイル簿の情報公開訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000052", "blend": "#316cac", "ent": 0.13, "nmf": [0.0, 0.951, 0.0, 0.02, 0.027, 0.002], "nx": 0.022, "ny": 0.547}, {"i": 7, "title": "鬼怒川大水害訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000053", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.445, "ny": 0.063}, {"i": 8, "title": "ネパール人取調べ中死亡国賠訴訟事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000054", "blend": "#77765c", "ent": 0.38, "nmf": [0.0, 0.0, 0.577, 0.0, 0.0, 0.423], "nx": 0.243, "ny": 0.416}, {"i": 9, "title": "マクリーン事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000056", "blend": "#957846", "ent": 0.7, "nmf": [0.07, 0.202, 0.328, 0.003, 0.398, 0.0], "nx": 0.691, "ny": 0.852}, {"i": 10, "title": "ジャーナリストに渡航の自由を！訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000060", "blend": "#967435", "ent": 0.74, "nmf": [0.245, 0.018, 0.418, 0.05, 0.259, 0.009], "nx": 0.704, "ny": 0.779}, {"i": 11, "title": "野村ダム緊急放流による水害訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000061", "blend": "#578232", "ent": 0.33, "nmf": [0.817, 0.053, 0.13, 0.0, 0.0, 0.0], "nx": 0.603, "ny": 0.081}, {"i": 12, "title": "羽田空港新ルート設定の取消訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000062", "blend": "#4d8b2b", "ent": 0.03, "nmf": [0.989, 0.0, 0.011, 0.0, 0.0, 0.0], "nx": 0.515, "ny": 0.052}, {"i": 13, "title": "クルド難民収容者暴行被害国賠訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000063", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "nx": 0.876, "ny": 0.635}, {"i": 14, "title": "「セックスワークにも給付金を」訴訟 【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000064", "blend": "#838534", "ent": 0.66, "nmf": [0.472, 0.0, 0.119, 0.074, 0.332, 0.003], "nx": 0.728, "ny": 0.55}, {"i": 15, "title": "「同性パートナーにも犯罪被害の遺族給付金を」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000067", "blend": "#8652a7", "ent": 0.08, "nmf": [0.0, 0.0, 0.0, 0.966, 0.0, 0.035], "nx": 0.204, "ny": 0.914}, {"i": 16, "title": "「鳥は空に魚は水に人は社会に」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000068", "blend": "#7f6e4e", "ent": 0.76, "nmf": [0.237, 0.0, 0.444, 0.144, 0.024, 0.152], "nx": 0.477, "ny": 0.635}, {"i": 17, "title": "「LINE」を用いた住民票請求サービスの適法性確認請求事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000069", "blend": "#648a31", "ent": 0.46, "nmf": [0.727, 0.045, 0.052, 0.0, 0.176, 0.0], "nx": 0.629, "ny": 0.306}, {"i": 18, "title": "「人間を育てる教員に、人間らしい働き方を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000070", "blend": "#6f823f", "ent": 0.57, "nmf": [0.613, 0.0, 0.032, 0.166, 0.189, 0.0], "nx": 0.57, "ny": 0.429}, {"i": 19, "title": "コロナ禍、日本社会の理不尽を問う（コロナ特措法違憲訴訟）【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000071", "blend": "#728f40", "ent": 0.71, "nmf": [0.471, 0.027, 0.024, 0.036, 0.327, 0.116], "nx": 0.714, "ny": 0.505}, {"i": 20, "title": "行政による民泊事業届出拒否の適法性を問う", "url": "https://www.call4.jp/info.php?type=items&id=I0000072", "blend": "#4b7c62", "ent": 0.66, "nmf": [0.532, 0.304, 0.023, 0.097, 0.02, 0.025], "nx": 0.409, "ny": 0.311}, {"i": 21, "title": "オペなしで！戸籍上も「俺」になりたい裁判【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000075", "blend": "#935a8d", "ent": 0.41, "nmf": [0.0, 0.0, 0.09, 0.772, 0.124, 0.014], "nx": 0.31, "ny": 0.93}, {"i": 22, "title": "「琉球人のご先祖の遺骨返還を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000076", "blend": "#82872b", "ent": 0.56, "nmf": [0.516, 0.0, 0.165, 0.0, 0.319, 0.0], "nx": 0.663, "ny": 0.544}, {"i": 23, "title": "教育公務員の兼業のあり方を問う訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000078", "blend": "#717a52", "ent": 0.85, "nmf": [0.412, 0.015, 0.167, 0.2, 0.104, 0.102], "nx": 0.512, "ny": 0.659}, {"i": 24, "title": "地方議会に横行する「少数派議員潰し」に立ち向かう訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000080", "blend": "#6c8b48", "ent": 0.71, "nmf": [0.431, 0.172, 0.019, 0.0, 0.321, 0.056], "nx": 0.774, "ny": 0.488}, {"i": 25, "title": "市街地でＢＳＬ４の研究をしないでください", "url": "https://www.call4.jp/info.php?type=items&id=I0000081", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.419, "ny": 0.0}, {"i": 26, "title": "隠される「国の事故調査」プロセスを明らかに！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000082", "blend": "#387b82", "ent": 0.56, "nmf": [0.323, 0.563, 0.009, 0.013, 0.0, 0.093], "nx": 0.243, "ny": 0.523}, {"i": 27, "title": "ベトナム人技能実習生リンさんの死体遺棄罪刑事事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000083", "blend": "#379e96", "ent": 0.31, "nmf": [0.044, 0.0, 0.037, 0.061, 0.0, 0.858], "nx": 0.943, "ny": 0.19}, {"i": 28, "title": "大川原化工機事件 〜無実で約１年勾留「人質司法」問題をただす〜【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000084", "blend": "#2ba8a0", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 0.0, 1.0], "nx": 0.992, "ny": 0.319}, {"i": 29, "title": "「人種差別を許さない」訴訟 ～警察官による母子の不当聴取と個人情報の漏洩～", "url": "https://www.call4.jp/info.php?type=items&id=I0000085", "blend": "#8d6b48", "ent": 0.66, "nmf": [0.071, 0.017, 0.618, 0.05, 0.061, 0.183], "nx": 0.607, "ny": 0.558}, {"i": 30, "title": "優生保護法に奪われた人生を取り戻す裁判【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000086", "blend": "#756f77", "ent": 0.79, "nmf": [0.193, 0.0, 0.128, 0.44, 0.06, 0.18], "nx": 0.37, "ny": 0.795}, {"i": 31, "title": "赤ちゃん取り違え被害者に「出自を知る権利を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000087", "blend": "#737566", "ent": 0.93, "nmf": [0.189, 0.049, 0.251, 0.221, 0.078, 0.212], "nx": 0.391, "ny": 0.708}, {"i": 32, "title": "首里城火災の管理責任を問う住民訴訟〜責任者出てこい！〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000088", "blend": "#4d8a3a", "ent": 0.37, "nmf": [0.81, 0.022, 0.06, 0.0, 0.0, 0.108], "nx": 0.526, "ny": 0.129}, {"i": 33, "title": "過去の開示請求に対する意思決定プロセスを明らかに！〜入管の秘密主義を問う〜訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000089", "blend": "#3769a3", "ent": 0.17, "nmf": [0.0, 0.906, 0.094, 0.0, 0.0, 0.0], "nx": 0.033, "ny": 0.422}, {"i": 34, "title": "司法の独立を脅かす岡口裁判官の罷免訴追に反対します！【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000090", "blend": "#609666", "ent": 0.74, "nmf": [0.244, 0.02, 0.0, 0.07, 0.256, 0.41], "nx": 0.706, "ny": 0.316}, {"i": 35, "title": "イラク戦争検証報告書情報公開訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000092", "blend": "#2b6cb0", "ent": -0.0, "nmf": [0.0, 1.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.0, "ny": 0.469}, {"i": 36, "title": "日米合同委員会議事録情報公開訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000093", "blend": "#386fa4", "ent": 0.36, "nmf": [0.022, 0.842, 0.0, 0.047, 0.058, 0.032], "nx": 0.091, "ny": 0.558}, {"i": 37, "title": "ウィシュマさん名古屋入管死亡事件", "url": "https://www.call4.jp/info.php?type=items&id=I0000094", "blend": "#9b5c3d", "ent": 0.29, "nmf": [0.0, 0.057, 0.849, 0.0, 0.0, 0.094], "nx": 0.813, "ny": 0.559}, {"i": 38, "title": "『宮本から君へ』助成金不交付決定取消訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000095", "blend": "#598863", "ent": 0.81, "nmf": [0.416, 0.084, 0.0, 0.144, 0.124, 0.232], "nx": 0.562, "ny": 0.346}, {"i": 39, "title": "「日本の入管収容は国際人権法違反」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000096", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "nx": 0.927, "ny": 0.625}, {"i": 40, "title": "財務省改ざん事件に真実を！〜改ざんの経緯を明らかに〜訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000097", "blend": "#2b6cb0", "ent": -0.0, "nmf": [0.0, 1.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.029, "ny": 0.503}, {"i": 41, "title": "不当な補正要求の繰り返しは開示請求権の侵害だ！〜財務省の姿勢を問う〜訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000100", "blend": "#2b6cb0", "ent": -0.0, "nmf": [0.0, 1.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.059, "ny": 0.483}, {"i": 42, "title": "大阪市はカジノ事業者との協議録を開示せよ！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000102", "blend": "#327293", "ent": 0.29, "nmf": [0.216, 0.783, 0.0, 0.0, 0.0, 0.0], "nx": 0.157, "ny": 0.545}, {"i": 43, "title": "公安警察による市民運動の監視を許さない。市民の「もの言う」自由を守るための訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000104", "blend": "#388675", "ent": 0.6, "nmf": [0.413, 0.366, 0.0, 0.0, 0.0, 0.221], "nx": 0.391, "ny": 0.413}, {"i": 44, "title": "「子どもと向き合う時間がほしい」児童相談所の労働環境改善を！訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000105", "blend": "#707241", "ent": 0.55, "nmf": [0.568, 0.0, 0.25, 0.182, 0.0, 0.0], "nx": 0.45, "ny": 0.565}, {"i": 45, "title": "本人の意思を無視して日本国籍を一方的にはく奪する「国籍法11条1項は違憲」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000106", "blend": "#a57050", "ent": 0.7, "nmf": [0.058, 0.0, 0.265, 0.299, 0.378, 0.0], "nx": 0.599, "ny": 0.856}, {"i": 46, "title": "新宿留置場事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000109", "blend": "#6c7e64", "ent": 0.44, "nmf": [0.025, 0.0, 0.486, 0.0, 0.0, 0.49], "nx": 0.199, "ny": 0.352}, {"i": 47, "title": "日米同性カップル在留資格訴訟 〜家族そろって日本で暮らすために〜【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000111", "blend": "#925187", "ent": 0.4, "nmf": [0.0, 0.018, 0.241, 0.724, 0.017, 0.0], "nx": 0.28, "ny": 0.852}, {"i": 48, "title": "家事労働者にも労災認定を！訴訟 【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000112", "blend": "#7f6460", "ent": 0.63, "nmf": [0.314, 0.0, 0.26, 0.414, 0.0, 0.011], "nx": 0.441, "ny": 0.752}, {"i": 49, "title": "受刑者にも適切な医療を！刑務所医療過誤事件", "url": "https://www.call4.jp/info.php?type=items&id=I0000114", "blend": "#7a7262", "ent": 0.52, "nmf": [0.0, 0.0, 0.529, 0.101, 0.0, 0.37], "nx": 0.265, "ny": 0.364}, {"i": 50, "title": "市民との約束を無視して進む「新焼却炉建設」を止める訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000115", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.43, "ny": 0.091}, {"i": 51, "title": "「会計年度任用職員にも労働基本権を！」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000116", "blend": "#8e6f48", "ent": 0.8, "nmf": [0.263, 0.02, 0.31, 0.211, 0.196, 0.0], "nx": 0.567, "ny": 0.759}, {"i": 52, "title": "立候補年齢引き下げ訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000117", "blend": "#bd9a2b", "ent": 0.09, "nmf": [0.039, 0.0, 0.0, 0.0, 0.961, 0.0], "nx": 0.747, "ny": 0.971}, {"i": 53, "title": "“コロナ感染者立ち寄りで店名公表”は違法！訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000119", "blend": "#4b8c4f", "ent": 0.53, "nmf": [0.683, 0.034, 0.0, 0.074, 0.016, 0.192], "nx": 0.537, "ny": 0.234}, {"i": 54, "title": "神宮外苑を守ろう訴訟｜100年の歴史と3000本超の樹木を未来へ", "url": "https://www.call4.jp/info.php?type=items&id=I0000120", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.393, "ny": 0.143}, {"i": 55, "title": "神戸石炭訴訟｜気候変動と大気汚染を防ぐため、石炭火力発電所新設は取り消しを！【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000121", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.476, "ny": 0.123}, {"i": 56, "title": "県知事の公務での護国神社参拝取りやめをー政教分離原則の違反を問うー", "url": "https://www.call4.jp/info.php?type=items&id=I0000123", "blend": "#6c8758", "ent": 0.91, "nmf": [0.324, 0.039, 0.103, 0.11, 0.202, 0.222], "nx": 0.648, "ny": 0.413}, {"i": 57, "title": "恵庭市「障害者虐待」隠ぺい事件 〜元市議への忖度による放置を許さない〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000124", "blend": "#73714e", "ent": 0.79, "nmf": [0.384, 0.022, 0.309, 0.175, 0.016, 0.094], "nx": 0.465, "ny": 0.692}, {"i": 58, "title": "婚外子国籍訴訟 —国籍法3条1項は違憲—【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000125", "blend": "#9a7171", "ent": 0.57, "nmf": [0.0, 0.082, 0.024, 0.477, 0.417, 0.0], "nx": 0.532, "ny": 0.891}, {"i": 59, "title": "人種差別的な職務質問をやめさせよう！訴訟｜#STOPレイシャルプロファイリング", "url": "https://www.call4.jp/info.php?type=items&id=I0000128", "blend": "#b06d36", "ent": 0.57, "nmf": [0.011, 0.008, 0.543, 0.074, 0.355, 0.01], "nx": 0.769, "ny": 0.799}, {"i": 60, "title": "「共働き妻を亡くした夫にも遺族年金を」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000129", "blend": "#895d7f", "ent": 0.56, "nmf": [0.136, 0.007, 0.121, 0.669, 0.066, 0.0], "nx": 0.346, "ny": 0.884}, {"i": 61, "title": "日本の「黙秘権」を問う訴訟 〜56時間にわたる侮辱的な取調べは違法〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000130", "blend": "#2ba7a0", "ent": 0.02, "nmf": [0.0, 0.0, 0.0, 0.007, 0.0, 0.993], "nx": 0.953, "ny": 0.252}, {"i": 62, "title": "夫婦別姓も選べる社会へ！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000131", "blend": "#98667b", "ent": 0.57, "nmf": [0.016, 0.017, 0.069, 0.613, 0.273, 0.012], "nx": 0.42, "ny": 0.931}, {"i": 63, "title": "「わたしの体は母体じゃない」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000132", "blend": "#9a7d5d", "ent": 0.73, "nmf": [0.049, 0.0, 0.083, 0.311, 0.46, 0.097], "nx": 0.612, "ny": 0.782}, {"i": 64, "title": "「イチョウと住民自治を守ろう」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000133", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.455, "ny": 0.012}, {"i": 65, "title": "わたしたちはもう待てない〜同性婚仙台家事審判事件", "url": "https://www.call4.jp/info.php?type=items&id=I0000134", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "nx": 0.262, "ny": 0.904}, {"i": 66, "title": "難民帰化訴訟〜真に社会の一員へ〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000135", "blend": "#aa6237", "ent": 0.53, "nmf": [0.045, 0.0, 0.667, 0.102, 0.185, 0.0], "nx": 0.809, "ny": 0.72}, {"i": 67, "title": "地域による報酬格差は違憲！裁判官の独立と良心を守る訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000136", "blend": "#70836a", "ent": 0.82, "nmf": [0.254, 0.027, 0.0, 0.284, 0.227, 0.208], "nx": 0.626, "ny": 0.474}, {"i": 68, "title": "既婚を理由に法的性別取扱い変更を認めないのは違憲！「なんでうちらが離婚せなあかんの？」裁判", "url": "https://www.call4.jp/info.php?type=items&id=I0000139", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "nx": 0.267, "ny": 0.961}, {"i": 69, "title": "要件を満たす島民の請求を市長が拒否！石垣島住民投票の権利を問う裁判【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000141", "blend": "#728f2e", "ent": 0.41, "nmf": [0.662, 0.0, 0.0, 0.027, 0.311, 0.0], "nx": 0.691, "ny": 0.444}, {"i": 70, "title": "若者の志と人生を尊重する地域枠医師制度のために ～高額違約金は違法！～", "url": "https://www.call4.jp/info.php?type=items&id=I0000142", "blend": "#607c4b", "ent": 0.6, "nmf": [0.643, 0.065, 0.048, 0.194, 0.05, 0.0], "nx": 0.46, "ny": 0.396}, {"i": 71, "title": "リニアトンネル工事で街を壊さないで 〜平穏生活権を侵害する大深度法の違憲性を問う〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000143", "blend": "#4e8930", "ent": 0.1, "nmf": [0.957, 0.0, 0.0, 0.043, 0.0, 0.0], "nx": 0.347, "ny": 0.137}, {"i": 72, "title": "「学術会議の独立性」を市民で守ろう ～会員任命拒否理由の情報公開訴訟～", "url": "https://www.call4.jp/info.php?type=items&id=I0000146", "blend": "#40768c", "ent": 0.63, "nmf": [0.161, 0.654, 0.033, 0.027, 0.064, 0.062], "nx": 0.15, "ny": 0.599}, {"i": 73, "title": "おかゆ強制はおかしい！刑事施設における不要な食事制限の撤廃を求める裁判", "url": "https://www.call4.jp/info.php?type=items&id=I0000148", "blend": "#80704e", "ent": 0.47, "nmf": [0.074, 0.0, 0.624, 0.0, 0.0, 0.302], "nx": 0.373, "ny": 0.451}, {"i": 74, "title": "オープンコート訴訟 —法廷の“秩序”を問う—", "url": "https://www.call4.jp/info.php?type=items&id=I0000149", "blend": "#5f9b7e", "ent": 0.55, "nmf": [0.0, 0.029, 0.0, 0.081, 0.298, 0.592], "nx": 0.821, "ny": 0.272}, {"i": 75, "title": "政府が開示を拒否する、安倍元首相の「国葬文書」開示を！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000150", "blend": "#3d7592", "ent": 0.5, "nmf": [0.137, 0.729, 0.0, 0.02, 0.083, 0.03], "nx": 0.18, "ny": 0.583}, {"i": 76, "title": "「18歳未満にも選挙で応援する自由を」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000151", "blend": "#ba9a2b", "ent": 0.14, "nmf": [0.066, 0.0, 0.0, 0.0, 0.934, 0.0], "nx": 0.779, "ny": 1.0}, {"i": 77, "title": "保育料を経費に！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000152", "blend": "#8b804e", "ent": 0.61, "nmf": [0.329, 0.0, 0.001, 0.279, 0.391, 0.0], "nx": 0.667, "ny": 0.618}, {"i": 78, "title": "「無効のはずの廃園条例、なぜ続く？」— 子どもたちの保育環境を守るための訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000154", "blend": "#55823f", "ent": 0.27, "nmf": [0.833, 0.0, 0.0, 0.158, 0.0, 0.009], "nx": 0.422, "ny": 0.242}, {"i": 79, "title": "人質司法に終止符を！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000155", "blend": "#35a49a", "ent": 0.19, "nmf": [0.0, 0.0, 0.0, 0.03, 0.053, 0.916], "nx": 0.896, "ny": 0.239}, {"i": 80, "title": "病院でよく出る薬を、薬局ですぐ買える「零売」を守る訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000156", "blend": "#72843f", "ent": 0.77, "nmf": [0.468, 0.0, 0.181, 0.055, 0.178, 0.117], "nx": 0.567, "ny": 0.519}, {"i": 81, "title": "「取調べ拒否」Tシャツを奪うな！―黙秘権と表現の自由を守る訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000157", "blend": "#2ba8a0", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 0.0, 1.0], "nx": 0.957, "ny": 0.296}, {"i": 82, "title": "日本でもマリアージュしたいねん～海外で成立した同性婚の受理を求める裁判～", "url": "https://www.call4.jp/info.php?type=items&id=I0000159", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "nx": 0.217, "ny": 0.877}, {"i": 83, "title": "刑務所での強制ひげ剃りと懲罰 ～医師の所見を無視した処遇の違法性を問う手書き裁判～【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000160", "blend": "#7a7a50", "ent": 0.65, "nmf": [0.12, 0.0, 0.486, 0.0, 0.07, 0.323], "nx": 0.274, "ny": 0.4}, {"i": 84, "title": "引越しで選挙権が制限されない未来へ！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000164", "blend": "#c19a2b", "ent": 0.01, "nmf": [0.002, 0.0, 0.0, 0.0, 0.998, 0.0], "nx": 0.8, "ny": 0.938}, {"i": 85, "title": "「ヒグマハンターの猟銃を取り戻す」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000165", "blend": "#488c53", "ent": 0.51, "nmf": [0.666, 0.027, 0.0, 0.077, 0.0, 0.229], "nx": 0.505, "ny": 0.245}, {"i": 86, "title": "気候正義訴訟－Climate Justice－", "url": "https://www.call4.jp/info.php?type=items&id=I0000167", "blend": "#688539", "ent": 0.58, "nmf": [0.677, 0.0, 0.065, 0.089, 0.142, 0.026], "nx": 0.544, "ny": 0.399}, {"i": 87, "title": "平和の島であるために ― 馬毛島の自然と自治を守る裁判", "url": "https://www.call4.jp/info.php?type=items&id=I0000169", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "nx": 0.39, "ny": 0.047}, {"i": 88, "title": "再開発は誰のため？いわき市の「不公正な行政契約は違法」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000170", "blend": "#488838", "ent": 0.18, "nmf": [0.898, 0.102, 0.0, 0.0, 0.0, 0.0], "nx": 0.471, "ny": 0.187}, {"i": 89, "title": "入管職員による人種差別と暴行事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000171", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "nx": 0.93, "ny": 0.567}, {"i": 90, "title": "袴田巌さん国家賠償請求訴訟 ―半世紀のえん罪、国の責任を問う", "url": "https://www.call4.jp/info.php?type=items&id=I0000172", "blend": "#2ba69f", "ent": 0.08, "nmf": [0.006, 0.022, 0.0, 0.0, 0.0, 0.971], "nx": 1.0, "ny": 0.248}, {"i": 91, "title": "【大川原化工機事件】裁判官の責任を問う訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000173", "blend": "#2ca79e", "ent": 0.04, "nmf": [0.0, 0.0, 0.0, 0.0, 0.012, 0.988], "nx": 0.909, "ny": 0.297}, {"i": 92, "title": "不透明な契約・区長の教育行政介入を問う住民訴訟 〜文京区の教育は誰のもの？", "url": "https://www.call4.jp/info.php?type=items&id=I0000176", "blend": "#498936", "ent": 0.17, "nmf": [0.913, 0.087, 0.0, 0.0, 0.0, 0.0], "nx": 0.572, "ny": 0.163}, {"i": 93, "title": "私として生きる権利を求めて。アイコさん難民不認定取消訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000178", "blend": "#a85435", "ent": 0.23, "nmf": [0.016, 0.028, 0.902, 0.053, 0.0, 0.0], "nx": 0.801, "ny": 0.621}, {"i": 94, "title": "海外有権者の一票を守れ！在外選挙制度を問う訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000179", "blend": "#c29b2c", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "nx": 0.836, "ny": 0.946}];
+const NODES = [{"i": 0, "title": "「海外でも国民審査を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000030", "blend": "#c29b2c", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "words": ["国民_審査", "国民_審査権", "審査権", "在外", "海外_国民", "国民_認める"], "nx": 0.855, "ny": 0.886}, {"i": 1, "title": "結婚の自由をすべての人に訴訟（同性婚訴訟）", "url": "https://www.call4.jp/info.php?type=items&id=I0000031", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "words": ["法律上_性別", "同性", "一斉", "結婚", "結婚_自由", "自由_すべて"], "nx": 0.23, "ny": 0.946}, {"i": 2, "title": "カメルーン人男性死亡事件国賠訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000041", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "words": ["午前", "ベッド", "入管_職員", "入管", "診療", "到着"], "nx": 0.89, "ny": 0.583}, {"i": 3, "title": "在外選挙権確認訴訟【アーカイブケース】", "url": "https://www.call4.jp/info.php?type=items&id=I0000046", "blend": "#c29b2c", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "words": ["選挙区", "選挙_おく", "選挙", "議員", "選挙権", "参議院"], "nx": 0.882, "ny": 0.925}, {"i": 4, "title": "レペタ訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000049", "blend": "#6f9170", "ent": 0.6, "nmf": [0.0, 0.282, 0.0, 0.0, 0.451, 0.267], "words": ["メモ_取る", "メモ", "取る", "アーカイブ_プロジェクト", "取れる", "退ける"], "nx": 0.909, "ny": 0.881}, {"i": 5, "title": "海は誰のもの？沖縄県への「開発認可取消」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000050", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["沖縄県", "認可", "開発", "ホテル", "沖縄", "自然"], "nx": 0.493, "ny": 0.08}, {"i": 6, "title": "警察庁が保有する秘密個人情報ファイル簿の情報公開訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000052", "blend": "#316cac", "ent": 0.13, "nmf": [0.0, 0.951, 0.0, 0.02, 0.027, 0.002], "words": ["ファイル", "秘密", "個人情報", "警察庁", "保有", "開示_情報"], "nx": 0.022, "ny": 0.547}, {"i": 7, "title": "鬼怒川大水害訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000053", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["水害", "堤防", "地区", "河川", "豪雨", "治水"], "nx": 0.445, "ny": 0.063}, {"i": 8, "title": "ネパール人取調べ中死亡国賠訴訟事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000054", "blend": "#77765c", "ent": 0.38, "nmf": [0.0, 0.0, 0.577, 0.0, 0.0, 0.423], "words": ["アルジュン", "ネパール", "戒具", "手錠", "留置", "保護室"], "nx": 0.243, "ny": 0.416}, {"i": 9, "title": "マクリーン事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000056", "blend": "#957846", "ent": 0.7, "nmf": [0.07, 0.202, 0.328, 0.003, 0.398, 0.0], "words": ["期間_更新", "在留_期間", "法務_大臣", "在留", "政治活動", "非難"], "nx": 0.691, "ny": 0.852}, {"i": 10, "title": "ジャーナリストに渡航の自由を！訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000060", "blend": "#967435", "ent": 0.74, "nmf": [0.245, 0.018, 0.418, 0.05, 0.259, 0.009], "words": ["旅券", "一般_旅券", "渡航", "発給", "旅券_発給", "海外_渡航"], "nx": 0.704, "ny": 0.779}, {"i": 11, "title": "野村ダム緊急放流による水害訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000061", "blend": "#578232", "ent": 0.33, "nmf": [0.817, 0.053, 0.13, 0.0, 0.0, 0.0], "words": ["操作", "規則", "緊急", "水害", "浸水", "河川"], "nx": 0.603, "ny": 0.081}, {"i": 12, "title": "羽田空港新ルート設定の取消訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000062", "blend": "#4d8b2b", "ent": 0.03, "nmf": [0.989, 0.0, 0.011, 0.0, 0.0, 0.0], "words": ["上空", "飛行", "ルート", "羽田空港", "飛行機", "落下"], "nx": 0.515, "ny": 0.052}, {"i": 13, "title": "クルド難民収容者暴行被害国賠訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000063", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "words": ["デニズ", "入管", "制圧", "暴行", "手足", "入管_職員"], "nx": 0.876, "ny": 0.635}, {"i": 14, "title": "「セックスワークにも給付金を」訴訟 【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000064", "blend": "#838534", "ent": 0.66, "nmf": [0.472, 0.0, 0.119, 0.074, 0.332, 0.003], "words": ["セックス", "ワーク", "給付金", "セックス_ワーク", "職業", "研究科"], "nx": 0.728, "ny": 0.55}, {"i": 15, "title": "「同性パートナーにも犯罪被害の遺族給付金を」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000067", "blend": "#8652a7", "ent": 0.08, "nmf": [0.0, 0.0, 0.0, 0.966, 0.0, 0.035], "words": ["犯罪_被害者", "同性", "打撃", "同性_パートナー", "犯罪_被害", "パートナー"], "nx": 0.204, "ny": 0.914}, {"i": 16, "title": "「鳥は空に魚は水に人は社会に」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000068", "blend": "#7f6e4e", "ent": 0.76, "nmf": [0.237, 0.0, 0.444, 0.144, 0.024, 0.152], "words": ["精神科", "入院", "精神", "我が国", "医療", "ベッド"], "nx": 0.477, "ny": 0.635}, {"i": 17, "title": "「LINE」を用いた住民票請求サービスの適法性確認請求事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000069", "blend": "#648a31", "ent": 0.46, "nmf": [0.727, 0.045, 0.052, 0.0, 0.176, 0.0], "words": ["マイナンバーカード", "LINE", "住民票", "サービス", "総務省", "交付"], "nx": 0.629, "ny": 0.306}, {"i": 18, "title": "「人間を育てる教員に、人間らしい働き方を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000070", "blend": "#6f823f", "ent": 0.57, "nmf": [0.613, 0.0, 0.032, 0.166, 0.189, 0.0], "words": ["教員", "長時間労働", "学生", "教育", "田中", "自主的"], "nx": 0.57, "ny": 0.429}, {"i": 19, "title": "コロナ禍、日本社会の理不尽を問う（コロナ特措法違憲訴訟）【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000071", "blend": "#728f40", "ent": 0.71, "nmf": [0.471, 0.027, 0.024, 0.036, 0.327, 0.116], "words": ["コロナ", "営業", "自由_制限", "コロナ禍", "民主主義_国家", "長谷川"], "nx": 0.714, "ny": 0.505}, {"i": 20, "title": "行政による民泊事業届出拒否の適法性を問う", "url": "https://www.call4.jp/info.php?type=items&id=I0000072", "blend": "#4b7c62", "ent": 0.66, "nmf": [0.532, 0.304, 0.023, 0.097, 0.02, 0.025], "words": ["届出", "宿泊", "許認可", "住宅", "届出_受理", "受け取り_拒否"], "nx": 0.409, "ny": 0.311}, {"i": 21, "title": "オペなしで！戸籍上も「俺」になりたい裁判【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000075", "blend": "#935a8d", "ent": 0.41, "nmf": [0.0, 0.0, 0.09, 0.772, 0.124, 0.014], "words": ["手術", "生殖腺", "手術_要件", "性別_変更", "性別", "戸籍"], "nx": 0.31, "ny": 0.93}, {"i": 22, "title": "「琉球人のご先祖の遺骨返還を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000076", "blend": "#82872b", "ent": 0.56, "nmf": [0.516, 0.0, 0.165, 0.0, 0.319, 0.0], "words": ["返還", "先祖", "民族", "沖縄県", "慣習", "沖縄"], "nx": 0.663, "ny": 0.544}, {"i": 23, "title": "教育公務員の兼業のあり方を問う訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000078", "blend": "#717a52", "ent": 0.85, "nmf": [0.412, 0.015, 0.167, 0.2, 0.104, 0.102], "words": ["不許可", "教員", "東京都_教育委員会", "教育委員会", "許可_申請", "報告_受ける"], "nx": 0.512, "ny": 0.659}, {"i": 24, "title": "地方議会に横行する「少数派議員潰し」に立ち向かう訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000080", "blend": "#6c8b48", "ent": 0.71, "nmf": [0.431, 0.172, 0.019, 0.0, 0.321, 0.056], "words": ["懲罰", "地方_議会", "議員", "少数派", "オンブズマン", "議会"], "nx": 0.774, "ny": 0.488}, {"i": 25, "title": "市街地でＢＳＬ４の研究をしないでください", "url": "https://www.call4.jp/info.php?type=items&id=I0000081", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["ウイルス", "実験", "感染", "動物", "長崎", "施設"], "nx": 0.419, "ny": 0.0}, {"i": 26, "title": "隠される「国の事故調査」プロセスを明らかに！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000082", "blend": "#387b82", "ent": 0.56, "nmf": [0.323, 0.563, 0.009, 0.013, 0.0, 0.093], "words": ["事故", "ライン", "合同会社", "衝突", "報告書", "委員長"], "nx": 0.243, "ny": 0.523}, {"i": 27, "title": "ベトナム人技能実習生リンさんの死体遺棄罪刑事事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000083", "blend": "#379e96", "ent": 0.31, "nmf": [0.044, 0.0, 0.037, 0.061, 0.0, 0.858], "words": ["無罪_主張", "実習", "無罪", "遺体", "公判", "被告人"], "nx": 0.943, "ny": 0.19}, {"i": 28, "title": "大川原化工機事件 〜無実で約１年勾留「人質司法」問題をただす〜【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000084", "blend": "#2ba8a0", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 0.0, 1.0], "words": ["大川原", "噴霧", "化工機", "輸出", "人質_司法", "人質"], "nx": 0.992, "ny": 0.319}, {"i": 29, "title": "「人種差別を許さない」訴訟 ～警察官による母子の不当聴取と個人情報の漏洩～", "url": "https://www.call4.jp/info.php?type=items&id=I0000085", "blend": "#8d6b48", "ent": 0.66, "nmf": [0.071, 0.017, 0.618, 0.05, 0.061, 0.183], "words": ["警察官", "人種", "言動", "人種_差別的", "承諾", "差別的"], "nx": 0.607, "ny": 0.558}, {"i": 30, "title": "優生保護法に奪われた人生を取り戻す裁判【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000086", "blend": "#756f77", "ent": 0.79, "nmf": [0.193, 0.0, 0.128, 0.44, 0.06, 0.18], "words": ["優生", "優生_保護", "不妊", "不妊_手術", "手術", "除斥_期間"], "nx": 0.37, "ny": 0.795}, {"i": 31, "title": "赤ちゃん取り違え被害者に「出自を知る権利を」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000087", "blend": "#737566", "ent": 0.93, "nmf": [0.189, 0.049, 0.251, 0.221, 0.078, 0.212], "words": ["出自", "両親", "知る_権利", "赤ちゃん", "東京都", "前訴"], "nx": 0.391, "ny": 0.708}, {"i": 32, "title": "首里城火災の管理責任を問う住民訴訟〜責任者出てこい！〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000088", "blend": "#4d8a3a", "ent": 0.37, "nmf": [0.81, 0.022, 0.06, 0.0, 0.0, 0.108], "words": ["財団", "沖縄", "責任_所在", "沖縄県", "原告団", "免れる"], "nx": 0.526, "ny": 0.129}, {"i": 33, "title": "過去の開示請求に対する意思決定プロセスを明らかに！〜入管の秘密主義を問う〜訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000089", "blend": "#3769a3", "ent": 0.17, "nmf": [0.0, 0.906, 0.094, 0.0, 0.0, 0.0], "words": ["ウィシュマ", "開示_請求", "ウィシュマ_事件", "在留_管理", "開示", "意思決定_プロセス"], "nx": 0.033, "ny": 0.422}, {"i": 34, "title": "司法の独立を脅かす岡口裁判官の罷免訴追に反対します！【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000090", "blend": "#609666", "ent": 0.74, "nmf": [0.244, 0.02, 0.0, 0.07, 0.256, 0.41], "words": ["訴追", "裁判官", "投稿", "独立", "司法_独立", "国会議員"], "nx": 0.706, "ny": 0.316}, {"i": 35, "title": "イラク戦争検証報告書情報公開訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000092", "blend": "#2b6cb0", "ent": -0.0, "nmf": [0.0, 1.0, 0.0, 0.0, 0.0, 0.0], "words": ["報告書", "国際_機関", "他国", "外務省", "戦争", "開示"], "nx": 0.0, "ny": 0.469}, {"i": 36, "title": "日米合同委員会議事録情報公開訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000093", "blend": "#386fa4", "ent": 0.36, "nmf": [0.022, 0.842, 0.0, 0.047, 0.058, 0.032], "words": ["日米", "議事録", "メール", "インカメラ", "合意", "双方"], "nx": 0.091, "ny": 0.558}, {"i": 37, "title": "ウィシュマさん名古屋入管死亡事件", "url": "https://www.call4.jp/info.php?type=items&id=I0000094", "blend": "#9b5c3d", "ent": 0.29, "nmf": [0.0, 0.057, 0.849, 0.0, 0.0, 0.094], "words": ["ウィシュマ", "名古屋_入管", "看守", "名古屋", "入管", "ご遺族"], "nx": 0.813, "ny": 0.559}, {"i": 38, "title": "『宮本から君へ』助成金不交付決定取消訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000095", "blend": "#598863", "ent": 0.81, "nmf": [0.416, 0.084, 0.0, 0.144, 0.124, 0.232], "words": ["助成金", "交付", "映画", "文化", "内定", "宮本"], "nx": 0.562, "ny": 0.346}, {"i": 39, "title": "「日本の入管収容は国際人権法違反」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000096", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "words": ["恣意的_拘禁", "デニズ", "仮放免", "収容", "入管_収容", "入管"], "nx": 0.927, "ny": 0.625}, {"i": 40, "title": "財務省改ざん事件に真実を！〜改ざんの経緯を明らかに〜訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000097", "blend": "#2b6cb0", "ent": -0.0, "nmf": [0.0, 1.0, 0.0, 0.0, 0.0, 0.0], "words": ["赤木", "財務省", "改ざん", "俊夫", "赤木_俊夫", "財務局"], "nx": 0.029, "ny": 0.503}, {"i": 41, "title": "不当な補正要求の繰り返しは開示請求権の侵害だ！〜財務省の姿勢を問う〜訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000100", "blend": "#2b6cb0", "ent": -0.0, "nmf": [0.0, 1.0, 0.0, 0.0, 0.0, 0.0], "words": ["財務省", "補正", "赤木", "行政_文書", "件名", "文書"], "nx": 0.059, "ny": 0.483}, {"i": 42, "title": "大阪市はカジノ事業者との協議録を開示せよ！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000102", "blend": "#327293", "ent": 0.29, "nmf": [0.216, 0.783, 0.0, 0.0, 0.0, 0.0], "words": ["大阪市", "誘致", "大阪府", "事業者", "協議", "開示_理由"], "nx": 0.157, "ny": 0.545}, {"i": 43, "title": "公安警察による市民運動の監視を許さない。市民の「もの言う」自由を守るための訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000104", "blend": "#388675", "ent": 0.6, "nmf": [0.413, 0.366, 0.0, 0.0, 0.0, 0.221], "words": ["岐阜県", "公安", "情報_収集", "個人情報", "警察", "収集"], "nx": 0.391, "ny": 0.413}, {"i": 44, "title": "「子どもと向き合う時間がほしい」児童相談所の労働環境改善を！訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000105", "blend": "#707241", "ent": 0.55, "nmf": [0.568, 0.0, 0.25, 0.182, 0.0, 0.0], "words": ["一時", "労働時間", "児童", "労働_環境", "時間_労働時間", "一人一人"], "nx": 0.45, "ny": 0.565}, {"i": 45, "title": "本人の意思を無視して日本国籍を一方的にはく奪する「国籍法11条1項は違憲」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000106", "blend": "#a57050", "ent": 0.7, "nmf": [0.058, 0.0, 0.265, 0.299, 0.378, 0.0], "words": ["国籍法", "日本国籍", "はく奪", "国籍", "旅券", "取得_日本国籍"], "nx": 0.599, "ny": 0.856}, {"i": 46, "title": "新宿留置場事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000109", "blend": "#6c7e64", "ent": 0.44, "nmf": [0.025, 0.0, 0.486, 0.0, 0.0, 0.49], "words": ["保護室", "留置", "戒具", "留置_施設", "保護室_収容", "新宿"], "nx": 0.199, "ny": 0.352}, {"i": 47, "title": "日米同性カップル在留資格訴訟 〜家族そろって日本で暮らすために〜【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000111", "blend": "#925187", "ent": 0.4, "nmf": [0.0, 0.018, 0.241, 0.724, 0.017, 0.0], "words": ["カップル", "同性", "在留資格", "同性_カップル", "ふたり", "安定"], "nx": 0.28, "ny": 0.852}, {"i": 48, "title": "家事労働者にも労災認定を！訴訟 【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000112", "blend": "#7f6460", "ent": 0.63, "nmf": [0.314, 0.0, 0.26, 0.414, 0.0, 0.011], "words": ["家事", "労働者", "労働基準法", "労災", "労災認定", "契約書"], "nx": 0.441, "ny": 0.752}, {"i": 49, "title": "受刑者にも適切な医療を！刑務所医療過誤事件", "url": "https://www.call4.jp/info.php?type=items&id=I0000114", "blend": "#7a7262", "ent": 0.52, "nmf": [0.0, 0.0, 0.529, 0.101, 0.0, 0.37], "words": ["刑務所", "がん", "受刑者", "償う", "医療", "息子"], "nx": 0.265, "ny": 0.364}, {"i": 50, "title": "市民との約束を無視して進む「新焼却炉建設」を止める訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000115", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["覚書", "焼却", "約束", "処理", "ごみ_焼却", "ごみ"], "nx": 0.43, "ny": 0.091}, {"i": 51, "title": "「会計年度任用職員にも労働基本権を！」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000116", "blend": "#8e6f48", "ent": 0.8, "nmf": [0.263, 0.02, 0.31, 0.211, 0.196, 0.0], "words": ["労働条件", "交渉", "向上", "公務員", "労働者", "切り替える"], "nx": 0.567, "ny": 0.759}, {"i": 52, "title": "立候補年齢引き下げ訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000117", "blend": "#bd9a2b", "ent": 0.09, "nmf": [0.039, 0.0, 0.0, 0.0, 0.961, 0.0], "words": ["立候補", "立候補_年齢", "年齢", "被選挙権", "若者", "若い_世代"], "nx": 0.747, "ny": 0.971}, {"i": 53, "title": "“コロナ感染者立ち寄りで店名公表”は違法！訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000119", "blend": "#4b8c4f", "ent": 0.53, "nmf": [0.683, 0.034, 0.0, 0.074, 0.016, 0.192], "words": ["飲食店", "感染者", "公表", "ラーメン", "近藤", "クラスター"], "nx": 0.537, "ny": 0.234}, {"i": 54, "title": "神宮外苑を守ろう訴訟｜100年の歴史と3000本超の樹木を未来へ", "url": "https://www.call4.jp/info.php?type=items&id=I0000120", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["神宮", "外苑", "神宮_外苑", "再開発", "伐採", "都市_計画"], "nx": 0.393, "ny": 0.143}, {"i": 55, "title": "神戸石炭訴訟｜気候変動と大気汚染を防ぐため、石炭火力発電所新設は取り消しを！【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000121", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["石炭", "気候_変動", "神戸", "気候", "大気_汚染", "大気"], "nx": 0.476, "ny": 0.123}, {"i": 56, "title": "県知事の公務での護国神社参拝取りやめをー政教分離原則の違反を問うー", "url": "https://www.call4.jp/info.php?type=items&id=I0000123", "blend": "#6c8758", "ent": 0.91, "nmf": [0.324, 0.039, 0.103, 0.11, 0.202, 0.222], "words": ["公務", "信教", "中谷", "宗教", "信教_自由", "自衛官"], "nx": 0.648, "ny": 0.413}, {"i": 57, "title": "恵庭市「障害者虐待」隠ぺい事件 〜元市議への忖度による放置を許さない〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000124", "blend": "#73714e", "ent": 0.79, "nmf": [0.384, 0.022, 0.309, 0.175, 0.016, 0.094], "words": ["障害者", "虐待", "北海道", "忖度", "札幌", "住み込み"], "nx": 0.465, "ny": 0.692}, {"i": 58, "title": "婚外子国籍訴訟 —国籍法3条1項は違憲—【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000125", "blend": "#9a7171", "ent": 0.57, "nmf": [0.0, 0.082, 0.024, 0.477, 0.417, 0.0], "words": ["国籍法", "父親", "日本国籍", "両親", "日本国籍_取得", "認知"], "nx": 0.532, "ny": 0.891}, {"i": 59, "title": "人種差別的な職務質問をやめさせよう！訴訟｜#STOPレイシャルプロファイリング", "url": "https://www.call4.jp/info.php?type=items&id=I0000128", "blend": "#b06d36", "ent": 0.57, "nmf": [0.011, 0.008, 0.543, 0.074, 0.355, 0.01], "words": ["職務質問", "人種", "警察官", "外国_ルーツ", "ルーツ", "人種_差別"], "nx": 0.769, "ny": 0.799}, {"i": 60, "title": "「共働き妻を亡くした夫にも遺族年金を」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000129", "blend": "#895d7f", "ent": 0.56, "nmf": [0.136, 0.007, 0.121, 0.669, 0.066, 0.0], "words": ["遺族年金", "共働き", "世帯", "労災", "遺族", "支給"], "nx": 0.346, "ny": 0.884}, {"i": 61, "title": "日本の「黙秘権」を問う訴訟 〜56時間にわたる侮辱的な取調べは違法〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000130", "blend": "#2ba7a0", "ent": 0.02, "nmf": [0.0, 0.0, 0.0, 0.007, 0.0, 0.993], "words": ["黙秘権", "取調べ", "黙秘権_行使", "被疑者", "弁護人", "検察官"], "nx": 0.953, "ny": 0.252}, {"i": 62, "title": "夫婦別姓も選べる社会へ！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000131", "blend": "#98667b", "ent": 0.57, "nmf": [0.016, 0.017, 0.069, 0.613, 0.273, 0.012], "words": ["名字", "通称", "名乗る", "名字_名乗る", "カップル", "併記"], "nx": 0.42, "ny": 0.931}, {"i": 63, "title": "「わたしの体は母体じゃない」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000132", "blend": "#9a7d5d", "ent": 0.73, "nmf": [0.049, 0.0, 0.083, 0.311, 0.46, 0.097], "words": ["不妊", "不妊_手術", "優生", "生殖", "手術", "産む"], "nx": 0.612, "ny": 0.782}, {"i": 64, "title": "「イチョウと住民自治を守ろう」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000133", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["伐採", "イチョウ", "神田", "区間", "工事", "議決"], "nx": 0.455, "ny": 0.012}, {"i": 65, "title": "わたしたちはもう待てない〜同性婚仙台家事審判事件", "url": "https://www.call4.jp/info.php?type=items&id=I0000134", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "words": ["婚姻届", "家事_審判", "民法", "婚姻届_受理", "審判", "同性"], "nx": 0.262, "ny": 0.904}, {"i": 66, "title": "難民帰化訴訟〜真に社会の一員へ〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000135", "blend": "#aa6237", "ent": 0.53, "nmf": [0.045, 0.0, 0.667, 0.102, 0.185, 0.0], "words": ["帰化", "難民", "難民_条約", "難民_認定", "締約国", "条約"], "nx": 0.809, "ny": 0.72}, {"i": 67, "title": "地域による報酬格差は違憲！裁判官の独立と良心を守る訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000136", "blend": "#70836a", "ent": 0.82, "nmf": [0.254, 0.027, 0.0, 0.284, 0.227, 0.208], "words": ["竹内", "転勤", "良心", "格差", "裁判官", "独立"], "nx": 0.626, "ny": 0.474}, {"i": 68, "title": "既婚を理由に法的性別取扱い変更を認めないのは違憲！「なんでうちらが離婚せなあかんの？」裁判", "url": "https://www.call4.jp/info.php?type=items&id=I0000139", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "words": ["性別", "取扱い", "離婚", "カップル", "婚姻", "性同一性_障害者"], "nx": 0.267, "ny": 0.961}, {"i": 69, "title": "要件を満たす島民の請求を市長が拒否！石垣島住民投票の権利を問う裁判【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000141", "blend": "#728f2e", "ent": 0.41, "nmf": [0.662, 0.0, 0.0, 0.027, 0.311, 0.0], "words": ["自治", "条例", "基本", "控訴審_判決", "地方_自治", "自治_理念"], "nx": 0.691, "ny": 0.444}, {"i": 70, "title": "若者の志と人生を尊重する地域枠医師制度のために ～高額違約金は違法！～", "url": "https://www.call4.jp/info.php?type=items&id=I0000142", "blend": "#607c4b", "ent": 0.6, "nmf": [0.643, 0.065, 0.048, 0.194, 0.05, 0.0], "words": ["消費者", "条項", "機構", "プログラム", "キャリア形成", "医学部"], "nx": 0.46, "ny": 0.396}, {"i": 71, "title": "リニアトンネル工事で街を壊さないで 〜平穏生活権を侵害する大深度法の違憲性を問う〜", "url": "https://www.call4.jp/info.php?type=items&id=I0000143", "blend": "#4e8930", "ent": 0.1, "nmf": [0.957, 0.0, 0.0, 0.043, 0.0, 0.0], "words": ["トンネル", "認可", "工事", "新幹線", "掘る", "平穏_生活"], "nx": 0.347, "ny": 0.137}, {"i": 72, "title": "「学術会議の独立性」を市民で守ろう ～会員任命拒否理由の情報公開訴訟～", "url": "https://www.call4.jp/info.php?type=items&id=I0000146", "blend": "#40768c", "ent": 0.63, "nmf": [0.161, 0.654, 0.033, 0.027, 0.064, 0.062], "words": ["学術_会議", "学術", "日本_学術", "開示_処分", "会員", "法律家"], "nx": 0.15, "ny": 0.599}, {"i": 73, "title": "おかゆ強制はおかしい！刑事施設における不要な食事制限の撤廃を求める裁判", "url": "https://www.call4.jp/info.php?type=items&id=I0000148", "blend": "#80704e", "ent": 0.47, "nmf": [0.074, 0.0, 0.624, 0.0, 0.0, 0.302], "words": ["代替", "拘置所", "食事", "刑事_施設", "裁量_認める", "食べる"], "nx": 0.373, "ny": 0.451}, {"i": 74, "title": "オープンコート訴訟 —法廷の“秩序”を問う—", "url": "https://www.call4.jp/info.php?type=items&id=I0000149", "blend": "#5f9b7e", "ent": 0.55, "nmf": [0.0, 0.029, 0.0, 0.081, 0.298, 0.592], "words": ["袴田", "レインボー", "法廷_おく", "傍聴", "パーカー", "清水"], "nx": 0.821, "ny": 0.272}, {"i": 75, "title": "政府が開示を拒否する、安倍元首相の「国葬文書」開示を！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000150", "blend": "#3d7592", "ent": 0.5, "nmf": [0.137, 0.729, 0.0, 0.02, 0.083, 0.03], "words": ["文書_作成", "内閣官房", "首相", "文書", "内閣府", "内閣官房_内閣府"], "nx": 0.18, "ny": 0.583}, {"i": 76, "title": "「18歳未満にも選挙で応援する自由を」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000151", "blend": "#ba9a2b", "ent": 0.14, "nmf": [0.066, 0.0, 0.0, 0.0, 0.934, 0.0], "words": ["成年者", "選挙", "候補者", "罰則", "運動", "未満"], "nx": 0.779, "ny": 1.0}, {"i": 77, "title": "保育料を経費に！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000152", "blend": "#8b804e", "ent": 0.61, "nmf": [0.329, 0.0, 0.001, 0.279, 0.391, 0.0], "words": ["子育て", "保育", "保育園", "経費", "家事", "育児"], "nx": 0.667, "ny": 0.618}, {"i": 78, "title": "「無効のはずの廃園条例、なぜ続く？」— 子どもたちの保育環境を守るための訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000154", "blend": "#55823f", "ent": 0.27, "nmf": [0.833, 0.0, 0.0, 0.158, 0.0, 0.009], "words": ["保育園", "条例", "再開", "違法_無効", "公立", "保育"], "nx": 0.422, "ny": 0.242}, {"i": 79, "title": "人質司法に終止符を！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000155", "blend": "#35a49a", "ent": 0.19, "nmf": [0.0, 0.0, 0.0, 0.03, 0.053, 0.916], "words": ["人質", "人質_司法", "保釈", "勾留", "被告人", "身体_拘束"], "nx": 0.896, "ny": 0.239}, {"i": 80, "title": "病院でよく出る薬を、薬局ですぐ買える「零売」を守る訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000156", "blend": "#72843f", "ent": 0.77, "nmf": [0.468, 0.0, 0.181, 0.055, 0.178, 0.117], "words": ["患者", "販売", "購入", "医療費", "アレルギー", "広告"], "nx": 0.567, "ny": 0.519}, {"i": 81, "title": "「取調べ拒否」Tシャツを奪うな！―黙秘権と表現の自由を守る訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000157", "blend": "#2ba8a0", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 0.0, 1.0], "words": ["黙秘権", "着る", "取調べ", "黙秘", "松本", "着用"], "nx": 0.957, "ny": 0.296}, {"i": 82, "title": "日本でもマリアージュしたいねん～海外で成立した同性婚の受理を求める裁判～", "url": "https://www.call4.jp/info.php?type=items&id=I0000159", "blend": "#8a4fa8", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 1.0, 0.0, 0.0], "words": ["民法", "同性_結婚", "同性", "結婚_認める", "ふうふ", "フランス"], "nx": 0.217, "ny": 0.877}, {"i": 83, "title": "刑務所での強制ひげ剃りと懲罰 ～医師の所見を無視した処遇の違法性を問う手書き裁判～【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000160", "blend": "#7a7a50", "ent": 0.65, "nmf": [0.12, 0.0, 0.486, 0.0, 0.07, 0.323], "words": ["刑務所", "受刑者", "懲罰", "アレルギー", "処遇", "アレルギー_症状"], "nx": 0.274, "ny": 0.4}, {"i": 84, "title": "引越しで選挙権が制限されない未来へ！訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000164", "blend": "#c19a2b", "ent": 0.01, "nmf": [0.002, 0.0, 0.0, 0.0, 0.998, 0.0], "words": ["国政_選挙", "選挙", "転居", "名簿", "選挙_参加", "名簿_登録"], "nx": 0.8, "ny": 0.938}, {"i": 85, "title": "「ヒグマハンターの猟銃を取り戻す」訴訟【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000165", "blend": "#488c53", "ent": 0.51, "nmf": [0.666, 0.027, 0.0, 0.077, 0.0, 0.229], "words": ["猟銃", "到達", "所持", "建物", "公安委員会", "北海道"], "nx": 0.505, "ny": 0.245}, {"i": 86, "title": "気候正義訴訟－Climate Justice－", "url": "https://www.call4.jp/info.php?type=items&id=I0000167", "blend": "#688539", "ent": 0.58, "nmf": [0.677, 0.0, 0.065, 0.089, 0.142, 0.026], "words": ["気候_変動", "気候", "変動", "削減", "温室_効果", "温室"], "nx": 0.544, "ny": 0.399}, {"i": 87, "title": "平和の島であるために ― 馬毛島の自然と自治を守る裁判", "url": "https://www.call4.jp/info.php?type=items&id=I0000169", "blend": "#4c8c2b", "ent": -0.0, "nmf": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], "words": ["基地", "平和", "売却", "自治", "地方_自治", "防衛省"], "nx": 0.39, "ny": 0.047}, {"i": 88, "title": "再開発は誰のため？いわき市の「不公正な行政契約は違法」訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000170", "blend": "#488838", "ent": 0.18, "nmf": [0.898, 0.102, 0.0, 0.0, 0.0, 0.0], "words": ["再開発", "いわき市", "随意契約", "業務委託", "公共_事業", "契約"], "nx": 0.471, "ny": 0.187}, {"i": 89, "title": "入管職員による人種差別と暴行事件【アーカイブ】", "url": "https://www.call4.jp/info.php?type=items&id=I0000171", "blend": "#b0532b", "ent": -0.0, "nmf": [0.0, 0.0, 1.0, 0.0, 0.0, 0.0], "words": ["入管_職員", "入管", "暴力", "拷問", "押さえつける", "虐待"], "nx": 0.93, "ny": 0.567}, {"i": 90, "title": "袴田巌さん国家賠償請求訴訟 ―半世紀のえん罪、国の責任を問う", "url": "https://www.call4.jp/info.php?type=items&id=I0000172", "blend": "#2ba69f", "ent": 0.08, "nmf": [0.006, 0.022, 0.0, 0.0, 0.0, 0.971], "words": ["再審", "無罪_判決", "無罪", "犯人", "総長", "再審_開始"], "nx": 1.0, "ny": 0.248}, {"i": 91, "title": "【大川原化工機事件】裁判官の責任を問う訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000173", "blend": "#2ca79e", "ent": 0.04, "nmf": [0.0, 0.0, 0.0, 0.0, 0.012, 0.988], "words": ["静夫", "保釈", "相嶋", "勾留", "保釈_請求", "大川原"], "nx": 0.909, "ny": 0.297}, {"i": 92, "title": "不透明な契約・区長の教育行政介入を問う住民訴訟 〜文京区の教育は誰のもの？", "url": "https://www.call4.jp/info.php?type=items&id=I0000176", "blend": "#498936", "ent": 0.17, "nmf": [0.913, 0.087, 0.0, 0.0, 0.0, 0.0], "words": ["区長", "研修", "教育委員会", "教育", "教員", "随意契約"], "nx": 0.572, "ny": 0.163}, {"i": 93, "title": "私として生きる権利を求めて。アイコさん難民不認定取消訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000178", "blend": "#a85435", "ent": 0.23, "nmf": [0.016, 0.028, 0.902, 0.053, 0.0, 0.0], "words": ["迫害", "フィリピン", "トランス", "アイコ", "難民", "トランス_ジェンダー"], "nx": 0.801, "ny": 0.621}, {"i": 94, "title": "海外有権者の一票を守れ！在外選挙制度を問う訴訟", "url": "https://www.call4.jp/info.php?type=items&id=I0000179", "blend": "#c29b2c", "ent": -0.0, "nmf": [0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "words": ["投票", "在外", "有権者", "日程", "国民_審査権", "解散"], "nx": 0.836, "ny": 0.946}];
 const EDGES = [[0, 3], [0, 4], [0, 84], [0, 94], [1, 15], [1, 21], [1, 65], [1, 68], [1, 82], [2, 13], [2, 37], [2, 39], [2, 89], [2, 93], [3, 4], [3, 84], [3, 94], [4, 94], [5, 25], [5, 50], [5, 64], [5, 88], [5, 92], [6, 35], [6, 36], [6, 40], [6, 41], [7, 25], [7, 32], [7, 50], [7, 54], [7, 55], [7, 64], [8, 46], [8, 49], [8, 73], [8, 83], [9, 10], [9, 45], [9, 59], [10, 51], [10, 59], [10, 66], [11, 12], [11, 32], [11, 92], [12, 32], [12, 50], [12, 55], [12, 87], [13, 37], [13, 39], [13, 66], [13, 89], [13, 93], [14, 19], [14, 22], [14, 24], [14, 69], [14, 77], [15, 21], [15, 65], [15, 82], [16, 29], [16, 31], [16, 57], [17, 69], [17, 86], [17, 92], [18, 69], [18, 70], [18, 86], [19, 24], [19, 56], [19, 69], [19, 77], [20, 43], [20, 70], [20, 88], [21, 47], [21, 60], [21, 62], [21, 68], [22, 69], [22, 80], [23, 44], [23, 48], [23, 51], [23, 57], [23, 80], [24, 69], [25, 64], [25, 87], [26, 42], [26, 43], [26, 72], [26, 75], [27, 61], [27, 79], [27, 90], [28, 61], [28, 81], [28, 90], [28, 91], [29, 37], [29, 73], [29, 93], [30, 31], [30, 48], [30, 60], [31, 57], [32, 50], [32, 53], [32, 85], [33, 35], [33, 40], [33, 41], [34, 38], [34, 56], [34, 74], [35, 40], [35, 41], [36, 40], [36, 41], [36, 42], [36, 72], [36, 75], [37, 89], [38, 43], [38, 53], [38, 56], [38, 67], [38, 85], [39, 89], [39, 93], [40, 41], [42, 72], [42, 75], [44, 57], [44, 70], [45, 51], [45, 58], [45, 63], [46, 49], [46, 83], [47, 60], [47, 82], [48, 57], [49, 73], [49, 83], [50, 54], [50, 55], [50, 64], [50, 71], [50, 87], [51, 57], [52, 76], [52, 84], [52, 94], [53, 78], [53, 85], [54, 55], [54, 71], [54, 78], [55, 88], [55, 92], [56, 67], [56, 80], [58, 62], [58, 63], [59, 66], [60, 62], [60, 65], [61, 79], [61, 81], [61, 90], [61, 91], [63, 77], [64, 87], [65, 68], [65, 82], [66, 93], [67, 77], [68, 82], [70, 78], [70, 86], [71, 78], [71, 87], [72, 75], [73, 83], [74, 79], [74, 91], [76, 84], [76, 94], [78, 85], [79, 81], [79, 91], [80, 86], [81, 90], [81, 91], [84, 94], [88, 92]];
 const TN = ["地域開発・環境と住民自治", "情報公開・公文書", "入管収容・難民・人種差別", "婚姻の平等・性別のあり方", "選挙権・政治参加", "刑事手続・人質司法"];
 const TC = ["#4C8C2B", "#2B6CB0", "#B0532B", "#8A4FA8", "#C29B2C", "#2BA8A0"];
@@ -17095,6 +17116,7 @@ function showTip(h, ev) { tip.innerHTML=h; tip.style.display='block';
   tip.style.left=Math.min(ev.clientX+14, window.innerWidth-360)+'px'; tip.style.top=(ev.clientY+12)+'px'; }
 function hideTip() { tip.style.display='none'; }
 function mixText(n) { return n.nmf.map((v,t)=> v>0.08 ? `<span style="color:${TC[t]}">■</span>${TN[t]} ${(v*100).toFixed(0)}%`:null).filter(Boolean).join('<br>'); }
+function wordsText(n) { return n.words && n.words.length ? `<br><span style="color:#e0b48a">特徴語: ${n.words.join(' / ')}</span>` : ''; }
 const lg=document.getElementById('lg');
 TN.forEach((n,t)=>lg.insertAdjacentHTML('beforeend',
   `<span style="font-size:12px"><span style="display:inline-block;width:11px;height:11px;background:${TC[t]};margin-right:4px;border-radius:2px"></span>テーマ${t+1} ${n}</span>`));
@@ -17105,7 +17127,7 @@ ORDER.forEach((ci,pos)=>{ const n=NODES[ci]; let y=sc.height-14;
 let scur=-1;
 sc.addEventListener('mousemove', ev=>{ const r=sc.getBoundingClientRect(); const pos=Math.floor(((ev.clientX-r.left)*(sc.width/r.width)-10)/BW);
   if(pos<0||pos>=ORDER.length){hideTip();scur=-1;return;} scur=pos; const n=NODES[ORDER[pos]];
-  showTip(`<b>${n.title}</b><br>${mixText(n)}`, ev); sc.style.cursor='pointer'; });
+  showTip(`<b>${n.title}</b><br>${mixText(n)}${wordsText(n)}`, ev); sc.style.cursor='pointer'; });
 sc.addEventListener('mouseleave', ()=>{hideTip();scur=-1;});
 sc.addEventListener('click', ()=>{ if(scur>=0) window.open(NODES[ORDER[scur]].url,'_blank'); });
 // network
@@ -17118,7 +17140,7 @@ let ncur=null;
 nc.addEventListener('mousemove', ev=>{ const r=nc.getBoundingClientRect(); const mx=(ev.clientX-r.left)*(nc.width/r.width), my=(ev.clientY-r.top)*(nc.height/r.height);
   ncur=null; let bd=180; NODES.forEach(n=>{const [x,y]=nPos(n);const d=(x-mx)**2+(y-my)**2;if(d<bd){bd=d;ncur=n;}});
   if(!ncur){hideTip();nc.style.cursor='default';return;} nc.style.cursor='pointer';
-  showTip(`<b>${ncur.title}</b><br>${mixText(ncur)}`, ev); });
+  showTip(`<b>${ncur.title}</b><br>${mixText(ncur)}${wordsText(ncur)}`, ev); });
 nc.addEventListener('mouseleave', hideTip);
 nc.addEventListener('click', ()=>{ if(ncur) window.open(ncur.url,'_blank'); });
 </script>

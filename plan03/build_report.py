@@ -90,6 +90,15 @@ def fig_words(topics, names):
 def main():
     tok = json.loads((FEATURES_DIR/"tokens.json").read_text(encoding="utf-8")); tok.sort(key=lambda r: r["id"])
     ids = [r["id"] for r in tok]; titles = [r["title"] for r in tok]
+    id2idx = {c: i for i, c in enumerate(ids)}
+    from scipy import sparse
+    tfidf = sparse.load_npz(FEATURES_DIR/"tfidf.npz").tocsr()
+    vocab_arr = np.array(json.loads((FEATURES_DIR/"vocab.json").read_text(encoding="utf-8"))["terms"])
+    def top_terms(i, n=8):
+        row = tfidf.getrow(i).toarray().ravel()
+        idx = row.argsort()[-n:][::-1]
+        return [str(vocab_arr[j]) for j in idx if row[j] > 0]
+    case_words = [top_terms(i) for i in range(len(ids))]
     m = json.loads((RESULTS_DIR/"membership_nmf.json").read_text(encoding="utf-8"))
     names = [v["name"] for _, v in json.loads((RESULTS_DIR/"names_llm.json").read_text(encoding="utf-8"))["nmf"].items()]
     topics = json.loads((RESULTS_DIR/"interpretation.json").read_text(encoding="utf-8"))["mixture"]["nmf"]["topics"]
@@ -114,18 +123,26 @@ def main():
     figs = {"stack": fig_stack(ratios, dom, order_idx, names),
             "sizes": fig_sizes(names, sizes), "words": fig_words(topics, names)}
 
-    # topic cards
+    # topic cards (each representative + member shows its own TF-IDF words)
+    def case_li(i, extra=""):
+        w = " / ".join(case_words[i][:6])
+        return (f'<li><a href="{url(ids[i])}" target="_blank">{titles[i]}</a>{extra}'
+                f'<br><span class="cw">特徴語: {w}</span></li>')
     cards = []
     for k in range(6):
         t = topics[str(k)]
-        reps = "".join(f'<li><a href="{url(r["id"])}" target="_blank">{r["title"]}</a></li>'
-                       for r in t["representatives"])
+        reps = "".join(case_li(id2idx[r["id"]]) for r in t["representatives"])
+        members = np.where(dom == k)[0]
+        allm = "".join(case_li(i, f' <span class="dim">(配合{ratios[i,k]*100:.0f}%)</span>')
+                       for i in members[np.argsort(-ratios[members, k])])
         cards.append(f"""
 <div class="card" style="border-top:5px solid {TC[k]}">
   <h4><span class="dot" style="background:{TC[k]}"></span>テーマ{k+1}: {names[k]}
       <span class="dim">（この論点が主な訴訟 {t['size_dominant']}件）</span></h4>
-  <p><b>よく出る言葉:</b> {' / '.join(t['descriptor_words'][:8])}</p>
-  <p><b>代表的な訴訟:</b></p><ul>{reps}</ul>
+  <p><b>テーマの特徴語（c-TF-IDF）:</b> {' / '.join(t['descriptor_words'][:8])}</p>
+  <p><b>代表的な訴訟（各ケースの特徴語つき）:</b></p><ul class="cases">{reps}</ul>
+  <details><summary>このテーマが主な{t['size_dominant']}件をすべて見る（配合順）</summary>
+    <ul class="cases small">{allm}</ul></details>
 </div>""")
 
     why = []
@@ -148,6 +165,7 @@ def main():
     nmn = net - net.min(0); nmn /= np.ptp(net, 0)
     nodes = [{"i": i, "title": titles[i], "url": url(ids[i]), "blend": blend(Rn[i]/Rn[i].sum()),
               "ent": round(float(ent[i]), 2), "nmf": [round(float(r), 3) for r in ratios[i]],
+              "words": case_words[i][:6],
               "nx": round(float(nmn[i, 0]), 3), "ny": round(float(nmn[i, 1]), 3)} for i in range(len(ids))]
     edge_js = [[int(a), int(b)] for a, b in edges]
 
@@ -180,6 +198,8 @@ canvas {{ max-width:100%; }}
 #tip {{ position:fixed; display:none; background:rgba(20,25,35,.94); color:#fff; padding:8px 11px; border-radius:6px; font-size:12px; max-width:340px; pointer-events:none; z-index:10; }}
 a {{ color:#B0532B; }}
 .small li {{ font-size:.85em; }}
+ul.cases li {{ margin:5px 0; }}
+.cw {{ color:#8a5a2b; font-size:.82em; }}
 .tech {{ background:#f0efe9; border-radius:8px; padding:12px 16px; font-size:.82em; color:#555; }}
 </style>
 </head>
@@ -213,6 +233,13 @@ TF-IDF＝その訴訟に特徴的な語ほど重く、どの訴訟にも出る�
 （イメージとしては絵の具の混色に近く、6色＝6トピックの配合で各訴訟の“色”が決まります。）</p>
 
 <h2>2. 見つかった6つのテーマ</h2>
+<div class="explain">
+各カードには2種類の<b>特徴語</b>を出しています。<b>テーマの特徴語</b>＝そのテーマ全体を特徴づける語（c-TF-IDF）。
+<b>各ケースの特徴語</b>＝その訴訟1件で特に重み付けが高かった語（TF-IDF上位）で、
+<b>分析が実際に何を手がかりにしたかの“生データ”</b>です。抽象的なテーマ名だけでなく、
+個々の訴訟でどんな語が効いたかを確かめられます（「すべて見る」で全件分を展開）。
+<span class="note">補足: TF-IDF上位語＝その訴訟に相対的に特徴的な語。頻出でもどの訴訟にも出る一般語は自動的に下がる。</span>
+</div>
 <div class="figure">{figs['sizes']}</div>
 <div class="grid">{''.join(cards)}</div>
 
@@ -305,6 +332,7 @@ function showTip(h, ev) {{ tip.innerHTML=h; tip.style.display='block';
   tip.style.left=Math.min(ev.clientX+14, window.innerWidth-360)+'px'; tip.style.top=(ev.clientY+12)+'px'; }}
 function hideTip() {{ tip.style.display='none'; }}
 function mixText(n) {{ return n.nmf.map((v,t)=> v>0.08 ? `<span style="color:${{TC[t]}}">■</span>${{TN[t]}} ${{(v*100).toFixed(0)}}%`:null).filter(Boolean).join('<br>'); }}
+function wordsText(n) {{ return n.words && n.words.length ? `<br><span style="color:#e0b48a">特徴語: ${{n.words.join(' / ')}}</span>` : ''; }}
 const lg=document.getElementById('lg');
 TN.forEach((n,t)=>lg.insertAdjacentHTML('beforeend',
   `<span style="font-size:12px"><span style="display:inline-block;width:11px;height:11px;background:${{TC[t]}};margin-right:4px;border-radius:2px"></span>テーマ${{t+1}} ${{n}}</span>`));
@@ -315,7 +343,7 @@ ORDER.forEach((ci,pos)=>{{ const n=NODES[ci]; let y=sc.height-14;
 let scur=-1;
 sc.addEventListener('mousemove', ev=>{{ const r=sc.getBoundingClientRect(); const pos=Math.floor(((ev.clientX-r.left)*(sc.width/r.width)-10)/BW);
   if(pos<0||pos>=ORDER.length){{hideTip();scur=-1;return;}} scur=pos; const n=NODES[ORDER[pos]];
-  showTip(`<b>${{n.title}}</b><br>${{mixText(n)}}`, ev); sc.style.cursor='pointer'; }});
+  showTip(`<b>${{n.title}}</b><br>${{mixText(n)}}${{wordsText(n)}}`, ev); sc.style.cursor='pointer'; }});
 sc.addEventListener('mouseleave', ()=>{{hideTip();scur=-1;}});
 sc.addEventListener('click', ()=>{{ if(scur>=0) window.open(NODES[ORDER[scur]].url,'_blank'); }});
 // network
@@ -328,7 +356,7 @@ let ncur=null;
 nc.addEventListener('mousemove', ev=>{{ const r=nc.getBoundingClientRect(); const mx=(ev.clientX-r.left)*(nc.width/r.width), my=(ev.clientY-r.top)*(nc.height/r.height);
   ncur=null; let bd=180; NODES.forEach(n=>{{const [x,y]=nPos(n);const d=(x-mx)**2+(y-my)**2;if(d<bd){{bd=d;ncur=n;}}}});
   if(!ncur){{hideTip();nc.style.cursor='default';return;}} nc.style.cursor='pointer';
-  showTip(`<b>${{ncur.title}}</b><br>${{mixText(ncur)}}`, ev); }});
+  showTip(`<b>${{ncur.title}}</b><br>${{mixText(ncur)}}${{wordsText(ncur)}}`, ev); }});
 nc.addEventListener('mouseleave', hideTip);
 nc.addEventListener('click', ()=>{{ if(ncur) window.open(ncur.url,'_blank'); }});
 </script>
