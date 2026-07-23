@@ -1,5 +1,5 @@
 {
- "note": "plan04 stopwords. 22(plan02凍結)+11(plan04 K-sweepで検出したノイズ/一般名詞。行政は論点語として残置).",
+ "note": "plan04 stopwords. round1(+11) round2(+理由) round3(+行政).",
  "stopwords": [
   "こと",
   "訴訟",
@@ -34,6 +34,7 @@
   "制度",
   "活動",
   "事件",
-  "理由"
+  "理由",
+  "行政"
  ]
 }
