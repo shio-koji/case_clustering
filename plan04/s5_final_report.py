@@ -243,11 +243,19 @@ def main():
     # ---- build per-K HTML blocks (cards, soft-vocab, chord, bridge list) ----
     def html_blocks(d):
         K = d["K"]
-        cards = "".join(
-            f'<div class="card" style="border-top:4px solid {d["colors"][t]}">'
-            f'<h4><span class="dot" style="background:{d["colors"][t]}"></span>T{t}: {d["names"][t]} '
-            f'<span class="dim">({d["sizes"][t]}件)</span></h4>'
-            f'<div class="tw">{" / ".join(d["topw"][t][:8])}</div></div>' for t in range(K))
+        def card(t):
+            members = sorted([n for n in d["nodes"] if n["f"] == t], key=lambda n: -n["mix"][t])
+            mem = "".join(
+                f'<li><a href="{n["u"]}" target="_blank">{n["t"]}</a> '
+                f'<span class="dim">(配合{int(n["mix"][t]*100)}%)</span>'
+                f'<br><span class="cw">特徴語: {" / ".join(n["w"][:5])}</span></li>' for n in members)
+            return (f'<div class="card" style="border-top:4px solid {d["colors"][t]}">'
+                    f'<h4><span class="dot" style="background:{d["colors"][t]}"></span>T{t}: {d["names"][t]} '
+                    f'<span class="dim">({d["sizes"][t]}件)</span></h4>'
+                    f'<div class="tw">{" / ".join(d["topw"][t][:8])}</div>'
+                    f'<details><summary>このテーマのケース {d["sizes"][t]}件</summary>'
+                    f'<ul class="cases">{mem}</ul></details></div>')
+        cards = "".join(card(t) for t in range(K))
         # soft vocab: per-topic words + bridge words
         perTopic = "".join(
             f'<li><span class="dot" style="background:{d["colors"][t]}"></span>'
@@ -277,7 +285,8 @@ def main():
         parts[K] = html_blocks(BYK[K])
 
     def konly(K, s):
-        return f'<div class="konly k{K}"{"" if K == KS[0] else " hidden"}>{s}</div>'
+        cls = f"konly k{K}" + ("" if K == KS[0] else " hidden")
+        return f'<div class="{cls}">{s}</div>'
 
     cards_html = "".join(konly(K, f'<div class="grid">{parts[K][0]}</div>') for K in KS)
     perTopic_html = "".join(konly(K, f'<ul class="soft">{parts[K][1]}</ul>') for K in KS)
