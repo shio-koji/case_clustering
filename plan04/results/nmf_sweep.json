@@ -3,8 +3,8 @@
  "kmax": 14,
  "seed": 42,
  "n_cases": 95,
- "vocab_size": 7350,
- "n_stopwords": 22,
+ "vocab_size": 7035,
+ "n_stopwords": 33,
  "high_df_threshold": 0.5,
  "generic_candidates": [
   {
@@ -25,76 +25,48 @@
    "df_ratio": 0.54
   },
   {
-   "word": "社会",
+   "word": "知る",
    "appears_in_K": [
-    4,
     7,
     8,
-    9,
-    10,
-    11,
+    9
+   ],
+   "df_ratio": 0.56
+  },
+  {
+   "word": "意見書",
+   "appears_in_K": [
+    8,
+    9
+   ],
+   "df_ratio": 0.65
+  },
+  {
+   "word": "自分",
+   "appears_in_K": [
+    12,
     13
+   ],
+   "df_ratio": 0.54
+  },
+  {
+   "word": "東京",
+   "appears_in_K": [
+    7
    ],
    "df_ratio": 0.68
   },
   {
-   "word": "法律",
+   "word": "理由",
    "appears_in_K": [
-    4,
-    8,
-    9,
-    10,
-    12,
-    13
+    14
    ],
-   "df_ratio": 0.74
-  },
-  {
-   "word": "守る",
-   "appears_in_K": [
-    4,
-    5,
-    6,
-    7,
-    8
-   ],
-   "df_ratio": 0.51
-  },
-  {
-   "word": "活動",
-   "appears_in_K": [
-    8,
-    9,
-    10
-   ],
-   "df_ratio": 0.52
-  },
-  {
-   "word": "事件",
-   "appears_in_K": [
-    4,
-    5
-   ],
-   "df_ratio": 0.62
-  },
-  {
-   "word": "認める",
-   "appears_in_K": [
-    4
-   ],
-   "df_ratio": 0.77
-  },
-  {
-   "word": "制度",
-   "appears_in_K": [
-    4
-   ],
-   "df_ratio": 0.54
+   "df_ratio": 0.75
   }
  ],
  "sweep": {
   "4": {
-   "reconstruction_err": 8.9758,
+   "reconstruction_err": 8.9798,
    "topics": [
     {
      "top_words": [
@@ -103,106 +75,17 @@
       "地域",
       "計画",
       "環境",
-      "事業",
-      "被害",
-      "建設",
-      "守る",
-      "市民"
-     ],
-     "dominant_size": 30,
-     "top2_mass_share": 0.09,
-     "tiny": false,
-     "generic_words": [
-      "行政",
-      "守る"
-     ]
-    },
-    {
-     "top_words": [
-      "開示",
-      "文書",
-      "情報_公開",
-      "開示_請求",
-      "情報",
-      "公開",
-      "ファイル",
-      "開示_決定",
-      "行政_機関",
-      "公開法"
-     ],
-     "dominant_size": 11,
-     "top2_mass_share": 0.21,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "収容",
-      "刑事",
-      "逮捕",
-      "事件",
-      "拘束",
-      "取調べ",
-      "弁護人",
-      "行為",
-      "入管",
-      "職員"
-     ],
-     "dominant_size": 22,
-     "top2_mass_share": 0.11,
-     "tiny": false,
-     "generic_words": [
-      "事件"
-     ]
-    },
-    {
-     "top_words": [
-      "憲法",
-      "結婚",
-      "カップル",
-      "同性",
-      "違憲",
-      "社会",
-      "認める",
-      "選挙",
-      "制度",
-      "法律"
-     ],
-     "dominant_size": 32,
-     "top2_mass_share": 0.08,
-     "tiny": false,
-     "generic_words": [
-      "社会",
-      "認める",
-      "制度",
-      "法律"
-     ]
-    }
-   ],
-   "genealogy_from_prevK": []
-  },
-  "5": {
-   "reconstruction_err": 8.8875,
-   "topics": [
-    {
-     "top_words": [
-      "住民",
-      "行政",
-      "環境",
-      "地域",
-      "計画",
       "事業",
       "被害",
       "建設",
       "市民",
-      "守る"
+      "影響"
      ],
-     "dominant_size": 34,
+     "dominant_size": 31,
      "top2_mass_share": 0.08,
      "tiny": false,
      "generic_words": [
-      "行政",
-      "守る"
+      "行政"
      ]
     },
     {
@@ -219,7 +102,7 @@
       "公開法"
      ],
      "dominant_size": 10,
-     "top2_mass_share": 0.21,
+     "top2_mass_share": 0.22,
      "tiny": false,
      "generic_words": []
     },
@@ -228,20 +111,98 @@
       "収容",
       "刑事",
       "逮捕",
-      "事件",
+      "拘束",
+      "取調べ",
+      "弁護人",
+      "行為",
+      "入管",
+      "職員",
+      "勾留"
+     ],
+     "dominant_size": 22,
+     "top2_mass_share": 0.11,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "憲法",
+      "結婚",
+      "カップル",
+      "同性",
+      "違憲",
+      "選挙",
+      "パートナー",
+      "家族",
+      "女性",
+      "同性婚"
+     ],
+     "dominant_size": 32,
+     "top2_mass_share": 0.08,
+     "tiny": false,
+     "generic_words": []
+    }
+   ],
+   "genealogy_from_prevK": []
+  },
+  "5": {
+   "reconstruction_err": 8.8908,
+   "topics": [
+    {
+     "top_words": [
+      "住民",
+      "行政",
+      "環境",
+      "地域",
+      "計画",
+      "事業",
+      "被害",
+      "建設",
+      "市民",
+      "影響"
+     ],
+     "dominant_size": 35,
+     "top2_mass_share": 0.08,
+     "tiny": false,
+     "generic_words": [
+      "行政"
+     ]
+    },
+    {
+     "top_words": [
+      "開示",
+      "文書",
+      "情報_公開",
+      "開示_請求",
+      "情報",
+      "公開",
+      "ファイル",
+      "開示_決定",
+      "行政_機関",
+      "情報_公開法"
+     ],
+     "dominant_size": 10,
+     "top2_mass_share": 0.22,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "収容",
+      "刑事",
+      "逮捕",
       "入管",
       "拘束",
       "行為",
       "取調べ",
       "弁護人",
-      "職員"
+      "職員",
+      "勾留"
      ],
-     "dominant_size": 23,
+     "dominant_size": 22,
      "top2_mass_share": 0.1,
      "tiny": false,
-     "generic_words": [
-      "事件"
-     ]
+     "generic_words": []
     },
     {
      "top_words": [
@@ -253,11 +214,11 @@
       "パートナー",
       "婚姻",
       "性別",
-      "法律上",
-      "家族"
+      "家族",
+      "法律上"
      ],
      "dominant_size": 16,
-     "top2_mass_share": 0.16,
+     "top2_mass_share": 0.15,
      "tiny": false,
      "generic_words": []
     },
@@ -275,7 +236,7 @@
       "公職選挙法"
      ],
      "dominant_size": 12,
-     "top2_mass_share": 0.19,
+     "top2_mass_share": 0.2,
      "tiny": false,
      "generic_words": []
     }
@@ -289,7 +250,7 @@
     {
      "topic": 1,
      "from_prev_topic": 1,
-     "jaccard": 1.0
+     "jaccard": 0.82
     },
     {
      "topic": 2,
@@ -299,7 +260,7 @@
     {
      "topic": 3,
      "from_prev_topic": 3,
-     "jaccard": 0.18
+     "jaccard": 0.43
     },
     {
      "topic": 4,
@@ -309,7 +270,7 @@
    ]
   },
   "6": {
-   "reconstruction_err": 8.7995,
+   "reconstruction_err": 8.8023,
    "topics": [
     {
      "top_words": [
@@ -320,16 +281,15 @@
       "計画",
       "事業",
       "被害",
-      "市民",
       "建設",
-      "守る"
+      "市民",
+      "影響"
      ],
-     "dominant_size": 34,
+     "dominant_size": 35,
      "top2_mass_share": 0.08,
      "tiny": false,
      "generic_words": [
-      "行政",
-      "守る"
+      "行政"
      ]
     },
     {
@@ -343,7 +303,7 @@
       "ファイル",
       "開示_決定",
       "行政_機関",
-      "公開法"
+      "情報_公開法"
      ],
      "dominant_size": 10,
      "top2_mass_share": 0.22,
@@ -379,9 +339,9 @@
       "婚姻",
       "性別",
       "法律上",
-      "結婚_自由"
+      "民法"
      ],
-     "dominant_size": 13,
+     "dominant_size": 15,
      "top2_mass_share": 0.18,
      "tiny": false,
      "generic_words": []
@@ -394,31 +354,31 @@
       "在外",
       "選挙権_行使",
       "海外",
-      "国民",
       "行使",
+      "国民",
       "議員",
       "公職選挙法"
      ],
-     "dominant_size": 11,
-     "top2_mass_share": 0.19,
+     "dominant_size": 8,
+     "top2_mass_share": 0.2,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
       "弁護人",
+      "刑事",
       "取調べ",
       "逮捕",
       "捜査",
       "勾留",
-      "刑事",
       "検察官",
       "保釈",
       "無罪",
       "起訴"
      ],
      "dominant_size": 10,
-     "top2_mass_share": 0.2,
+     "top2_mass_share": 0.19,
      "tiny": false,
      "generic_words": []
     }
@@ -452,205 +412,32 @@
     {
      "topic": 5,
      "from_prev_topic": 2,
-     "jaccard": 0.25
+     "jaccard": 0.33
     }
    ]
   },
   "7": {
-   "reconstruction_err": 8.7256,
+   "reconstruction_err": 8.7195,
    "topics": [
     {
      "top_words": [
-      "住民",
-      "行政",
-      "環境",
-      "地域",
-      "計画",
-      "事業",
-      "被害",
-      "建設",
-      "市民",
-      "守る"
+      "子ども",
+      "労働",
+      "働く",
+      "業務",
+      "教育",
+      "教員",
+      "女性",
+      "知る",
+      "差別",
+      "東京"
      ],
-     "dominant_size": 30,
+     "dominant_size": 23,
      "top2_mass_share": 0.08,
      "tiny": false,
      "generic_words": [
-      "行政",
-      "守る"
-     ]
-    },
-    {
-     "top_words": [
-      "開示",
-      "文書",
-      "情報_公開",
-      "開示_請求",
-      "情報",
-      "公開",
-      "ファイル",
-      "財務省",
-      "開示_決定",
-      "行政_機関"
-     ],
-     "dominant_size": 10,
-     "top2_mass_share": 0.25,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "弁護人",
-      "取調べ",
-      "逮捕",
-      "捜査",
-      "勾留",
-      "検察官",
-      "刑事",
-      "保釈",
-      "無罪",
-      "起訴"
-     ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.21,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "同性",
-      "カップル",
-      "同性_カップル",
-      "同性婚",
-      "結婚",
-      "パートナー",
-      "婚姻",
-      "性別",
-      "法律上",
-      "結婚_自由"
-     ],
-     "dominant_size": 12,
-     "top2_mass_share": 0.21,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "選挙",
-      "選挙権",
-      "投票",
-      "海外",
-      "国民",
-      "在外",
-      "政治",
-      "選挙権_行使",
-      "社会",
-      "井桁"
-     ],
-     "dominant_size": 11,
-     "top2_mass_share": 0.17,
-     "tiny": false,
-     "generic_words": [
-      "社会"
-     ]
-    },
-    {
-     "top_words": [
-      "収容",
-      "入管",
-      "職員",
-      "難民",
-      "入管_収容",
-      "入管_職員",
-      "条約",
-      "デニズ",
-      "施設",
-      "医療"
-     ],
-     "dominant_size": 19,
-     "top2_mass_share": 0.17,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "アーカイブ_プロジェクト",
-      "プロジェクト",
-      "国籍法",
-      "日本国籍",
-      "アーカイブ",
-      "メモ",
-      "メモ_取る",
-      "両親",
-      "アメリカ",
-      "終結"
-     ],
-     "dominant_size": 4,
-     "top2_mass_share": 0.28,
-     "tiny": false,
-     "generic_words": []
-    }
-   ],
-   "genealogy_from_prevK": [
-    {
-     "topic": 0,
-     "from_prev_topic": 0,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 1,
-     "from_prev_topic": 1,
-     "jaccard": 0.82
-    },
-    {
-     "topic": 2,
-     "from_prev_topic": 5,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 3,
-     "from_prev_topic": 3,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 4,
-     "from_prev_topic": 4,
-     "jaccard": 0.54
-    },
-    {
-     "topic": 5,
-     "from_prev_topic": 2,
-     "jaccard": 0.67
-    },
-    {
-     "topic": 6,
-     "from_prev_topic": 0,
-     "jaccard": 0.0
-    }
-   ]
-  },
-  "8": {
-   "reconstruction_err": 8.6437,
-   "topics": [
-    {
-     "top_words": [
-      "住民",
-      "計画",
-      "地域",
-      "建設",
-      "行政",
-      "被害",
-      "事業",
-      "環境",
-      "守る",
-      "反対"
-     ],
-     "dominant_size": 20,
-     "top2_mass_share": 0.12,
-     "tiny": false,
-     "generic_words": [
-      "行政",
-      "守る"
+      "知る",
+      "東京"
      ]
     },
     {
@@ -663,47 +450,47 @@
       "公開",
       "ファイル",
       "開示_決定",
-      "財務省",
-      "行政_機関"
+      "行政_機関",
+      "情報_公開法"
      ],
      "dominant_size": 10,
-     "top2_mass_share": 0.24,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "弁護人",
-      "取調べ",
-      "逮捕",
-      "捜査",
-      "勾留",
-      "検察官",
-      "刑事",
-      "保釈",
-      "無罪",
-      "起訴"
-     ],
-     "dominant_size": 8,
      "top2_mass_share": 0.22,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
+      "弁護人",
+      "取調べ",
+      "逮捕",
+      "刑事",
+      "捜査",
+      "勾留",
+      "検察官",
+      "保釈",
+      "無罪",
+      "起訴"
+     ],
+     "dominant_size": 9,
+     "top2_mass_share": 0.2,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
       "同性",
       "カップル",
+      "結婚",
       "同性_カップル",
       "同性婚",
-      "結婚",
       "パートナー",
       "婚姻",
       "結婚_自由",
       "婚姻届",
       "性別"
      ],
-     "dominant_size": 7,
-     "top2_mass_share": 0.29,
+     "dominant_size": 9,
+     "top2_mass_share": 0.25,
      "tiny": false,
      "generic_words": []
     },
@@ -715,13 +502,13 @@
       "在外",
       "選挙権_行使",
       "行使",
-      "国民_審査権",
       "海外",
-      "国政_選挙",
-      "選挙区"
+      "選挙区",
+      "国民_審査権",
+      "日本人"
      ],
-     "dominant_size": 5,
-     "top2_mass_share": 0.33,
+     "dominant_size": 7,
+     "top2_mass_share": 0.3,
      "tiny": false,
      "generic_words": []
     },
@@ -730,65 +517,45 @@
       "収容",
       "入管",
       "入管_収容",
+      "難民",
       "入管_職員",
       "職員",
-      "難民",
       "デニズ",
-      "施設",
-      "収容_施設",
-      "医療"
+      "在留資格",
+      "条約",
+      "施設"
      ],
-     "dominant_size": 12,
+     "dominant_size": 15,
      "top2_mass_share": 0.21,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "アーカイブ_プロジェクト",
-      "日本国籍",
-      "プロジェクト",
-      "国籍法",
-      "両親",
-      "メモ",
-      "アーカイブ",
-      "メモ_取る",
-      "アメリカ",
-      "法務_大臣"
+      "住民",
+      "計画",
+      "地域",
+      "建設",
+      "被害",
+      "行政",
+      "環境",
+      "事業",
+      "反対",
+      "工事"
      ],
-     "dominant_size": 5,
-     "top2_mass_share": 0.3,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "社会",
-      "子ども",
-      "労働",
-      "法律",
-      "働く",
-      "業務",
-      "差別",
-      "女性",
-      "活動",
-      "教育"
-     ],
-     "dominant_size": 28,
-     "top2_mass_share": 0.08,
+     "dominant_size": 22,
+     "top2_mass_share": 0.12,
      "tiny": false,
      "generic_words": [
-      "社会",
-      "法律",
-      "活動"
+      "行政"
      ]
     }
    ],
    "genealogy_from_prevK": [
     {
      "topic": 0,
-     "from_prev_topic": 0,
-     "jaccard": 0.82
+     "from_prev_topic": 2,
+     "jaccard": 0.05
     },
     {
      "topic": 1,
@@ -797,38 +564,33 @@
     },
     {
      "topic": 2,
-     "from_prev_topic": 2,
+     "from_prev_topic": 5,
      "jaccard": 1.0
     },
     {
      "topic": 3,
      "from_prev_topic": 3,
-     "jaccard": 0.82
+     "jaccard": 0.67
     },
     {
      "topic": 4,
      "from_prev_topic": 4,
-     "jaccard": 0.43
+     "jaccard": 0.54
     },
     {
      "topic": 5,
-     "from_prev_topic": 5,
+     "from_prev_topic": 2,
      "jaccard": 0.82
     },
     {
      "topic": 6,
-     "from_prev_topic": 6,
-     "jaccard": 0.82
-    },
-    {
-     "topic": 7,
-     "from_prev_topic": 4,
-     "jaccard": 0.05
+     "from_prev_topic": 0,
+     "jaccard": 0.67
     }
    ]
   },
-  "9": {
-   "reconstruction_err": 8.57,
+  "8": {
+   "reconstruction_err": 8.6446,
    "topics": [
     {
      "top_words": [
@@ -838,12 +600,12 @@
       "建設",
       "被害",
       "行政",
-      "事業",
       "環境",
+      "事業",
       "反対",
       "工事"
      ],
-     "dominant_size": 18,
+     "dominant_size": 16,
      "top2_mass_share": 0.13,
      "tiny": false,
      "generic_words": [
@@ -854,71 +616,17 @@
      "top_words": [
       "開示",
       "文書",
-      "開示_請求",
       "情報_公開",
+      "開示_請求",
       "情報",
       "公開",
       "ファイル",
-      "財務省",
       "開示_決定",
-      "行政_機関"
+      "行政_機関",
+      "情報_公開法"
      ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.25,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "難民",
-      "条約",
-      "入管",
-      "差別",
-      "人種",
-      "在留資格",
-      "難民_認定",
-      "外国人",
-      "暴力",
-      "国籍"
-     ],
-     "dominant_size": 7,
-     "top2_mass_share": 0.27,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "同性",
-      "カップル",
-      "同性_カップル",
-      "同性婚",
-      "結婚",
-      "パートナー",
-      "婚姻",
-      "結婚_自由",
-      "婚姻届",
-      "性別"
-     ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.28,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "選挙",
-      "選挙権",
-      "投票",
-      "在外",
-      "選挙権_行使",
-      "行使",
-      "海外",
-      "国民_審査権",
-      "国政_選挙",
-      "議員"
-     ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.3,
+     "dominant_size": 12,
+     "top2_mass_share": 0.22,
      "tiny": false,
      "generic_words": []
     },
@@ -931,27 +639,45 @@
       "取調べ",
       "検察官",
       "保釈",
-      "無罪",
       "刑事",
+      "無罪",
       "起訴"
      ],
-     "dominant_size": 8,
+     "dominant_size": 9,
      "top2_mass_share": 0.24,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "アーカイブ_プロジェクト",
-      "プロジェクト",
-      "国籍法",
-      "メモ",
-      "メモ_取る",
-      "アーカイブ",
-      "日本国籍",
-      "No.",
-      "資料_アーカイブ",
-      "終結_アーカイブ"
+      "同性",
+      "カップル",
+      "結婚",
+      "同性_カップル",
+      "同性婚",
+      "パートナー",
+      "婚姻",
+      "結婚_自由",
+      "婚姻届",
+      "性別"
+     ],
+     "dominant_size": 8,
+     "top2_mass_share": 0.27,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "選挙",
+      "選挙権",
+      "投票",
+      "在外",
+      "選挙権_行使",
+      "行使",
+      "選挙区",
+      "海外",
+      "国民_審査権",
+      "議員"
      ],
      "dominant_size": 5,
      "top2_mass_share": 0.31,
@@ -966,8 +692,8 @@
       "刑務所",
       "入管",
       "医師",
-      "死亡",
       "刑事_施設",
+      "死亡",
       "病院",
       "入管_職員"
      ],
@@ -978,32 +704,49 @@
     },
     {
      "top_words": [
+      "難民",
+      "在留資格",
+      "国籍",
+      "入管",
+      "条約",
+      "外国人",
+      "日本国籍",
+      "差別",
+      "人種",
+      "難民_認定"
+     ],
+     "dominant_size": 10,
+     "top2_mass_share": 0.23,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
       "労働",
       "子ども",
       "業務",
-      "社会",
-      "法律",
-      "教員",
       "働く",
+      "教員",
       "教育",
-      "活動",
-      "仕事"
+      "仕事",
+      "知る",
+      "女性",
+      "意見書"
      ],
-     "dominant_size": 25,
-     "top2_mass_share": 0.1,
+     "dominant_size": 26,
+     "top2_mass_share": 0.09,
      "tiny": false,
      "generic_words": [
-      "社会",
-      "法律",
-      "活動"
+      "知る",
+      "意見書"
      ]
     }
    ],
    "genealogy_from_prevK": [
     {
      "topic": 0,
-     "from_prev_topic": 0,
-     "jaccard": 0.82
+     "from_prev_topic": 6,
+     "jaccard": 1.0
     },
     {
      "topic": 1,
@@ -1012,8 +755,8 @@
     },
     {
      "topic": 2,
-     "from_prev_topic": 5,
-     "jaccard": 0.11
+     "from_prev_topic": 2,
+     "jaccard": 1.0
     },
     {
      "topic": 3,
@@ -1027,28 +770,23 @@
     },
     {
      "topic": 5,
-     "from_prev_topic": 2,
-     "jaccard": 1.0
+     "from_prev_topic": 5,
+     "jaccard": 0.25
     },
     {
      "topic": 6,
-     "from_prev_topic": 6,
-     "jaccard": 0.54
+     "from_prev_topic": 5,
+     "jaccard": 0.25
     },
     {
      "topic": 7,
-     "from_prev_topic": 5,
-     "jaccard": 0.33
-    },
-    {
-     "topic": 8,
-     "from_prev_topic": 7,
+     "from_prev_topic": 0,
      "jaccard": 0.67
     }
    ]
   },
-  "10": {
-   "reconstruction_err": 8.4989,
+  "9": {
+   "reconstruction_err": 8.574,
    "topics": [
     {
      "top_words": [
@@ -1058,12 +796,12 @@
       "地域",
       "事業",
       "環境",
-      "行政",
       "反対",
       "工事",
+      "行政",
       "市民"
      ],
-     "dominant_size": 14,
+     "dominant_size": 15,
      "top2_mass_share": 0.15,
      "tiny": false,
      "generic_words": [
@@ -1074,17 +812,17 @@
      "top_words": [
       "開示",
       "文書",
-      "開示_請求",
       "情報_公開",
+      "開示_請求",
       "情報",
       "公開",
       "ファイル",
-      "財務省",
       "開示_決定",
-      "行政_機関"
+      "行政_機関",
+      "情報_公開法"
      ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.25,
+     "dominant_size": 11,
+     "top2_mass_share": 0.22,
      "tiny": false,
      "generic_words": []
     },
@@ -1101,7 +839,7 @@
       "無罪",
       "起訴"
      ],
-     "dominant_size": 8,
+     "dominant_size": 9,
      "top2_mass_share": 0.24,
      "tiny": false,
      "generic_words": []
@@ -1110,9 +848,9 @@
      "top_words": [
       "同性",
       "カップル",
+      "結婚",
       "同性_カップル",
       "同性婚",
-      "結婚",
       "パートナー",
       "婚姻",
       "結婚_自由",
@@ -1120,7 +858,7 @@
       "性別"
      ],
      "dominant_size": 8,
-     "top2_mass_share": 0.28,
+     "top2_mass_share": 0.27,
      "tiny": false,
      "generic_words": []
     },
@@ -1132,91 +870,33 @@
       "在外",
       "選挙権_行使",
       "行使",
+      "選挙区",
       "海外",
       "国民_審査権",
-      "国政_選挙",
       "議員"
      ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.3,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "難民",
-      "条約",
-      "入管",
-      "差別",
-      "人種",
-      "在留資格",
-      "難民_認定",
-      "外国人",
-      "暴力",
-      "国籍"
-     ],
-     "dominant_size": 7,
-     "top2_mass_share": 0.27,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "アーカイブ_プロジェクト",
-      "プロジェクト",
-      "国籍法",
-      "メモ",
-      "メモ_取る",
-      "アーカイブ",
-      "日本国籍",
-      "No.",
-      "終結_アーカイブ",
-      "プロジェクト_対象"
-     ],
-     "dominant_size": 6,
+     "dominant_size": 5,
      "top2_mass_share": 0.31,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "収容",
-      "職員",
-      "医療",
-      "刑務所",
+      "難民",
+      "在留資格",
       "入管",
-      "医師",
-      "刑事_施設",
-      "病院",
-      "死亡",
-      "入管_職員"
+      "条約",
+      "国籍",
+      "外国人",
+      "日本国籍",
+      "差別",
+      "人種",
+      "難民_認定"
      ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.22,
+     "dominant_size": 10,
+     "top2_mass_share": 0.23,
      "tiny": false,
      "generic_words": []
-    },
-    {
-     "top_words": [
-      "労働",
-      "子ども",
-      "業務",
-      "社会",
-      "法律",
-      "働く",
-      "教員",
-      "教育",
-      "活動",
-      "仕事"
-     ],
-     "dominant_size": 24,
-     "top2_mass_share": 0.1,
-     "tiny": false,
-     "generic_words": [
-      "社会",
-      "法律",
-      "活動"
-     ]
     },
     {
      "top_words": [
@@ -1232,7 +912,46 @@
       "管理"
      ],
      "dominant_size": 4,
-     "top2_mass_share": 0.52,
+     "top2_mass_share": 0.51,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "労働",
+      "子ども",
+      "業務",
+      "働く",
+      "教員",
+      "教育",
+      "仕事",
+      "知る",
+      "女性",
+      "意見書"
+     ],
+     "dominant_size": 24,
+     "top2_mass_share": 0.09,
+     "tiny": false,
+     "generic_words": [
+      "知る",
+      "意見書"
+     ]
+    },
+    {
+     "top_words": [
+      "収容",
+      "職員",
+      "医療",
+      "刑務所",
+      "入管",
+      "医師",
+      "刑事_施設",
+      "病院",
+      "入管_職員",
+      "死亡"
+     ],
+     "dominant_size": 9,
+     "top2_mass_share": 0.23,
      "tiny": false,
      "generic_words": []
     }
@@ -1250,7 +969,7 @@
     },
     {
      "topic": 2,
-     "from_prev_topic": 5,
+     "from_prev_topic": 2,
      "jaccard": 1.0
     },
     {
@@ -1265,13 +984,13 @@
     },
     {
      "topic": 5,
-     "from_prev_topic": 2,
+     "from_prev_topic": 6,
      "jaccard": 1.0
     },
     {
      "topic": 6,
-     "from_prev_topic": 6,
-     "jaccard": 0.82
+     "from_prev_topic": 0,
+     "jaccard": 0.05
     },
     {
      "topic": 7,
@@ -1280,18 +999,13 @@
     },
     {
      "topic": 8,
-     "from_prev_topic": 8,
+     "from_prev_topic": 5,
      "jaccard": 1.0
-    },
-    {
-     "topic": 9,
-     "from_prev_topic": 0,
-     "jaccard": 0.05
     }
    ]
   },
-  "11": {
-   "reconstruction_err": 8.4264,
+  "10": {
+   "reconstruction_err": 8.5056,
    "topics": [
     {
      "top_words": [
@@ -1300,14 +1014,14 @@
       "建設",
       "地域",
       "事業",
-      "行政",
       "環境",
-      "反対",
       "工事",
+      "反対",
+      "行政",
       "市民"
      ],
-     "dominant_size": 16,
-     "top2_mass_share": 0.14,
+     "dominant_size": 14,
+     "top2_mass_share": 0.15,
      "tiny": false,
      "generic_words": [
       "行政"
@@ -1317,71 +1031,17 @@
      "top_words": [
       "開示",
       "文書",
-      "開示_請求",
       "情報_公開",
+      "開示_請求",
       "情報",
       "公開",
       "ファイル",
-      "財務省",
       "開示_決定",
-      "行政_機関"
+      "行政_機関",
+      "公開法"
      ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.25,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "難民",
-      "入管",
-      "条約",
-      "在留資格",
-      "差別",
-      "収容",
-      "難民_認定",
-      "暴力",
-      "人種",
-      "外国人"
-     ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.3,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "同性",
-      "カップル",
-      "同性_カップル",
-      "同性婚",
-      "結婚",
-      "パートナー",
-      "婚姻",
-      "婚姻届",
-      "結婚_自由",
-      "民法"
-     ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.32,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "選挙",
-      "投票",
-      "選挙権",
-      "在外",
-      "選挙権_行使",
-      "行使",
-      "国民_審査権",
-      "国民_審査",
-      "審査権",
-      "選挙区"
-     ],
-     "dominant_size": 4,
-     "top2_mass_share": 0.36,
+     "dominant_size": 12,
+     "top2_mass_share": 0.23,
      "tiny": false,
      "generic_words": []
     },
@@ -1390,13 +1050,13 @@
       "弁護人",
       "捜査",
       "勾留",
-      "逮捕",
       "取調べ",
+      "逮捕",
       "検察官",
       "保釈",
-      "無罪",
       "刑事",
-      "人質"
+      "無罪",
+      "起訴"
      ],
      "dominant_size": 8,
      "top2_mass_share": 0.24,
@@ -1405,16 +1065,34 @@
     },
     {
      "top_words": [
-      "アーカイブ_プロジェクト",
-      "プロジェクト",
-      "メモ",
-      "メモ_取る",
-      "国籍法",
-      "アーカイブ",
-      "日本国籍",
-      "終結_アーカイブ",
-      "No.",
-      "資料_アーカイブ"
+      "同性",
+      "カップル",
+      "同性婚",
+      "同性_カップル",
+      "結婚",
+      "パートナー",
+      "婚姻",
+      "結婚_自由",
+      "婚姻届",
+      "民法"
+     ],
+     "dominant_size": 7,
+     "top2_mass_share": 0.29,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "選挙",
+      "選挙権",
+      "投票",
+      "在外",
+      "選挙権_行使",
+      "行使",
+      "選挙区",
+      "海外",
+      "議員",
+      "国民_審査権"
      ],
      "dominant_size": 6,
      "top2_mass_share": 0.32,
@@ -1423,18 +1101,54 @@
     },
     {
      "top_words": [
+      "難民",
+      "条約",
+      "差別",
+      "人種",
+      "難民_認定",
+      "入管",
+      "暴力",
+      "在留資格",
+      "外国人",
+      "難民_条約"
+     ],
+     "dominant_size": 7,
+     "top2_mass_share": 0.28,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "日本国籍",
+      "国籍法",
+      "両親",
+      "取得",
+      "国籍",
+      "日本人",
+      "日本国籍_取得",
+      "アメリカ",
+      "父親",
+      "法務_大臣"
+     ],
+     "dominant_size": 6,
+     "top2_mass_share": 0.35,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
       "収容",
       "職員",
       "医療",
+      "入管",
       "刑務所",
       "医師",
       "刑事_施設",
       "病院",
-      "入管",
-      "受刑者",
+      "入管_職員",
       "死亡"
      ],
-     "dominant_size": 7,
+     "dominant_size": 9,
      "top2_mass_share": 0.23,
      "tiny": false,
      "generic_words": []
@@ -1443,39 +1157,19 @@
      "top_words": [
       "労働",
       "業務",
-      "教員",
       "子ども",
+      "教員",
       "働く",
-      "労働者",
-      "労働時間",
-      "仕事",
       "教育",
-      "家事"
+      "仕事",
+      "労働者",
+      "児童",
+      "労働時間"
      ],
-     "dominant_size": 20,
-     "top2_mass_share": 0.14,
+     "dominant_size": 22,
+     "top2_mass_share": 0.11,
      "tiny": false,
      "generic_words": []
-    },
-    {
-     "top_words": [
-      "手術",
-      "不妊",
-      "不妊_手術",
-      "優生",
-      "生きる",
-      "社会",
-      "人生",
-      "立候補",
-      "望む",
-      "選択"
-     ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.24,
-     "tiny": false,
-     "generic_words": [
-      "社会"
-     ]
     },
     {
      "top_words": [
@@ -1505,12 +1199,12 @@
     {
      "topic": 1,
      "from_prev_topic": 1,
-     "jaccard": 1.0
+     "jaccard": 0.82
     },
     {
      "topic": 2,
-     "from_prev_topic": 5,
-     "jaccard": 0.82
+     "from_prev_topic": 2,
+     "jaccard": 1.0
     },
     {
      "topic": 3,
@@ -1520,12 +1214,269 @@
     {
      "topic": 4,
      "from_prev_topic": 4,
+     "jaccard": 1.0
+    },
+    {
+     "topic": 5,
+     "from_prev_topic": 5,
+     "jaccard": 0.67
+    },
+    {
+     "topic": 6,
+     "from_prev_topic": 5,
+     "jaccard": 0.11
+    },
+    {
+     "topic": 7,
+     "from_prev_topic": 8,
+     "jaccard": 1.0
+    },
+    {
+     "topic": 8,
+     "from_prev_topic": 7,
      "jaccard": 0.54
+    },
+    {
+     "topic": 9,
+     "from_prev_topic": 6,
+     "jaccard": 1.0
+    }
+   ]
+  },
+  "11": {
+   "reconstruction_err": 8.4331,
+   "topics": [
+    {
+     "top_words": [
+      "住民",
+      "計画",
+      "建設",
+      "地域",
+      "事業",
+      "環境",
+      "行政",
+      "工事",
+      "反対",
+      "市民"
+     ],
+     "dominant_size": 12,
+     "top2_mass_share": 0.14,
+     "tiny": false,
+     "generic_words": [
+      "行政"
+     ]
+    },
+    {
+     "top_words": [
+      "開示",
+      "文書",
+      "情報_公開",
+      "開示_請求",
+      "情報",
+      "公開",
+      "ファイル",
+      "開示_決定",
+      "行政_機関",
+      "情報_公開法"
+     ],
+     "dominant_size": 11,
+     "top2_mass_share": 0.22,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "難民",
+      "入管",
+      "条約",
+      "収容",
+      "差別",
+      "暴力",
+      "入管_収容",
+      "難民_認定",
+      "在留資格",
+      "人種"
+     ],
+     "dominant_size": 7,
+     "top2_mass_share": 0.34,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "同性",
+      "カップル",
+      "同性_カップル",
+      "同性婚",
+      "パートナー",
+      "結婚",
+      "婚姻",
+      "婚姻届",
+      "結婚_自由",
+      "民法"
+     ],
+     "dominant_size": 6,
+     "top2_mass_share": 0.34,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "選挙",
+      "投票",
+      "選挙権",
+      "在外",
+      "選挙権_行使",
+      "行使",
+      "選挙区",
+      "国民_審査権",
+      "国民_審査",
+      "審査権"
+     ],
+     "dominant_size": 5,
+     "top2_mass_share": 0.37,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "弁護人",
+      "捜査",
+      "勾留",
+      "取調べ",
+      "逮捕",
+      "検察官",
+      "保釈",
+      "刑事",
+      "無罪",
+      "起訴"
+     ],
+     "dominant_size": 8,
+     "top2_mass_share": 0.24,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "日本国籍",
+      "国籍法",
+      "両親",
+      "取得",
+      "国籍",
+      "日本人",
+      "日本国籍_取得",
+      "父親",
+      "アメリカ",
+      "生まれる"
+     ],
+     "dominant_size": 6,
+     "top2_mass_share": 0.35,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "収容",
+      "医療",
+      "刑務所",
+      "職員",
+      "医師",
+      "刑事_施設",
+      "病院",
+      "受刑者",
+      "入管",
+      "死亡"
+     ],
+     "dominant_size": 7,
+     "top2_mass_share": 0.23,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "労働",
+      "業務",
+      "教員",
+      "働く",
+      "子ども",
+      "労働者",
+      "労働時間",
+      "仕事",
+      "家事",
+      "教育"
+     ],
+     "dominant_size": 21,
+     "top2_mass_share": 0.15,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "手術",
+      "不妊",
+      "不妊_手術",
+      "優生",
+      "生きる",
+      "人生",
+      "望む",
+      "立候補",
+      "優生_保護",
+      "強制"
+     ],
+     "dominant_size": 8,
+     "top2_mass_share": 0.24,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "水害",
+      "堤防",
+      "河川",
+      "豪雨",
+      "浸水",
+      "治水",
+      "操作",
+      "被害",
+      "発生",
+      "管理"
+     ],
+     "dominant_size": 4,
+     "top2_mass_share": 0.51,
+     "tiny": false,
+     "generic_words": []
+    }
+   ],
+   "genealogy_from_prevK": [
+    {
+     "topic": 0,
+     "from_prev_topic": 0,
+     "jaccard": 1.0
+    },
+    {
+     "topic": 1,
+     "from_prev_topic": 1,
+     "jaccard": 0.82
+    },
+    {
+     "topic": 2,
+     "from_prev_topic": 5,
+     "jaccard": 0.67
+    },
+    {
+     "topic": 3,
+     "from_prev_topic": 3,
+     "jaccard": 1.0
+    },
+    {
+     "topic": 4,
+     "from_prev_topic": 4,
+     "jaccard": 0.67
     },
     {
      "topic": 5,
      "from_prev_topic": 2,
-     "jaccard": 0.82
+     "jaccard": 1.0
     },
     {
      "topic": 6,
@@ -1540,12 +1491,12 @@
     {
      "topic": 8,
      "from_prev_topic": 8,
-     "jaccard": 0.54
+     "jaccard": 0.82
     },
     {
      "topic": 9,
-     "from_prev_topic": 8,
-     "jaccard": 0.05
+     "from_prev_topic": 0,
+     "jaccard": 0.0
     },
     {
      "topic": 10,
@@ -1555,23 +1506,23 @@
    ]
   },
   "12": {
-   "reconstruction_err": 8.358,
+   "reconstruction_err": 8.3693,
    "topics": [
     {
      "top_words": [
       "住民",
       "計画",
+      "事業",
       "建設",
       "地域",
-      "事業",
-      "環境",
       "行政",
-      "反対",
       "工事",
-      "市民"
+      "市民",
+      "市長",
+      "議会"
      ],
-     "dominant_size": 11,
-     "top2_mass_share": 0.14,
+     "dominant_size": 12,
+     "top2_mass_share": 0.15,
      "tiny": false,
      "generic_words": [
       "行政"
@@ -1581,17 +1532,17 @@
      "top_words": [
       "開示",
       "文書",
-      "開示_請求",
       "情報_公開",
+      "開示_請求",
       "情報",
-      "ファイル",
       "公開",
-      "財務省",
+      "ファイル",
       "開示_決定",
-      "行政_機関"
+      "行政_機関",
+      "財務省"
      ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.25,
+     "dominant_size": 11,
+     "top2_mass_share": 0.23,
      "tiny": false,
      "generic_words": []
     },
@@ -1609,7 +1560,7 @@
       "逮捕"
      ],
      "dominant_size": 5,
-     "top2_mass_share": 0.44,
+     "top2_mass_share": 0.41,
      "tiny": false,
      "generic_words": []
     },
@@ -1626,41 +1577,97 @@
       "結婚_自由",
       "民法"
      ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.33,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "選挙",
-      "選挙権",
-      "投票",
-      "在外",
-      "選挙権_行使",
-      "行使",
-      "国民_審査権",
-      "海外",
-      "国政_選挙",
-      "審査権"
-     ],
-     "dominant_size": 6,
+     "dominant_size": 5,
      "top2_mass_share": 0.32,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "難民",
+      "手術",
+      "不妊",
+      "不妊_手術",
+      "生きる",
+      "イベント",
+      "優生",
+      "立候補",
+      "自分",
+      "井桁",
+      "選択"
+     ],
+     "dominant_size": 11,
+     "top2_mass_share": 0.19,
+     "tiny": false,
+     "generic_words": [
+      "自分"
+     ]
+    },
+    {
+     "top_words": [
+      "収容",
       "入管",
-      "条約",
-      "在留資格",
-      "差別",
-      "人種",
-      "難民_認定",
-      "外国人",
-      "暴力",
-      "国籍"
+      "入管_収容",
+      "入管_職員",
+      "職員",
+      "デニズ",
+      "施設",
+      "難民",
+      "医療",
+      "収容_施設"
+     ],
+     "dominant_size": 9,
+     "top2_mass_share": 0.23,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "選挙",
+      "投票",
+      "選挙権",
+      "在外",
+      "選挙権_行使",
+      "行使",
+      "選挙区",
+      "国民_審査権",
+      "国民_審査",
+      "審査権"
+     ],
+     "dominant_size": 4,
+     "top2_mass_share": 0.37,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "労働",
+      "子ども",
+      "労働者",
+      "業務",
+      "教員",
+      "労働時間",
+      "家事",
+      "働く",
+      "時間",
+      "環境"
+     ],
+     "dominant_size": 14,
+     "top2_mass_share": 0.19,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "日本国籍",
+      "国籍法",
+      "国籍",
+      "両親",
+      "取得",
+      "日本人",
+      "旅券",
+      "アメリカ",
+      "法務_大臣",
+      "在留資格"
      ],
      "dominant_size": 7,
      "top2_mass_share": 0.29,
@@ -1669,16 +1676,193 @@
     },
     {
      "top_words": [
-      "アーカイブ_プロジェクト",
-      "プロジェクト",
-      "メモ",
-      "メモ_取る",
-      "国籍法",
-      "アーカイブ",
-      "日本国籍",
-      "資料_アーカイブ",
-      "プロジェクト_対象",
-      "終結_アーカイブ"
+      "水害",
+      "堤防",
+      "河川",
+      "豪雨",
+      "浸水",
+      "治水",
+      "操作",
+      "被害",
+      "発生",
+      "管理"
+     ],
+     "dominant_size": 6,
+     "top2_mass_share": 0.49,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "取調べ",
+      "黙秘権",
+      "弁護人",
+      "黙秘",
+      "黙秘権_行使",
+      "被疑者",
+      "留置",
+      "警察署",
+      "行為",
+      "供述"
+     ],
+     "dominant_size": 8,
+     "top2_mass_share": 0.39,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "気候_変動",
+      "気候",
+      "変動",
+      "排出",
+      "温室",
+      "温室_効果",
+      "効果_ガス",
+      "ガス",
+      "石炭",
+      "削減"
+     ],
+     "dominant_size": 3,
+     "top2_mass_share": 0.57,
+     "tiny": false,
+     "generic_words": []
+    }
+   ],
+   "genealogy_from_prevK": [
+    {
+     "topic": 0,
+     "from_prev_topic": 0,
+     "jaccard": 0.67
+    },
+    {
+     "topic": 1,
+     "from_prev_topic": 1,
+     "jaccard": 0.82
+    },
+    {
+     "topic": 2,
+     "from_prev_topic": 5,
+     "jaccard": 0.54
+    },
+    {
+     "topic": 3,
+     "from_prev_topic": 3,
+     "jaccard": 1.0
+    },
+    {
+     "topic": 4,
+     "from_prev_topic": 9,
+     "jaccard": 0.43
+    },
+    {
+     "topic": 5,
+     "from_prev_topic": 2,
+     "jaccard": 0.25
+    },
+    {
+     "topic": 6,
+     "from_prev_topic": 4,
+     "jaccard": 1.0
+    },
+    {
+     "topic": 7,
+     "from_prev_topic": 8,
+     "jaccard": 0.67
+    },
+    {
+     "topic": 8,
+     "from_prev_topic": 6,
+     "jaccard": 0.54
+    },
+    {
+     "topic": 9,
+     "from_prev_topic": 10,
+     "jaccard": 1.0
+    },
+    {
+     "topic": 10,
+     "from_prev_topic": 5,
+     "jaccard": 0.11
+    },
+    {
+     "topic": 11,
+     "from_prev_topic": 0,
+     "jaccard": 0.0
+    }
+   ]
+  },
+  "13": {
+   "reconstruction_err": 8.291,
+   "topics": [
+    {
+     "top_words": [
+      "住民",
+      "計画",
+      "建設",
+      "地域",
+      "事業",
+      "行政",
+      "環境",
+      "反対",
+      "工事",
+      "市民"
+     ],
+     "dominant_size": 13,
+     "top2_mass_share": 0.14,
+     "tiny": false,
+     "generic_words": [
+      "行政"
+     ]
+    },
+    {
+     "top_words": [
+      "開示",
+      "情報_公開",
+      "文書",
+      "情報",
+      "公開",
+      "開示_決定",
+      "公開_請求",
+      "公表",
+      "決定",
+      "保有"
+     ],
+     "dominant_size": 8,
+     "top2_mass_share": 0.27,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "保釈",
+      "勾留",
+      "起訴",
+      "人質",
+      "人質_司法",
+      "無罪",
+      "検察官",
+      "大川原",
+      "捜査",
+      "逮捕"
+     ],
+     "dominant_size": 5,
+     "top2_mass_share": 0.45,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "同性",
+      "カップル",
+      "同性_カップル",
+      "同性婚",
+      "結婚",
+      "パートナー",
+      "婚姻",
+      "結婚_自由",
+      "婚姻届",
+      "民法"
      ],
      "dominant_size": 6,
      "top2_mass_share": 0.32,
@@ -1687,41 +1871,93 @@
     },
     {
      "top_words": [
-      "収容",
-      "職員",
-      "刑務所",
-      "医療",
-      "入管",
-      "医師",
-      "刑事_施設",
-      "病院",
-      "死亡",
-      "受刑者"
+      "選挙",
+      "投票",
+      "選挙権",
+      "在外",
+      "選挙権_行使",
+      "行使",
+      "選挙区",
+      "国民_審査権",
+      "国民_審査",
+      "審査権"
      ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.24,
+     "dominant_size": 4,
+     "top2_mass_share": 0.39,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "難民",
+      "入管",
+      "収容",
+      "条約",
+      "暴力",
+      "入管_収容",
+      "差別",
+      "デニズ",
+      "収容_施設",
+      "在留資格"
+     ],
+     "dominant_size": 7,
+     "top2_mass_share": 0.35,
+     "tiny": false,
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "日本国籍",
+      "国籍法",
+      "両親",
+      "取得",
+      "国籍",
+      "日本人",
+      "日本国籍_取得",
+      "父親",
+      "生まれる",
+      "法務_大臣"
+     ],
+     "dominant_size": 5,
+     "top2_mass_share": 0.37,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
       "労働",
-      "業務",
       "教員",
-      "働く",
-      "子ども",
-      "労働者",
-      "教育",
-      "仕事",
       "労働時間",
-      "法律"
+      "労働者",
+      "業務",
+      "子ども",
+      "家事",
+      "働く",
+      "児童",
+      "環境"
      ],
-     "dominant_size": 22,
-     "top2_mass_share": 0.13,
+     "dominant_size": 13,
+     "top2_mass_share": 0.21,
      "tiny": false,
-     "generic_words": [
-      "法律"
-     ]
+     "generic_words": []
+    },
+    {
+     "top_words": [
+      "収容",
+      "医療",
+      "刑務所",
+      "職員",
+      "医師",
+      "刑事_施設",
+      "病院",
+      "受刑者",
+      "死ぬ",
+      "病気"
+     ],
+     "dominant_size": 7,
+     "top2_mass_share": 0.26,
+     "tiny": false,
+     "generic_words": []
     },
     {
      "top_words": [
@@ -1743,37 +1979,57 @@
     },
     {
      "top_words": [
+      "手術",
+      "不妊",
+      "不妊_手術",
+      "生きる",
+      "立候補",
+      "優生",
+      "イベント",
+      "井桁",
+      "自分",
+      "立候補_年齢"
+     ],
+     "dominant_size": 12,
+     "top2_mass_share": 0.2,
+     "tiny": false,
+     "generic_words": [
+      "自分"
+     ]
+    },
+    {
+     "top_words": [
       "取調べ",
       "黙秘権",
       "弁護人",
-      "黙秘",
       "黙秘権_行使",
+      "黙秘",
       "被疑者",
+      "留置",
       "供述",
-      "行使",
-      "弁護人_依頼",
-      "黙秘権_侵害"
+      "警察署",
+      "行使"
      ],
-     "dominant_size": 4,
-     "top2_mass_share": 0.46,
+     "dominant_size": 6,
+     "top2_mass_share": 0.44,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "手術",
-      "不妊",
-      "不妊_手術",
-      "優生",
-      "人生",
-      "強制",
-      "優生_保護",
-      "望む",
-      "生きる",
-      "手術_受ける"
+      "財務省",
+      "赤木",
+      "開示",
+      "開示_請求",
+      "文書",
+      "ファイル",
+      "改ざん",
+      "森友",
+      "赤木_ファイル",
+      "赤木_俊夫"
      ],
-     "dominant_size": 7,
-     "top2_mass_share": 0.3,
+     "dominant_size": 5,
+     "top2_mass_share": 0.54,
      "tiny": false,
      "generic_words": []
     }
@@ -1782,17 +2038,17 @@
     {
      "topic": 0,
      "from_prev_topic": 0,
-     "jaccard": 1.0
+     "jaccard": 0.67
     },
     {
      "topic": 1,
      "from_prev_topic": 1,
-     "jaccard": 1.0
+     "jaccard": 0.43
     },
     {
      "topic": 2,
-     "from_prev_topic": 5,
-     "jaccard": 0.54
+     "from_prev_topic": 2,
+     "jaccard": 1.0
     },
     {
      "topic": 3,
@@ -1801,64 +2057,69 @@
     },
     {
      "topic": 4,
-     "from_prev_topic": 4,
-     "jaccard": 0.67
+     "from_prev_topic": 6,
+     "jaccard": 1.0
     },
     {
      "topic": 5,
-     "from_prev_topic": 2,
-     "jaccard": 0.82
+     "from_prev_topic": 5,
+     "jaccard": 0.43
     },
     {
      "topic": 6,
-     "from_prev_topic": 6,
-     "jaccard": 0.82
+     "from_prev_topic": 8,
+     "jaccard": 0.54
     },
     {
      "topic": 7,
      "from_prev_topic": 7,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 8,
-     "from_prev_topic": 8,
      "jaccard": 0.82
     },
     {
+     "topic": 8,
+     "from_prev_topic": 5,
+     "jaccard": 0.18
+    },
+    {
      "topic": 9,
-     "from_prev_topic": 10,
+     "from_prev_topic": 9,
      "jaccard": 1.0
     },
     {
      "topic": 10,
-     "from_prev_topic": 5,
-     "jaccard": 0.11
+     "from_prev_topic": 4,
+     "jaccard": 0.82
     },
     {
      "topic": 11,
-     "from_prev_topic": 9,
-     "jaccard": 0.54
+     "from_prev_topic": 10,
+     "jaccard": 0.82
+    },
+    {
+     "topic": 12,
+     "from_prev_topic": 1,
+     "jaccard": 0.33
     }
    ]
   },
-  "13": {
-   "reconstruction_err": 8.2916,
+  "14": {
+   "reconstruction_err": 8.2282,
    "topics": [
     {
      "top_words": [
       "住民",
       "計画",
       "建設",
+      "工事",
       "地域",
       "事業",
+      "市長",
+      "市民",
       "行政",
-      "環境",
-      "反対",
-      "工事",
-      "市民"
+      "議会"
      ],
-     "dominant_size": 14,
-     "top2_mass_share": 0.14,
+     "dominant_size": 10,
+     "top2_mass_share": 0.17,
      "tiny": false,
      "generic_words": [
       "行政"
@@ -1868,35 +2129,35 @@
      "top_words": [
       "開示",
       "文書",
-      "開示_請求",
       "情報_公開",
+      "開示_請求",
       "情報",
       "公開",
       "ファイル",
-      "財務省",
       "開示_決定",
-      "行政_機関"
+      "行政_機関",
+      "財務省"
      ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.25,
+     "dominant_size": 11,
+     "top2_mass_share": 0.24,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "黙秘権",
-      "取調べ",
-      "弁護人",
-      "黙秘",
-      "黙秘権_行使",
-      "被疑者",
-      "供述",
-      "行使",
-      "弁護人_依頼",
-      "黙秘権_侵害"
+      "保釈",
+      "勾留",
+      "起訴",
+      "人質",
+      "人質_司法",
+      "無罪",
+      "検察官",
+      "大川原",
+      "捜査",
+      "逮捕"
      ],
-     "dominant_size": 4,
-     "top2_mass_share": 0.53,
+     "dominant_size": 5,
+     "top2_mass_share": 0.44,
      "tiny": false,
      "generic_words": []
     },
@@ -1905,34 +2166,34 @@
       "同性",
       "カップル",
       "同性_カップル",
-      "同性婚",
       "結婚",
+      "同性婚",
       "パートナー",
       "婚姻",
-      "結婚_自由",
       "婚姻届",
+      "結婚_自由",
       "民法"
      ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.31,
+     "dominant_size": 7,
+     "top2_mass_share": 0.32,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
+      "立候補",
+      "政治",
       "選挙",
-      "投票",
-      "選挙権",
-      "在外",
-      "選挙権_行使",
-      "行使",
-      "国民_審査権",
-      "国民_審査",
-      "審査権",
-      "選挙区"
+      "年齢",
+      "立候補_年齢",
+      "政治_参加",
+      "被選挙権",
+      "若者",
+      "井桁",
+      "公職選挙法"
      ],
      "dominant_size": 4,
-     "top2_mass_share": 0.37,
+     "top2_mass_share": 0.42,
      "tiny": false,
      "generic_words": []
     },
@@ -1940,71 +2201,71 @@
      "top_words": [
       "難民",
       "入管",
-      "条約",
-      "収容",
       "在留資格",
-      "入管_収容",
-      "難民_認定",
-      "暴力",
+      "条約",
+      "外国人",
+      "国籍",
       "差別",
-      "デニズ"
+      "日本国籍",
+      "難民_認定",
+      "人種"
      ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.32,
+     "dominant_size": 9,
+     "top2_mass_share": 0.26,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "アーカイブ_プロジェクト",
-      "プロジェクト",
-      "メモ",
-      "国籍法",
-      "メモ_取る",
-      "アーカイブ",
-      "日本国籍",
-      "プロジェクト_No.",
-      "プロジェクト_対象",
-      "資料_アーカイブ"
+      "選挙",
+      "在外",
+      "投票",
+      "選挙権",
+      "選挙権_行使",
+      "行使",
+      "選挙区",
+      "国民_審査権",
+      "国民_審査",
+      "日本人"
      ],
      "dominant_size": 5,
-     "top2_mass_share": 0.32,
+     "top2_mass_share": 0.38,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
+      "収容",
+      "職員",
       "医療",
       "刑務所",
-      "収容",
+      "入管",
       "医師",
-      "職員",
-      "受刑者",
       "刑事_施設",
-      "病院",
-      "死ぬ",
-      "入管"
+      "入管_職員",
+      "受刑者",
+      "病院"
      ],
-     "dominant_size": 7,
-     "top2_mass_share": 0.29,
+     "dominant_size": 6,
+     "top2_mass_share": 0.27,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
       "労働",
-      "教員",
-      "労働時間",
       "労働者",
+      "労働時間",
+      "教員",
       "子ども",
       "業務",
       "家事",
+      "労働_環境",
       "働く",
-      "適用",
-      "時間"
+      "長時間労働"
      ],
-     "dominant_size": 13,
-     "top2_mass_share": 0.2,
+     "dominant_size": 10,
+     "top2_mass_share": 0.24,
      "tiny": false,
      "generic_words": []
     },
@@ -2022,300 +2283,7 @@
       "発生"
      ],
      "dominant_size": 4,
-     "top2_mass_share": 0.52,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "戒具",
-      "保護室",
-      "留置",
-      "保護室_収容",
-      "警察署",
-      "アルジュン",
-      "収容",
-      "戒具_使用",
-      "収容_戒具",
-      "捕縄"
-     ],
-     "dominant_size": 3,
-     "top2_mass_share": 0.58,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "保釈",
-      "勾留",
-      "人質",
-      "人質_司法",
-      "起訴",
-      "無罪",
-      "大川原",
-      "検察官",
-      "捜査",
-      "逮捕"
-     ],
-     "dominant_size": 5,
-     "top2_mass_share": 0.46,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "手術",
-      "社会",
-      "不妊",
-      "不妊_手術",
-      "生きる",
-      "立候補",
-      "優生",
-      "イベント",
-      "井桁",
-      "法律"
-     ],
-     "dominant_size": 13,
-     "top2_mass_share": 0.19,
-     "tiny": false,
-     "generic_words": [
-      "社会",
-      "法律"
-     ]
-    }
-   ],
-   "genealogy_from_prevK": [
-    {
-     "topic": 0,
-     "from_prev_topic": 0,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 1,
-     "from_prev_topic": 1,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 2,
-     "from_prev_topic": 10,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 3,
-     "from_prev_topic": 3,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 4,
-     "from_prev_topic": 4,
-     "jaccard": 0.67
-    },
-    {
-     "topic": 5,
-     "from_prev_topic": 5,
-     "jaccard": 0.54
-    },
-    {
-     "topic": 6,
-     "from_prev_topic": 6,
-     "jaccard": 0.82
-    },
-    {
-     "topic": 7,
-     "from_prev_topic": 7,
-     "jaccard": 0.82
-    },
-    {
-     "topic": 8,
-     "from_prev_topic": 8,
-     "jaccard": 0.54
-    },
-    {
-     "topic": 9,
-     "from_prev_topic": 9,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 10,
-     "from_prev_topic": 7,
-     "jaccard": 0.05
-    },
-    {
-     "topic": 11,
-     "from_prev_topic": 2,
-     "jaccard": 1.0
-    },
-    {
-     "topic": 12,
-     "from_prev_topic": 11,
-     "jaccard": 0.33
-    }
-   ]
-  },
-  "14": {
-   "reconstruction_err": 8.2248,
-   "topics": [
-    {
-     "top_words": [
-      "住民",
-      "計画",
-      "建設",
-      "事業",
-      "市長",
-      "環境",
-      "地域",
-      "行政",
-      "自治",
-      "反対"
-     ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.19,
-     "tiny": false,
-     "generic_words": [
-      "行政"
-     ]
-    },
-    {
-     "top_words": [
-      "開示",
-      "文書",
-      "開示_請求",
-      "情報_公開",
-      "情報",
-      "ファイル",
-      "公開",
-      "財務省",
-      "行政_機関",
-      "開示_決定"
-     ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.26,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "保釈",
-      "勾留",
-      "人質",
-      "人質_司法",
-      "起訴",
-      "無罪",
-      "検察官",
-      "大川原",
-      "逮捕",
-      "捜査"
-     ],
-     "dominant_size": 5,
-     "top2_mass_share": 0.44,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "同性",
-      "カップル",
-      "同性_カップル",
-      "同性婚",
-      "結婚",
-      "パートナー",
-      "婚姻",
-      "婚姻届",
-      "結婚_自由",
-      "民法"
-     ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.33,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "選挙",
-      "選挙権",
-      "投票",
-      "在外",
-      "選挙権_行使",
-      "行使",
-      "国民_審査権",
-      "海外",
-      "国政_選挙",
-      "審査権"
-     ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.33,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "難民",
-      "入管",
-      "条約",
-      "在留資格",
-      "差別",
-      "難民_認定",
-      "人種",
-      "暴力",
-      "外国人",
-      "収容"
-     ],
-     "dominant_size": 8,
-     "top2_mass_share": 0.3,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "アーカイブ_プロジェクト",
-      "プロジェクト",
-      "メモ",
-      "メモ_取る",
-      "国籍法",
-      "アーカイブ",
-      "日本国籍",
-      "No.",
-      "資料_アーカイブ",
-      "プロジェクト_No."
-     ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.33,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "収容",
-      "職員",
-      "刑務所",
-      "医療",
-      "入管",
-      "医師",
-      "刑事_施設",
-      "病院",
-      "死亡",
-      "受刑者"
-     ],
-     "dominant_size": 7,
-     "top2_mass_share": 0.24,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "労働",
-      "教員",
-      "子ども",
-      "労働時間",
-      "労働者",
-      "業務",
-      "家事",
-      "働く",
-      "児童",
-      "環境"
-     ],
-     "dominant_size": 13,
-     "top2_mass_share": 0.21,
+     "top2_mass_share": 0.55,
      "tiny": false,
      "generic_words": []
     },
@@ -2326,87 +2294,71 @@
       "不妊_手術",
       "優生",
       "人生",
-      "優生_保護",
       "強制",
+      "優生_保護",
       "望む",
       "手術_受ける",
-      "生きる"
+      "性別"
      ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.32,
+     "dominant_size": 5,
+     "top2_mass_share": 0.39,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "水害",
-      "堤防",
-      "河川",
-      "豪雨",
-      "浸水",
-      "治水",
-      "操作",
-      "管理",
-      "被害",
-      "規則"
-     ],
-     "dominant_size": 3,
-     "top2_mass_share": 0.65,
-     "tiny": false,
-     "generic_words": []
-    },
-    {
-     "top_words": [
-      "専門的",
-      "沖縄県",
-      "営業",
-      "沖縄",
       "自由",
-      "県民",
-      "コロナ",
-      "人々",
-      "支出",
-      "支配"
+      "表現",
+      "裁判長",
+      "理由",
+      "独立",
+      "最高裁",
+      "専門的",
+      "上告",
+      "行為",
+      "営業"
      ],
-     "dominant_size": 9,
-     "top2_mass_share": 0.26,
+     "dominant_size": 12,
+     "top2_mass_share": 0.2,
      "tiny": false,
-     "generic_words": []
+     "generic_words": [
+      "理由"
+     ]
     },
     {
      "top_words": [
       "取調べ",
       "黙秘権",
       "弁護人",
-      "黙秘",
       "黙秘権_行使",
+      "黙秘",
       "被疑者",
+      "留置",
       "供述",
-      "行使",
-      "弁護人_依頼",
-      "黙秘権_侵害"
+      "警察署",
+      "行使"
      ],
-     "dominant_size": 3,
-     "top2_mass_share": 0.52,
+     "dominant_size": 5,
+     "top2_mass_share": 0.53,
      "tiny": false,
      "generic_words": []
     },
     {
      "top_words": [
-      "事故",
-      "住民",
-      "危険性",
-      "ルート",
-      "感染",
-      "危険",
-      "ウイルス",
-      "観光客",
-      "被害",
-      "上空"
+      "気候_変動",
+      "気候",
+      "変動",
+      "排出",
+      "温室_効果",
+      "温室",
+      "効果_ガス",
+      "ガス",
+      "石炭",
+      "削減"
      ],
-     "dominant_size": 6,
-     "top2_mass_share": 0.37,
-     "tiny": false,
+     "dominant_size": 2,
+     "top2_mass_share": 0.64,
+     "tiny": true,
      "generic_words": []
     }
    ],
@@ -2419,11 +2371,11 @@
     {
      "topic": 1,
      "from_prev_topic": 1,
-     "jaccard": 1.0
+     "jaccard": 0.43
     },
     {
      "topic": 2,
-     "from_prev_topic": 11,
+     "from_prev_topic": 2,
      "jaccard": 1.0
     },
     {
@@ -2433,38 +2385,38 @@
     },
     {
      "topic": 4,
-     "from_prev_topic": 4,
-     "jaccard": 0.67
+     "from_prev_topic": 10,
+     "jaccard": 0.18
     },
     {
      "topic": 5,
      "from_prev_topic": 5,
-     "jaccard": 0.67
+     "jaccard": 0.33
     },
     {
      "topic": 6,
-     "from_prev_topic": 6,
+     "from_prev_topic": 4,
      "jaccard": 0.82
     },
     {
      "topic": 7,
-     "from_prev_topic": 7,
-     "jaccard": 0.82
-    },
-    {
-     "topic": 8,
      "from_prev_topic": 8,
      "jaccard": 0.67
     },
     {
+     "topic": 8,
+     "from_prev_topic": 7,
+     "jaccard": 0.67
+    },
+    {
      "topic": 9,
-     "from_prev_topic": 12,
-     "jaccard": 0.33
+     "from_prev_topic": 9,
+     "jaccard": 1.0
     },
     {
      "topic": 10,
-     "from_prev_topic": 9,
-     "jaccard": 0.82
+     "from_prev_topic": 10,
+     "jaccard": 0.25
     },
     {
      "topic": 11,
@@ -2473,13 +2425,13 @@
     },
     {
      "topic": 12,
-     "from_prev_topic": 2,
+     "from_prev_topic": 11,
      "jaccard": 1.0
     },
     {
      "topic": 13,
      "from_prev_topic": 0,
-     "jaccard": 0.05
+     "jaccard": 0.0
     }
    ]
   }
