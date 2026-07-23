@@ -99,6 +99,26 @@ def main():
         idx = row.argsort()[-n:][::-1]
         return [str(vocab_arr[j]) for j in idx if row[j] > 0]
     case_words = [top_terms(i) for i in range(len(ids))]
+    # NMF H (topic x word weights) for the "one word has 6 weights" illustration.
+    # Same params as plan02 s3 (deterministic), so topic order matches the cards.
+    from sklearn.decomposition import NMF
+    w2c = {w: i for i, w in enumerate(vocab_arr)}
+    H = NMF(n_components=6, init="nndsvda", random_state=SEED, max_iter=600).fit(tfidf).components_
+    SHORT = ["地域・環境", "情報公開", "入管・難民", "婚姻・性別", "選挙", "刑事手続"]
+    def rgba(hx, a):
+        hx = hx.lstrip("#"); r, g, b = (int(hx[i:i+2], 16) for i in (0, 2, 4))
+        return f"rgba({r},{g},{b},{a:.2f})"
+    def word_weight_table(words):
+        head = "".join(f"<th>{s}</th>" for s in SHORT)
+        rows = []
+        for w in words:
+            col = H[:, w2c[w]]; p = col / col.sum() * 100
+            cells = "".join(f'<td style="background:{rgba(TC[t], p[t]/100)}">{p[t]:.0f}</td>'
+                            for t in range(6))
+            rows.append(f"<tr><th>{w}</th>{cells}</tr>")
+        return (f'<table class="wtab"><tr><th>語＼テーマ</th>{head}</tr>' + "".join(rows)
+                + "</table>")
+    word_table = word_weight_table(["伐採", "開示", "同性", "選挙", "収容", "職員", "差別", "国家"])
     m = json.loads((RESULTS_DIR/"membership_nmf.json").read_text(encoding="utf-8"))
     names = [v["name"] for _, v in json.loads((RESULTS_DIR/"names_llm.json").read_text(encoding="utf-8"))["nmf"].items()]
     topics = json.loads((RESULTS_DIR/"interpretation.json").read_text(encoding="utf-8"))["mixture"]["nmf"]["topics"]
@@ -200,6 +220,9 @@ a {{ color:#B0532B; }}
 .small li {{ font-size:.85em; }}
 ul.cases li {{ margin:5px 0; }}
 .cw {{ color:#8a5a2b; font-size:.82em; }}
+table.wtab {{ font-size:.85em; }}
+table.wtab td {{ text-align:right; min-width:52px; font-variant-numeric:tabular-nums; }}
+table.wtab th {{ background:#f0e8e2; }}
 .tech {{ background:#f0efe9; border-radius:8px; padding:12px 16px; font-size:.82em; color:#555; }}
 </style>
 </head>
@@ -243,6 +266,27 @@ NMFは「訴訟×語」の行列を <b>W（訴訟ごとのテーマ配合）</b>
 （今回はLLMで下書きし、根拠の語・ケースを併記）。<b>名前は後付けの解釈</b>であって、配合や特徴語といった分析の数値そのものには影響しません
 （名前を変えても結果は変わらない）。</span>
 </div>
+
+<h3>具体例①：1つの語は「6テーマへの重み」を持つ（1箱に入るのではない）</h3>
+<p>Hは「テーマ×語」の重みの表です。<b>1つの語を縦に見ると、6テーマそれぞれへの重み</b>が並びます。
+下は代表的な語の、6テーマへの重み（各語で合計100%に正規化。色が濃いほど重みが大きい）。</p>
+<div class="figure">{word_table}</div>
+<div class="explain">
+<b>読み方。</b>「伐採」「同性」「選挙」のように<b>ほぼ1テーマに集中する語</b>もあれば、
+「差別」のように<b>入管（人種差別）と婚姻・性別（性差別）にまたがる語</b>、
+「国家」のように<b>どのテーマにも薄く広がる一般語</b>もあります。
+もし語を6箱に排他的に仕分けていたら、「差別」は片方にしか入れず、この二面性は消えてしまいます。
+実際には<b>各語が6つの重みを持ち、各テーマで重みが上位の語がそのテーマの「顔」（特徴語）になる</b>——
+これが「分けた」ではない、という意味です。
+</div>
+
+<h3>具体例②：テーマ名は後付けのラベルで、数値には影響しない</h3>
+<p>NMFが実際に出力するのは<b>W（配合）とH（語の重み）の数値だけ</b>で、テーマには名前がなく
+「テーマ0〜5」という番号があるだけです。私たちは各テーマの上位語（例: 収容・入管・難民）と代表ケースを読んで
+「入管・難民」という<b>要約ラベルを後から貼った</b>にすぎません。
+このラベルはどの計算にも使われないので、<b>「入管・難民」を「第2テーマ」や「外国人の収容問題」に付け替えても、
+配合も特徴語も類似度も一切変わりません</b>。名前は人間向けの見出しであって、分析結果そのものではないのです。
+<span class="note">補足: 人の解釈が入る唯一の箇所なので、根拠（上位語・代表ケース）を必ず併記し、後から検証・修正できるようにしています。</span></p>
 
 <h2>2. 見つかった6つのテーマ</h2>
 <div class="explain">
