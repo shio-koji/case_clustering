@@ -34,21 +34,26 @@ def fig_metrics(m, err_Ks, err):
     def panel(a, y, title, color, kind):
         a.plot(Ks, y, "o-", color=color); a.set_xticks(Ks)
         a.set_title(title, fontproperties=jp(10)); a.grid(alpha=.3); a.set_xlabel("K", fontproperties=jp(9))
-        if kind == "peak":
-            b = Ks[int(np.argmax(y))]; a.axvline(b, color=color, ls="--", lw=1.3)
+        if kind in ("peak", "peak5"):
+            cand = [(K, v) for K, v in zip(Ks, y) if kind == "peak" or K >= 5]
+            b = max(cand, key=lambda kv: kv[1])[0]
+            a.axvline(b, color=color, ls="--", lw=1.3)
             a.text(b, max(y), f" K={b}", color=color, fontproperties=jp(9), va="top")
+            if kind == "peak5":
+                a.text(0.03, 0.05, "※K=4は自明に粗い解のため除外", transform=a.transAxes,
+                       fontproperties=jp(8), color="#888")
         elif kind == "mono":
             a.text(.5, .06, "単調＝K上限は決められない", transform=a.transAxes, ha="center",
                    fontproperties=jp(8), color="#888")
     panel(ax[0, 0], err, "再構成誤差（エルボー無し＝ほぼ直線）", "#555", "mono")
     ax[0, 0].set_xticks(err_Ks)
-    panel(ax[0, 1], m["stability"], "安定性 stability（ピーク＝良い）", "#27AE60", "peak")
+    panel(ax[0, 1], m["stability"], "安定性 stability（ピーク＝良い）", "#27AE60", "peak5")
     panel(ax[0, 2], m["tag_ari"], "既存タグとの一致 ARI（ピーク＝良い）", "#8E44AD", "peak")
     panel(ax[1, 0], m["coherence"], "整合性 coherence", "#2E86C1", "mono")
     panel(ax[1, 1], m["redundancy"], "冗長性 redundancy", "#C0392B", "mono")
     ax[1, 2].axis("off")
     ax[1, 2].text(0.0, 0.5,
-                  "ピークを持つ2指標（安定性・タグ一致）は\nともに K=6 が最良。\n"
+                  "タグ一致は K=6 が明確なピーク。\n安定性は自明に粗い K=4 を除くと K=6。\n"
                   "単調な指標は上限判断に使えない。\n\n→ 頑健性なら K=6\n→ 細かい探索なら K=11–12",
                   fontproperties=jp(11), va="center")
     fig.suptitle("K を選ぶための指標（K=4〜14）", fontproperties=jp(13)); fig.tight_layout()
@@ -95,14 +100,14 @@ Kを増やすほど誤差は必ず下がるので、普通は<b>下がり方が�
 <p>今回はその折れ点がありません。誤差の下がり方は毎回ほぼ一定（約1%ずつ）で、カーブはほぼ直線。
 → <b>誤差ではKを決められない</b>ので、別の指標を使いました。</p>
 
-<h2>2. Kを決められた2つの指標 → ともに K=6</h2>
+<h2>2. Kを決められた2つの指標 → K=6</h2>
 <div class="term"><b>安定性（stability）：</b>同じKで計算を何度も繰り返し（乱数の初期値を変えて{m['n_seeds']}回）、
 毎回だいたい同じ分類になるかを測る。値は分類の一致度
 <b>ARI（{{-1〜1}}、1で完全一致、0で偶然並み）</b>で表す。<b>高い＝結果が偶然に左右されず信頼できる</b>。</div>
 <div class="term"><b>既存タグとの一致：</b>データ駆動のトピックが、CALL4の人手タグ（11種）とどれだけ整合するか（同じくARI）。
 高すぎ＝タグの焼き直し、低すぎ＝無関係、<b>ほどよく一致するK</b>が「意味のある粒度」の目安。</div>
-<p>この2つは<b>どちらも K=6 が最良</b>でした（安定性 {st6:.2f}、タグ一致 {tg6:.2f}）。
-偶然の一致ではなく、<b>別々の観点が同じ数字を指した</b>のが採用の決め手です。</p>
+<p><b>タグ一致は K=6 が明確なピーク</b>（{tg6:.2f}）、<b>安定性</b>は自明に粗い K=4 を除けば <b>K=6 が最良</b>（{st6:.2f}）。
+偶然の一致ではなく、<b>別々の観点がともに K=6 を指した</b>のが採用の決め手です。</p>
 
 <h2>3. 使えなかった（＝上限を決められない）指標</h2>
 <div class="term"><b>整合性 coherence：</b>各トピックの上位語が実際に一緒に出てくるか。
