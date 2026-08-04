@@ -45,6 +45,15 @@ padding-bottom:3px}
 #live .bad{color:#b32d00;font-weight:bold}
 #live .ok{color:#2e7d32}
 #live .num{font-variant-numeric:tabular-nums}
+#live .clk{cursor:pointer;user-select:none}
+#live .clk:hover{text-decoration:underline}
+#dpilist{margin:3px 0 7px;padding-left:7px;border-left:3px solid #ffb300}
+.dpiitem{display:flex;gap:6px;align-items:center;padding:3px 2px;cursor:pointer;
+border-radius:4px}
+.dpiitem:hover{background:#fff3e0}
+.dpiitem img{width:36px;height:36px;flex:0 0 auto;border:1px solid #cfd8dc}
+.dpiitem .t{font-size:11px;line-height:1.35;color:#455a64;font-weight:normal}
+.dpiitem .t b{color:#b32d00}
 #sel{font-size:11.5px;color:#455a64}
 #sel img{width:100%;border:1px solid #cfd8dc;margin:4px 0}
 #status{background:#263238;color:#b0bec5;padding:3px 10px;font-size:11px;
@@ -84,6 +93,17 @@ color:#263238;background:#fafafa}
 （<code>card_geometry.json</code> に同じ寸法を残してあります）。</li>
 <li><b>実寸の試し刷りをまだしていません。</b><code>out/proof_A4.pdf</code> をA4等倍で刷って、
 カードの文字が読めるサイズを手元で確かめてください。ここの数値はその後に決まります。</li>
+<li><b>「300dpi / 200dpiを割る」は写真の話です。</b>
+dpi＝1インチ(25.4mm)あたりの画素数。カードの中のCALL4サムネイルは元の画素数が
+決まっているので、<b>大きく置くほど1画素が引き伸ばされて解像度が下がります</b>
+（横450pxの画像なら38mm幅で300dpi、76mm幅では150dpi）。
+手に取って見る印刷物の基準が300dpi、200dpiがだいたいの下限とされています。
+元画像が小さいのは12件で、80mm角なら8件が300dpiを、3件が200dpiを割ります
+（残り76件は取得時に90mm角＠300dpi＝1063pxへ縮めてあるので上限は約97mm。
+それより大きく置くなら <code>s1_fetch_thumbs.py</code> で取り直しが要ります）。
+文字とバーは版下から作り直すので影響しません。
+右の「300dpiを割るカード」をクリックすると、どのケースか一覧で見られます。
+ポスターは離れて見るものなので、実際に許せるかは実寸の試し刷りで判断してください。</li>
 <li><b>継ぎ目なしで刷れるか未確認です。</b>「A0(縦)×2」(841×2378mm) は914mm幅ロールに
 収まるので1枚で刷れる可能性があります。刷れるなら継ぎ目の制約が全部消えます。</li>
 <li><b>紙は掲示面の制約に合わせてあります。</b>横1600mm以内・高さ1600〜2500mm。
@@ -417,6 +437,26 @@ function draw(){
     });
   }
 
+  // 300dpiを割ったカードの目印（一覧を開いている間だけ）。
+  // 一覧のどの行が紙のどこなのかを、色と十字で結びつける。
+  if(dpiOpen&&dpiLow.length){
+    dpiLow.forEach(i=>{
+      if(!opts.arch&&CASES[i].status==='archived') return;
+      const p=cpos[i], s=p.s*view.k, x=SX(p.x)-s/2, y=SY(p.y)-s/2;
+      const hot=(i===dpiHover);
+      cx.strokeStyle=hot?'#ff6f00':'#ffb300';
+      cx.lineWidth=hot?4:2.2; cx.setLineDash(hot?[]:[7,4]);
+      cx.strokeRect(x-3,y-3,s+6,s+6);
+      if(hot){
+        cx.setLineDash([5,5]); cx.lineWidth=1.2; cx.beginPath();
+        cx.moveTo(0,SY(p.y)); cx.lineTo(CW,SY(p.y));
+        cx.moveTo(SX(p.x),0); cx.lineTo(SX(p.x),CH);
+        cx.stroke();
+      }
+    });
+    cx.setLineDash([]);
+  }
+
   // タグラベル
   if(opts.tag){
     TAGS.forEach((t,j)=>{
@@ -461,6 +501,47 @@ function lum(h){const n=parseInt(h.slice(1),16);
 
 // ---- 点検 ---------------------------------------------------------------
 const bad={cards:new Set()};
+// 300dpiを割ったカードの一覧（右パネルの折りたたみ）と、紙の上での目印
+let dpiOpen=false, dpiLow=[], dpiHover=-1;
+function dpiListHTML(){
+  const body=dpiLow.length?dpiLow.map(i=>{
+    const c=CASES[i], s=cpos[i].s, dpi=Math.round(300*c.max_mm_300dpi/s);
+    return `<div class="dpiitem" data-i="${i}"><img src="${c.img}"><div class="t">
+      <b>No.${c.no}</b> ${c.title}<br>
+      いま ${s.toFixed(0)}mm角＝<b>${dpi}dpi</b>
+      ／300dpiで置ける上限 ${c.max_mm_300dpi}mm
+      ${dpi<200?'<b>（200dpiも割れ）</b>':''}</div></div>`;
+  }).join(''):'<div class="hint">いまの大きさなら全部300dpi以上です。</div>';
+  return `<div id="dpilist">${body}<div class="hint">
+    マウスを乗せると紙の上のカードに印が出ます（十字の線が交わる所）。
+    クリックするとそのカードを選んで画面を寄せます。<br>
+    写真の話です。カード内のCALL4サムネイルは元の画素数が決まっているので、
+    大きく置くほど1画素が引き伸ばされて解像度が下がります。
+    文字とバーは版下から作り直すので影響しません。<br>
+    直し方は「この数枚だけ小さく置く」「差し替え画像をもらう」
+    「離れて見るポスターなので割り切る」のいずれか。
+    実際に許せるかは <code>out/proof_A4.pdf</code> を等倍で刷って判断してください。
+    </div></div>`;
+}
+function centerOn(i){
+  view.k=Math.max(view.k,Math.min(2.2,90/cpos[i].s));
+  view.px=cpos[i].x-CW/(2*view.k); view.py=cpos[i].y-CH/(2*view.k);
+}
+const LIVE=document.getElementById('live');
+// check() が innerHTML を作り直すので、個々の要素ではなく親で受ける
+LIVE.addEventListener('click',e=>{
+  if(e.target.closest('#dpitog')){dpiOpen=!dpiOpen; check(); return;}
+  const it=e.target.closest('.dpiitem');
+  if(it){
+    const i=+it.dataset.i;
+    selKind='case'; sel=new Set([i]); showSel(); centerOn(i); draw();
+  }
+});
+LIVE.addEventListener('mousemove',e=>{
+  const it=e.target.closest('.dpiitem'), i=it?+it.dataset.i:-1;
+  if(i!==dpiHover){dpiHover=i; draw2();}
+});
+LIVE.addEventListener('mouseleave',()=>{if(dpiHover>=0){dpiHover=-1; draw2();}});
 function check(){
   bad.cards.clear();
   const vis=CASES.map((c,i)=>i).filter(i=>opts.arch||CASES[i].status!=='archived');
@@ -484,8 +565,11 @@ function check(){
       if(c-h<v&&c+h>v){seam++; bad.cards.add(i);}
     }
   });
-  // 解像度：配置サイズで300dpi / 200dpi を割るもの
-  const d300=vis.filter(i=>cpos[i].s>CASES[i].max_mm_300dpi).length;
+  // 解像度：配置サイズで300dpi / 200dpi を割るもの。
+  // 一覧と紙の上の目印で使うので、枚数だけでなく中身も持っておく。
+  dpiLow=vis.filter(i=>cpos[i].s>CASES[i].max_mm_300dpi)
+            .sort((a,b)=>CASES[a].max_mm_300dpi-CASES[b].max_mm_300dpi);
+  const d300=dpiLow.length;
   const d200=vis.filter(i=>cpos[i].s>CASES[i].max_mm_300dpi*1.5).length;
   // 文字サイズ（版下 MASTER_MM のときの pt を配置サイズに比例させる）
   const sizes=vis.map(i=>cpos[i].s), smin=Math.min(...sizes), smax=Math.max(...sizes);
@@ -511,7 +595,10 @@ function check(){
     (sheet.seam?row(seam>0,'継ぎ目を跨いでいる',seam+' 枚'):
       '<div class="ok">✓ 継ぎ目なし（1枚刷り前提）</div>')+
     row(hid>0,'タグがカードに隠れている',hid+' 個')+
-    row(d300>0,'300dpiを割るカード',d300+' 枚')+
+    // 300dpi の行はクリックで一覧が開く。開いている間は紙の上にも印を出す。
+    `<div class="${d300?'bad':'ok'} clk" id="dpitog">${d300?'⚠':'✓'}
+      ${dpiOpen?'▼':'▶'} 300dpiを割るカード <span class="num">${d300} 枚</span></div>`+
+    (dpiOpen?dpiListHTML(d200):'')+
     row(d200>0,'200dpiを割るカード',d200+' 枚')+
     row(area>35,'カードが占める紙面積',area.toFixed(1)+' %')+
     `<div style="margin-top:6px;padding-top:5px;border-top:1px solid #cfd8dc">
