@@ -528,8 +528,10 @@ function centerOn(i){
   view.px=cpos[i].x-CW/(2*view.k); view.py=cpos[i].y-CH/(2*view.k);
 }
 const LIVE=document.getElementById('live');
-// check() が innerHTML を作り直すので、個々の要素ではなく親で受ける
-LIVE.addEventListener('click',e=>{
+// check() が innerHTML を作り直すので、個々の要素ではなく親で受ける。
+// click ではなく mousedown で受けるのは、押してから click が確定するまでの間に
+// 何かが check() を呼ぶと、押した要素が消えて click が親に飛んでしまうため。
+LIVE.addEventListener('mousedown',e=>{
   if(e.target.closest('#dpitog')){dpiOpen=!dpiOpen; check(); return;}
   const it=e.target.closest('.dpiitem');
   if(it){
@@ -713,6 +715,10 @@ window.addEventListener('mousemove',e=>{
   }
 });
 window.addEventListener('mouseup',()=>{
+  // 紙の上で何もしていないなら触らない。ここで check() を通すと
+  // 右パネルのHTMLが作り直され、押した要素が click の前に消えてしまう
+  // （＝パネルのボタンが反応しなくなる）。
+  if(!drag&&!marq) return;
   const moved=drag&&(drag.mode==='move'||drag.mode==='resize');
   if(drag&&drag.mode==='marq'&&marq){
     const x0=MX(marq.x),y0=MY(marq.y),x1=MX(marq.x+marq.w),y1=MY(marq.y+marq.h);
