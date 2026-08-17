@@ -41,6 +41,24 @@ SHEETS = [
 ]
 MARGIN_MM = 25.0        # 印刷余白（この内側に置く）
 
+# ---- GUI用タグ配色 -------------------------------------------------------
+# 参照色見本の「濃色 + 淡色」のペア。
+# 個人情報・プライバシーと情報公開は、指定により色見本と入れ替える。
+# このパレットはGUIのタグノードにだけ使い、カード画像の色は変えない。
+GUI_TAG_PALETTE = {
+    "個人情報・プライバシー": ("#22504e", "#bac9c8"),
+    "医療・福祉・障がい": ("#fe7389", "#ffdbe0"),
+    "ジェンダー・セクシュアリティ": ("#ff9423", "#ffdccb"),
+    "刑事司法": ("#9f6e34", "#e2d3c2"),
+    "環境・災害": ("#2e9d7e", "#b6ddd2"),
+    "働き方": ("#99b73d", "#e0e9c5"),
+    "公正な手続": ("#033064", "#b3c1d0"),
+    "沖縄": ("#3970cb", "#bacded"),
+    "外国にルーツを持つ人々": ("#6b5498", "#d4cde1"),
+    "政治参加・表現の自由": ("#3daac8", "#c5e5ee"),
+    "情報公開": ("#ff4709", "#ffcfbf"),
+}
+
 
 def load():
     cards = json.load(open(os.path.join(OUT, "cards.json"), encoding="utf-8"))
@@ -236,8 +254,7 @@ color:#263238;background:#fafafa}
 <ul>
 <li><b>タグの割合は暫定値です。</b>タグ確認（フェーズ1）が終わると各カードの帯が変わります。
 位置はケースIDで保存するので配置作業は無駄になりませんが、カード画像は作り直しになります。</li>
-<li><b>タグ11色は画面用の色です。</b>いま使っている #f032e6（マゼンタ）や #3cb44b（緑）、
-#00A0B0 はCMYKの外にあり、印刷すると必ずくすみます。色の差も縮むので、
+<li><b>タグ11色は画面用のRGB色です。</b>CMYK印刷では色味や色の差が変わるため、
 画面で見分けられたタグが紙では混ざります。
 入稿前に印刷用の色を選び直し、実機で色校正を1回とる必要があります。</li>
 <li><b>入稿用PDFはまだありません。</b>この画面はCanvasなので、そのまま拡大すると
@@ -432,9 +449,12 @@ document.getElementById('redo').onclick=()=>{if(hi<hist.length-1) restore(hist[+
 function tagBox(j){
   const t=TAGS[j];
   cx.save(); cx.font=`bold ${tagPT*PT*view.k}px -apple-system,"Hiragino Sans",sans-serif`;
-  const w=cx.measureText(t.name).width/view.k+tagPT*PT*0.9;
+  const textW=cx.measureText(t.name).width/view.k;
   cx.restore();
-  return {w:w, h:tagPT*PT*1.75};
+  const h=tagPT*PT*1.75;
+  // 淡色のピルの左に濃色のドットを置く余白を含める。
+  // 文字をドットから離すと、長い日本語ラベルでも窮屈に見えない。
+  return {w:textW+tagPT*PT*2.25, h:h, accentW:h*0.90};
 }
 const cardBox=i=>({w:cpos[i].s,h:cpos[i].s});
 
@@ -527,19 +547,21 @@ function draw(){
       const b=tagBox(j), p=tpos[j];
       const w=b.w*view.k, h=b.h*view.k, x=SX(p.x)-w/2, y=SY(p.y)-h/2;
       cx.save();
-      cx.shadowColor='rgba(20,30,50,.3)'; cx.shadowBlur=6; cx.shadowOffsetY=2;
-      rr(x,y,w,h,h/2); cx.fillStyle=t.color; cx.fill();
+      cx.shadowColor='rgba(20,30,50,.16)'; cx.shadowBlur=5; cx.shadowOffsetY=1.5;
+      rr(x,y,w,h,h/2); cx.fillStyle=t.lightColor; cx.fill();
       cx.restore();
-      cx.strokeStyle='rgba(255,255,255,.95)'; cx.lineWidth=Math.max(1,h*0.07);
+      cx.save();
+      cx.strokeStyle=t.color; cx.globalAlpha=0.55; cx.lineWidth=Math.max(1,h*0.045);
       rr(x,y,w,h,h/2); cx.stroke();
+      cx.restore();
+      const dotX=x+b.accentW*view.k*0.50;
+      cx.beginPath(); cx.arc(dotX,y+h/2,h*0.19,0,6.2832);
+      cx.fillStyle=t.color; cx.fill();
       cx.font=`bold ${tagPT*PT*view.k}px -apple-system,"Hiragino Sans",sans-serif`;
       cx.textAlign='center'; cx.textBaseline='middle';
-      const dark=lum(t.color)>150;
-      cx.lineJoin='round'; cx.lineWidth=Math.max(2,h*0.13);
-      cx.strokeStyle=dark?'rgba(255,255,255,.9)':'rgba(0,0,0,.35)';
-      cx.strokeText(t.name,SX(p.x),SY(p.y));
-      cx.fillStyle=dark?'#17202e':'#fff';
-      cx.fillText(t.name,SX(p.x),SY(p.y));
+      const textX=x+b.accentW*view.k+(w-b.accentW*view.k)/2;
+      cx.fillStyle='#17202e';
+      cx.fillText(t.name,textX,SY(p.y));
       cx.textAlign='left'; cx.textBaseline='alphabetic';
       if(p.pin){cx.beginPath();cx.arc(x+w-3,y+3,3.2,0,6.2832);cx.fillStyle='#e53935';cx.fill();}
       if(selKind==='tag'&&sel.has(j)){
@@ -560,9 +582,6 @@ function rr(x,y,w,h,r){
   cx.arcTo(x+w,y,x+w,y+h,r); cx.arcTo(x+w,y+h,x,y+h,r);
   cx.arcTo(x,y+h,x,y,r); cx.arcTo(x,y,x+w,y,r); cx.closePath();
 }
-function lum(h){const n=parseInt(h.slice(1),16);
-  return 0.299*((n>>16)&255)+0.587*((n>>8)&255)+0.114*(n&255);}
-
 // ---- 点検 ---------------------------------------------------------------
 const bad={cards:new Set()};
 function check(){
@@ -1100,8 +1119,12 @@ resize(); applyLayout('cluster',true); fit(); syncInputs(); snap(); check(); spr
 def main():
     cards, geo = load()
     cases, tags = cards["cases"], cards["tags"]
-    tcol = cards["tag_color"]
-    tag_nodes = [{"name": t, "color": tcol[t],
+    missing_colors = [t for t in tags if t not in GUI_TAG_PALETTE]
+    if missing_colors:
+        raise ValueError(f"GUI_TAG_PALETTE に未定義のタグがあります: {missing_colors}")
+    tag_nodes = [{"name": t,
+                  "color": GUI_TAG_PALETTE[t][0],
+                  "lightColor": GUI_TAG_PALETTE[t][1],
                   "count": sum(1 for c in cases if any(x["t"] == t for x in c["tags"]))}
                  for t in tags]
     tidx = {t: j for j, t in enumerate(tags)}

@@ -59,10 +59,21 @@ G = {
     "border_pt": 0.75,         # 外周の罫線
 }
 
-# 既存レポート（plan_final_report/make_report.py）と同じ対応にしてある。
-# 画面用に選んだ色なので、印刷時はCMYK域外のものが確実にくすむ（README参照）。
-TAGPAL = ["#e6194B", "#3cb44b", "#4363d8", "#f58231", "#911eb4", "#00A0B0",
-          "#f032e6", "#9A6324", "#469990", "#808000", "#e6ac00"]
+# GUIのタグノードと同じ濃色。カード内の積み上げバーに使う。
+# 配列順ではなくタグ名で対応させ、データ側の順序変更で色がずれないようにする。
+TAG_COLORS = {
+    "個人情報・プライバシー": "#22504e",
+    "医療・福祉・障がい": "#fe7389",
+    "ジェンダー・セクシュアリティ": "#ff9423",
+    "刑事司法": "#9f6e34",
+    "環境・災害": "#2e9d7e",
+    "働き方": "#99b73d",
+    "公正な手続": "#033064",
+    "沖縄": "#3970cb",
+    "外国にルーツを持つ人々": "#6b5498",
+    "政治参加・表現の自由": "#3daac8",
+    "情報公開": "#ff4709",
+}
 
 ARCHIVE_SUFFIX = "【アーカイブ】"
 # 行頭に置かない文字（簡易禁則）
@@ -139,7 +150,10 @@ def load_data():
     soft = json.load(open(os.path.join(ROOT, "plan05", "results", "soft_tags.json"),
                           encoding="utf-8"))
     tags = soft["tags"]
-    tcol = {tags[j]: TAGPAL[j] for j in range(len(tags))}
+    missing_colors = [t for t in tags if t not in TAG_COLORS]
+    if missing_colors:
+        raise ValueError(f"TAG_COLORS に未定義のタグがあります: {missing_colors}")
+    tcol = {t: TAG_COLORS[t] for t in tags}
     thumbs = json.load(open(os.path.join(HERE, "cache", "thumbs.json"), encoding="utf-8"))
     cases = []
     for r in rows:
