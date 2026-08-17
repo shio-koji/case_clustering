@@ -12,6 +12,7 @@ data: URI なのでCanvasが汚染されず、PNG書き出しも動く。
 エディタ側は「紙の使える範囲」に写して使う。
 """
 import base64
+import hashlib
 
 import json
 import math
@@ -1220,7 +1221,7 @@ async function masterBlob(i){
   if(masterBlobs.has(i)) return masterBlobs.get(i);
   let blob;
   try{
-    const r=await fetch(CASES[i].master);
+    const r=await fetch(CASES[i].master,{cache:'no-cache'});
     if(!r.ok) throw new Error(`HTTP ${r.status}`);
     blob=await r.blob();
   }catch(e){
@@ -1349,9 +1350,17 @@ def main():
              for i, c in enumerate(cases) for x in c["tags"]]
     lays = layouts(cases, tags)
 
-    slim = [{**{k: c[k] for k in ("id", "no", "title", "status", "url", "tags",
-                                  "max_mm_300dpi", "img")},
-             "master": f"cards/{c['id']}.jpg"} for c in cases]
+    slim = []
+    for c in cases:
+        master_path = os.path.join(OUT, "cards", f"{c['id']}.jpg")
+        with open(master_path, "rb") as f:
+            master_version = hashlib.sha256(f.read()).hexdigest()[:12]
+        slim.append({
+            **{k: c[k] for k in ("id", "no", "title", "status", "url", "tags",
+                                 "max_mm_300dpi", "img")},
+            # 内容が変わるたびURLも変え、ブラウザ/CDNの旧画像キャッシュを避ける。
+            "master": f"cards/{c['id']}.jpg?v={master_version}",
+        })
 
     html = TEMPLATE
     for tok, val in [
