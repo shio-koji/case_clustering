@@ -22,14 +22,25 @@
    "title_lines": [
     "「海外でも国民審査を」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000041": {
    "title_pt": 12.5,
    "title_lines": [
     "カメルーン人男性死亡事件国賠訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "90%",
+    "10%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000046": {
    "title_pt": 12.5,
@@ -37,56 +48,99 @@
     "在外選挙権確認訴訟【アーカイブケース",
     "】"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000049": {
    "title_pt": 12.5,
    "title_lines": [
     "レペタ訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000054": {
    "title_pt": 12.5,
    "title_lines": [
     "ネパール人取調べ中死亡国賠訴訟事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000056": {
    "title_pt": 12.5,
    "title_lines": [
     "マクリーン事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "56%",
+    "44%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000060": {
    "title_pt": 12.5,
    "title_lines": [
     "ジャーナリストに渡航の自由を！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000063": {
    "title_pt": 12.5,
    "title_lines": [
     "クルド難民収容者暴行被害国賠訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000064": {
    "title_pt": 12.5,
    "title_lines": [
     "「セックスワークにも給付金を」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "65%",
+    "35%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000068": {
    "title_pt": 12.5,
    "title_lines": [
     "「鳥は空に魚は水に人は社会に」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "55%",
+    "45%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000069": {
    "title_pt": 12.5,
@@ -94,7 +148,12 @@
     "「LINE」を用いた住民票請求サービスの",
     "適法性確認請求事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000070": {
    "title_pt": 12.5,
@@ -102,7 +161,12 @@
     "「人間を育てる教員に、人間らしい働き",
     "方を」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000071": {
    "title_pt": 12.5,
@@ -110,7 +174,12 @@
     "コロナ禍、日本社会の理不尽を問う（コ",
     "ロナ特措法違憲訴訟）"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000075": {
    "title_pt": 12.5,
@@ -118,21 +187,37 @@
     "オペなしで！戸籍上も「俺」になりたい",
     "裁判"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000076": {
    "title_pt": 12.5,
    "title_lines": [
     "「琉球人のご先祖の遺骨返還を」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000078": {
    "title_pt": 12.5,
    "title_lines": [
     "教育公務員の兼業のあり方を問う訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "67%",
+    "33%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000080": {
    "title_pt": 12.5,
@@ -140,7 +225,12 @@
     "地方議会に横行する「少数派議員潰し」",
     "に立ち向かう訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000083": {
    "title_pt": 12.5,
@@ -148,7 +238,15 @@
     "ベトナム人技能実習生リンさんの死体遺",
     "棄罪刑事事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "39%",
+    "32%",
+    "20%",
+    "9%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 2
   },
   "I0000084": {
    "title_pt": 12.5,
@@ -156,7 +254,12 @@
     "大川原化工機事件 〜無実で約１年勾留「",
     "人質司法」問題をただす〜"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000086": {
    "title_pt": 12.5,
@@ -164,7 +267,12 @@
     "優生保護法に奪われた人生を取り戻す裁",
     "判"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000087": {
    "title_pt": 12.5,
@@ -172,7 +280,13 @@
     "赤ちゃん取り違え被害者に「出自を知る",
     "権利を」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "90%",
+    "10%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000090": {
    "title_pt": 12.5,
@@ -180,21 +294,36 @@
     "司法の独立を脅かす岡口裁判官の罷免訴",
     "追に反対します！"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000092": {
    "title_pt": 12.5,
    "title_lines": [
     "イラク戦争検証報告書情報公開訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000093": {
    "title_pt": 12.5,
    "title_lines": [
     "日米合同委員会議事録情報公開訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000095": {
    "title_pt": 12.5,
@@ -202,7 +331,13 @@
     "『宮本から君へ』助成金不交付決定取消",
     "訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "70%",
+    "30%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000104": {
    "title_pt": 12.0,
@@ -210,7 +345,14 @@
     "公安警察による市民運動の監視を許さない。",
     "市民の「もの言う」自由を守るための訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "99%",
+    "0.7%",
+    "0.3%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000105": {
    "title_pt": 12.5,
@@ -218,14 +360,25 @@
     "「子どもと向き合う時間がほしい」児童",
     "相談所の労働環境改善を！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "85%",
+    "15%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000109": {
    "title_pt": 12.5,
    "title_lines": [
     "新宿留置場事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000111": {
    "title_pt": 12.5,
@@ -233,14 +386,25 @@
     "日米同性カップル在留資格訴訟  〜家族そ",
     "ろって日本で暮らすために〜"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "75%",
+    "25%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000112": {
    "title_pt": 12.5,
    "title_lines": [
     "家事労働者にも労災認定を！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000119": {
    "title_pt": 12.5,
@@ -248,7 +412,13 @@
     "“コロナ感染者立ち寄りで店名公表”は違法！",
     "訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "84%",
+    "16%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000121": {
    "title_pt": 12.0,
@@ -256,21 +426,37 @@
     "神戸石炭訴訟｜気候変動と大気汚染を防ぐ",
     "ため、石炭火力発電所新設は取り消しを！"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000125": {
    "title_pt": 12.5,
    "title_lines": [
     "婚外子国籍訴訟 —国籍法3条1項は違憲—"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000133": {
    "title_pt": 12.5,
    "title_lines": [
     "「イチョウと住民自治を守ろう」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "54%",
+    "46%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000141": {
    "title_pt": 12.5,
@@ -278,7 +464,14 @@
     "要件を満たす島民の請求を市長が拒否！",
     "石垣島住民投票の権利を問う裁判"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "72%",
+    "22%",
+    "6%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000160": {
    "title_pt": 11.5,
@@ -286,7 +479,13 @@
     "刑務所での強制ひげ剃りと懲罰 ～医師の所見",
     "を無視した処遇の違法性を問う手書き裁判～"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "55%",
+    "45%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000165": {
    "title_pt": 12.5,
@@ -294,14 +493,24 @@
     "「ヒグマハンターの猟銃を取り戻す」訴",
     "訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000171": {
    "title_pt": 12.5,
    "title_lines": [
     "入管職員による人種差別と暴行事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000031": {
    "title_pt": 12.5,
@@ -309,7 +518,12 @@
     "結婚の自由をすべての人に訴訟（同性婚",
     "訴訟）"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000052": {
    "title_pt": 12.5,
@@ -317,28 +531,52 @@
     "警察庁が保有する秘密個人情報ファイル",
     "簿の情報公開訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "97%",
+    "3%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000053": {
    "title_pt": 12.5,
    "title_lines": [
     "鬼怒川大水害訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "65%",
+    "35%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000061": {
    "title_pt": 12.5,
    "title_lines": [
     "野村ダム緊急放流による水害訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "61%",
+    "39%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000062": {
    "title_pt": 12.5,
    "title_lines": [
     "羽田空港新ルート設定の取消訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "64%",
+    "36%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000067": {
    "title_pt": 12.5,
@@ -346,7 +584,13 @@
     "「同性パートナーにも犯罪被害の遺族給",
     "付金を」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "89%",
+    "11%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000081": {
    "title_pt": 12.5,
@@ -354,7 +598,13 @@
     "市街地でＢＳＬ４の研究をしないでくだ",
     "さい"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "51%",
+    "49%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000082": {
    "title_pt": 12.5,
@@ -362,7 +612,12 @@
     "隠される「国の事故調査」プロセスを明",
     "らかに！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000085": {
    "title_pt": 12.0,
@@ -370,14 +625,25 @@
     "「人種差別を許さない」訴訟　～警察官に",
     "よる母子の不当聴取と個人情報の漏洩～"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "53%",
+    "47%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000094": {
    "title_pt": 12.5,
    "title_lines": [
     "ウィシュマさん名古屋入管死亡事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000096": {
    "title_pt": 12.5,
@@ -385,7 +651,12 @@
     "「日本の入管収容は国際人権法違反」訴",
     "訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000106": {
    "title_pt": 12.0,
@@ -393,7 +664,12 @@
     "本人の意思を無視して日本国籍を一方的に",
     "はく奪する「国籍法11条1項は違憲」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000114": {
    "title_pt": 12.5,
@@ -401,7 +677,14 @@
     "受刑者にも適切な医療を！刑務所医療過",
     "誤事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "48%",
+    "43%",
+    "9%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000115": {
    "title_pt": 12.5,
@@ -409,7 +692,13 @@
     "市民との約束を無視して進む「新焼却炉",
     "建設」を止める訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "65%",
+    "35%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000116": {
    "title_pt": 12.5,
@@ -417,14 +706,26 @@
     "「会計年度任用職員にも労働基本権を！」",
     "訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "77%",
+    "23%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000117": {
    "title_pt": 12.5,
    "title_lines": [
     "立候補年齢引き下げ訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "79%",
+    "21%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000120": {
    "title_pt": 12.5,
@@ -432,7 +733,13 @@
     "神宮外苑を守ろう訴訟｜100年の歴史と30",
     "00本超の樹木を未来へ"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "53%",
+    "47%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000123": {
    "title_pt": 12.5,
@@ -440,7 +747,13 @@
     "県知事の公務での護国神社参拝取りやめ",
     "をー政教分離原則の違反を問うー"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "58%",
+    "42%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000124": {
    "title_pt": 12.5,
@@ -448,7 +761,13 @@
     "恵庭市「障害者虐待」隠ぺい事件　〜元",
     "市議への忖度による放置を許さない〜"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "64%",
+    "36%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000128": {
    "title_pt": 12.0,
@@ -456,7 +775,12 @@
     "人種差別的な職務質問をやめさせよう！訴",
     "訟｜#STOPレイシャルプロファイリング"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000129": {
    "title_pt": 12.5,
@@ -464,7 +788,13 @@
     "「共働き妻を亡くした夫にも遺族年金を」",
     "訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "61%",
+    "39%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000130": {
    "title_pt": 12.5,
@@ -472,21 +802,37 @@
     "日本の「黙秘権」を問う訴訟 〜56時間に",
     "わたる侮辱的な取調べは違法〜"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000131": {
    "title_pt": 12.5,
    "title_lines": [
     "夫婦別姓も選べる社会へ！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000132": {
    "title_pt": 12.5,
    "title_lines": [
     "「わたしの体は母体じゃない」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "76%",
+    "24%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000134": {
    "title_pt": 12.5,
@@ -494,14 +840,24 @@
     "わたしたちはもう待てない〜同性婚仙台",
     "家事審判事件"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000135": {
    "title_pt": 12.5,
    "title_lines": [
     "難民帰化訴訟〜真に社会の一員へ〜"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000136": {
    "title_pt": 12.5,
@@ -509,7 +865,13 @@
     "地域による報酬格差は違憲！裁判官の独",
     "立と良心を守る訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "58%",
+    "42%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000139": {
    "title_pt": 10.0,
@@ -517,7 +879,12 @@
     "既婚を理由に法的性別取扱い変更を認めないのは違",
     "憲！「なんでうちらが離婚せなあかんの？」裁判"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000142": {
    "title_pt": 12.5,
@@ -525,7 +892,13 @@
     "若者の志と人生を尊重する地域枠医師制",
     "度のために　～高額違約金は違法！～"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "59%",
+    "41%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000143": {
    "title_pt": 11.5,
@@ -533,7 +906,13 @@
     "リニアトンネル工事で街を壊さないで 〜平穏",
     "生活権を侵害する大深度法の違憲性を問う〜"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "53%",
+    "47%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000146": {
    "title_pt": 12.5,
@@ -541,7 +920,14 @@
     "「学術会議の独立性」を市民で守ろう ～",
     "会員任命拒否理由の情報公開訴訟～"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "42%",
+    "30%",
+    "28%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000148": {
    "title_pt": 12.5,
@@ -549,7 +935,12 @@
     "おかゆ強制はおかしい！刑事施設におけ",
     "る不要な食事制限の撤廃を求める裁判"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000149": {
    "title_pt": 12.5,
@@ -557,7 +948,13 @@
     "オープンコート訴訟 —法廷の“秩序”を問",
     "う—"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "55%",
+    "45%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000150": {
    "title_pt": 12.5,
@@ -565,7 +962,13 @@
     "政府が開示を拒否する、安倍元首相の「",
     "国葬文書」開示を！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "61%",
+    "39%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000151": {
    "title_pt": 12.5,
@@ -573,14 +976,24 @@
     "「18歳未満にも選挙で応援する自由を」",
     "訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000152": {
    "title_pt": 12.5,
    "title_lines": [
     "保育料を経費に！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000154": {
    "title_pt": 12.0,
@@ -588,14 +1001,24 @@
     "「無効のはずの廃園条例、なぜ続く？」— ",
     "子どもたちの保育環境を守るための訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000155": {
    "title_pt": 12.5,
    "title_lines": [
     "人質司法に終止符を！訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000156": {
    "title_pt": 12.5,
@@ -603,7 +1026,12 @@
     "病院でよく出る薬を、薬局ですぐ買える",
     "「零売」を守る訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000157": {
    "title_pt": 12.5,
@@ -611,7 +1039,14 @@
     "「取調べ拒否」Tシャツを奪うな！―黙秘",
     "権と表現の自由を守る訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "45%",
+    "29%",
+    "26%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000159": {
    "title_pt": 12.5,
@@ -619,7 +1054,12 @@
     "日本でもマリアージュしたいねん～海外",
     "で成立した同性婚の受理を求める裁判～"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000164": {
    "title_pt": 12.5,
@@ -627,14 +1067,24 @@
     "引越しで選挙権が制限されない未来へ！",
     "訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000167": {
    "title_pt": 12.5,
    "title_lines": [
     "気候正義訴訟－Climate Justice－"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000169": {
    "title_pt": 12.5,
@@ -642,7 +1092,13 @@
     "平和の島であるために ― 馬毛島の自然と",
     "自治を守る裁判"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "52%",
+    "48%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000170": {
    "title_pt": 12.5,
@@ -650,7 +1106,13 @@
     "再開発は誰のため？いわき市の「不公正",
     "な行政契約は違法」訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "70%",
+    "30%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000172": {
    "title_pt": 12.5,
@@ -658,7 +1120,13 @@
     "袴田巌さん国家賠償請求訴訟 ―半世紀の",
     "えん罪、国の責任を問う"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "79%",
+    "21%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000173": {
    "title_pt": 12.5,
@@ -666,7 +1134,13 @@
     "【大川原化工機事件】裁判官の責任を問",
     "う訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "69%",
+    "31%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000176": {
    "title_pt": 12.5,
@@ -674,7 +1148,12 @@
     "不透明な契約・区長の教育行政介入を問",
     "う住民訴訟 〜文京区の教育は誰のもの？"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "100%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000178": {
    "title_pt": 12.5,
@@ -682,7 +1161,13 @@
     "私として生きる権利を求めて。アイコさ",
     "ん難民不認定取消訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "56%",
+    "44%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   },
   "I0000179": {
    "title_pt": 12.5,
@@ -690,7 +1175,13 @@
     "海外有権者の一票を守れ！在外選挙制度",
     "を問う訴訟"
    ],
-   "title_fit": true
+   "title_fit": true,
+   "bar_labels": [
+    "87%",
+    "13%"
+   ],
+   "legend_pt": 7.5,
+   "legend_lines": 1
   }
  }
 }

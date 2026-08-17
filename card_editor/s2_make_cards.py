@@ -4,7 +4,7 @@
 構成は指定の見本どおり:
     上: CALL4のサムネイル（3:2。タイトルが焼き込まれている画像が多い）
     中: ケース名（テキスト）
-    下: タグ割合の積み上げバー ＋ タグ名と割合の凡例
+    下: タグ割合の積み上げバー（全割合をバー内表示）＋ 色チップとタグ名の凡例
 
 すべて同じ一辺（MASTER_MM）の正方形に揃える。ネットワーク図に88枚並べたときに
 高さがバラバラだと配置が組めないため、タイトルは
@@ -144,6 +144,58 @@ def fit_title(text, width_px, g):
     return g["title_pt_min"], lines, ok
 
 
+def percent_text(value):
+    """小さい割合を0%に丸めず、バー内で意味のある数値として表示する。"""
+    pct = value * 100
+    return f"{pct:.1f}%" if 0 < pct < 1 else f"{round(pct)}%"
+
+
+def pack_centers(desired, widths, left, right, gap):
+    """順序を保ったままラベルをバー内に収め、狭い区間でも文字を省略しない。"""
+    centers, edge = [], left
+    for target, width in zip(desired, widths):
+        center = max(target, edge + width / 2)
+        centers.append(center)
+        edge = center + width / 2 + gap
+    if centers:
+        centers[-1] = min(centers[-1], right - widths[-1] / 2)
+        for i in range(len(centers) - 2, -1, -1):
+            limit = centers[i + 1] - (widths[i] + widths[i + 1]) / 2 - gap
+            centers[i] = min(centers[i], limit)
+        if centers[0] - widths[0] / 2 < left:
+            # 全ラベル幅はバーより十分小さい前提。極端なケースでは等間隔に置く。
+            usable = right - left - sum(widths) - gap * max(0, len(widths) - 1)
+            cursor = left + max(0, usable) / 2
+            centers = []
+            for width in widths:
+                centers.append(cursor + width / 2)
+                cursor += width + gap
+    return centers
+
+
+def legend_rows(tags, g, full_inner):
+    """色チップ＋タグ名を、割合なしで最大2行に収める文字サイズと行構成を返す。"""
+    pt = g["legend_pt"]
+    while pt >= 5.5:
+        f = font(pt)
+        swatch = mm(pt * PT * 0.72)
+        item_gap = mm(1.8)
+        text_gap = mm(0.7)
+        rows, row, used = [], [], 0
+        for t in tags:
+            width = swatch + text_gap + f.getlength(t["t"])
+            extra = item_gap if row else 0
+            if row and used + extra + width > full_inner:
+                rows.append(row); row=[]; used=0; extra=0
+            row.append((t, width)); used += extra + width
+        if row:
+            rows.append(row)
+        if len(rows) <= 2:
+            return pt, rows
+        pt -= 0.25
+    return 5.5, rows[:2]
+
+
 def load_data():
     rows = list(csv.DictReader(
         open(os.path.join(ROOT, "tag_review", "out", "tag_review.csv"), encoding="utf-8")))
@@ -224,33 +276,56 @@ def draw_card(c, g, scale=1.0):
     fb = ImageFont.truetype(JP_FONT, int(round(mm(g["bar_pt"] * PT) * scale)))
     x = pad
     total = sum(t["v"] for t in c["tags"]) or 1.0
+    segments = []
     for i, t in enumerate(c["tags"]):
         w = inner_w * t["v"] / total
         if i == len(c["tags"]) - 1:
             w = pad + inner_w - x                       # 端数を最後で吸収
         col = hex2rgb(t["c"])
         d.rectangle([x, y, x + w, y + bh], fill=col)
-        pctxt = f"{round(t['v'] * 100)}%"
-        if w > fb.getlength(pctxt) * 1.7:
-            fg = (255, 255, 255) if lum(col) < 150 else (30, 34, 40)
-            bb = d.textbbox((0, 0), pctxt, font=fb)
-            d.text((x + w / 2 - (bb[2] - bb[0]) / 2,
-                    y + bh / 2 - (bb[3] + bb[1]) / 2), pctxt, font=fb, fill=fg)
+        segments.append((x + w / 2, col, percent_text(t["v"])))
         x += w
+    # 区間が狭くても省略せず、数値同士だけを左右へ逃がしてバー内へ収める。
+    label_widths = [fb.getlength(text) for _, _, text in segments]
+    label_centers = pack_centers(
+        [center for center, _, _ in segments], label_widths,
+        pad + P(0.35), pad + inner_w - P(0.35), P(1.0))
+    stroke = max(1, int(round(P(0.12))))
+    for center, (_, col, text) in zip(label_centers, segments):
+        fg = (255, 255, 255) if lum(col) < 150 else (30, 34, 40)
+        outline = (25, 30, 36) if fg == (255, 255, 255) else (255, 255, 255)
+        bb = d.textbbox((0, 0), text, font=fb, stroke_width=stroke)
+        d.text((center - (bb[2] - bb[0]) / 2,
+                y + bh / 2 - (bb[3] + bb[1]) / 2), text, font=fb, fill=fg,
+               stroke_width=stroke, stroke_fill=outline)
     y += bh + P(g["gap_bar_legend"])
 
-    # --- 凡例 ---
-    fl = ImageFont.truetype(JP_FONT, int(round(mm(g["legend_pt"] * PT) * scale)))
-    leg = " ／ ".join(f"{t['t']} {round(t['v'] * 100)}%" for t in c["tags"])
-    lg_lines, _ = wrap(leg, font(g["legend_pt"]), full_inner, 1)   # 分割は scale=1.0 基準
-    d.text((pad, y), lg_lines[0] if lg_lines else "", font=fl, fill=(90, 98, 110))
+    # --- 凡例（割合は重複表示せず、色チップ＋タグ名のみ） ---
+    legend_pt, rows = legend_rows(c["tags"], g, full_inner)
+    fl = ImageFont.truetype(JP_FONT, int(round(mm(legend_pt * PT) * scale)))
+    swatch = P(legend_pt * PT * 0.72)
+    text_gap, item_gap = P(0.7), P(1.8)
+    line_h = P(legend_pt * PT * 1.18)
+    for row in rows:
+        lx = pad
+        for item_i, (t, _) in enumerate(row):
+            if item_i:
+                lx += item_gap
+            sy = y + (line_h - swatch) / 2
+            d.rectangle([lx, sy, lx + swatch, sy + swatch], fill=hex2rgb(t["c"]))
+            lx += swatch + text_gap
+            d.text((lx, y), t["t"], font=fl, fill=(90, 98, 110))
+            lx += fl.getlength(t["t"])
+        y += line_h
 
     # --- 外枠。アーカイブはグレー、進行中は濃色 ---
     bw = max(1, int(round(mm(g["border_pt"] * PT) * scale)))
     d.rectangle([0, 0, S - 1, S - 1],
                 outline=(176, 190, 197) if arch else (55, 71, 79), width=bw)
 
-    return img, {"title_pt": pt, "title_lines": lines, "title_fit": fit}
+    return img, {"title_pt": pt, "title_lines": lines, "title_fit": fit,
+                 "bar_labels": [text for _, _, text in segments],
+                 "legend_pt": legend_pt, "legend_lines": len(rows)}
 
 
 def proof_sheet(cases, g, sizes_mm=(55, 75), out=None):
