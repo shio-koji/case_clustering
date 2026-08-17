@@ -1,7 +1,8 @@
 #!/bin/bash
 # card_editor/deploy_pages.sh — 配置エディタを GitHub Pages に上げ直す。
 #
-# gh-pages ブランチには index.html（＝エディタ）だけを置く。
+# gh-pages ブランチには index.html（＝エディタ）と、書き出し時だけ読む
+# 高解像度カードJPEGを置く。
 # リポジトリはプライベートだが、Pages で配信されるファイルは公開になるため、
 # ここに置いたものだけが外から見える状態になる（他のファイルは巻き込まれない）。
 #
@@ -16,17 +17,26 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 SRC=card_editor/out/editor.html
+CARDS=card_editor/out/cards
 BRANCH=gh-pages
 
 [ -f "$SRC" ] || { echo "$SRC がありません。先に s3_build_editor.py を実行してください。"; exit 1; }
+[ -d "$CARDS" ] || { echo "$CARDS がありません。先に s2_make_cards.py を実行してください。"; exit 1; }
 
 # 検索に載せないための措置（権利の確認が済むまで）。HTML側にも noindex を入れてある。
 ROBOTS=$(printf 'User-agent: *\nDisallow: /\n' | git hash-object -w --stdin)
 INDEX=$(git hash-object -w "$SRC")
 NOJEKYLL=$(printf '' | git hash-object -w --stdin)   # Jekyll の処理を通さない
 
-TREE=$(printf '100644 blob %s\t.nojekyll\n100644 blob %s\tindex.html\n100644 blob %s\trobots.txt\n' \
-  "$NOJEKYLL" "$INDEX" "$ROBOTS" | git mktree)
+CARDS_TREE=$(
+  for f in "$CARDS"/*.jpg; do
+    BLOB=$(git hash-object -w "$f")
+    printf '100644 blob %s\t%s\n' "$BLOB" "$(basename "$f")"
+  done | git mktree
+)
+
+TREE=$(printf '100644 blob %s\t.nojekyll\n040000 tree %s\tcards\n100644 blob %s\tindex.html\n100644 blob %s\trobots.txt\n' \
+  "$NOJEKYLL" "$CARDS_TREE" "$INDEX" "$ROBOTS" | git mktree)
 
 # 前回のデプロイがあれば親にして履歴を繋ぐ
 if PARENT=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH"); then

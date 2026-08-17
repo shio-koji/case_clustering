@@ -5,9 +5,8 @@
 相手はダブルクリックしてブラウザで開くだけで使える（サーバ・解凍・インストール不要）。
 data: URI なのでCanvasが汚染されず、PNG書き出しも動く。
 
-座標系は最初から mm。紙は A0×2（既定 1682x1189mm）で、
-A0×2縦（841x2378。914mmロールなら継ぎ目なしで刷れる可能性がある形）と
-A0単票にも切り替えられる。
+座標系は最初から mm。紙は幅914mm固定のロール紙で、
+縦の長さはGUI上で500〜10,000mmの範囲で調整できる。
 
 叩き台のレイアウトは igraph で作ってから正規化して埋め込む。
 エディタ側は「紙の使える範囲」に写して使う。
@@ -26,37 +25,33 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 
-# ---- 紙 -------------------------------------------------------------------
-# seam: 継ぎ目の位置。'v' は x=値 の縦線、'h' は y=値 の横線、None は継ぎ目なし
-SHEETS = [
-    {"key": "A0x2H", "label": "A0×2 横並び 1682×1189",
-     "w": 1682, "h": 1189, "seam": ["v", 841],
-     "note": "A0を2枚横に並べる。継ぎ目は中央の縦線。"},
-    {"key": "A0x2V", "label": "A0×2 縦長 841×2378",
-     "w": 841, "h": 2378, "seam": ["h", 1189],
-     "note": "914mm幅ロールなら継ぎ目なしで1枚に刷れる可能性がある形。印刷所に確認を。"},
-    {"key": "A0", "label": "A0 単票 841×1189",
-     "w": 841, "h": 1189, "seam": None,
-     "note": "88枚を載せるとカードは53〜58mm角が上限。文字が小さくなる。"},
-]
+# ---- ロール紙 --------------------------------------------------------------
+ROLL_SPEC = {
+    "key": "roll_914",
+    "w": 914,
+    "default_h": 2378,
+    "min_h": 500,
+    "max_h": 10000,
+    "step": 10,
+}
 MARGIN_MM = 25.0        # 印刷余白（この内側に置く）
 
 # ---- GUI用タグ配色 -------------------------------------------------------
 # 参照色見本の「濃色 + 淡色」のペア。
 # 個人情報・プライバシーと情報公開は、指定により色見本と入れ替える。
-# このパレットはGUIのタグノードにだけ使い、カード画像の色は変えない。
+# GUIのタグノード用。カード画像は s2_make_cards.py で同じ濃色を使う。
 GUI_TAG_PALETTE = {
     "個人情報・プライバシー": ("#22504e", "#bac9c8"),
-    "医療・福祉・障がい": ("#fe7389", "#ffdbe0"),
+    "医療・福祉・障がい": ("#ff4709", "#ffcfbf"),
     "ジェンダー・セクシュアリティ": ("#ff9423", "#ffdccb"),
     "刑事司法": ("#9f6e34", "#e2d3c2"),
     "環境・災害": ("#2e9d7e", "#b6ddd2"),
     "働き方": ("#99b73d", "#e0e9c5"),
-    "公正な手続": ("#033064", "#b3c1d0"),
+    "公正な手続": ("#fe7389", "#ffdbe0"),
     "沖縄": ("#3970cb", "#bacded"),
     "外国にルーツを持つ人々": ("#6b5498", "#d4cde1"),
     "政治参加・表現の自由": ("#3daac8", "#c5e5ee"),
-    "情報公開": ("#ff4709", "#ffcfbf"),
+    "情報公開": ("#033064", "#b3c1d0"),
 }
 
 
@@ -247,6 +242,14 @@ color:#263238;background:#fafafa}
 .ovbtns button{background:#37474f}
 .ovbtns button:hover{background:#546e7a}
 #ovmsg{font-size:11.5px;color:#2e7d32}
+.modal{display:none;position:fixed;inset:0;background:rgba(38,50,56,.55);z-index:21;
+align-items:center;justify-content:center}
+.exportopts{display:flex;flex-wrap:wrap;gap:12px 24px;padding:8px 0}
+.exportopts label{display:flex;align-items:center;gap:8px;color:#37474f}
+.exportinfo{background:#f5f7f8;border:1px solid #cfd8dc;border-radius:5px;padding:9px 11px;
+font-size:11.5px;color:#455a64;min-height:42px}
+.exportinfo.bad{background:#fff3f1;border-color:#ef9a9a;color:#b32d00}
+#exmsg{font-size:11.5px;color:#2e7d32}
 </style></head><body>
 
 <div id="warn">
@@ -257,22 +260,22 @@ color:#263238;background:#fafafa}
 <li><b>タグ11色は画面用のRGB色です。</b>CMYK印刷では色味や色の差が変わるため、
 画面で見分けられたタグが紙では混ざります。
 入稿前に印刷用の色を選び直し、実機で色校正を1回とる必要があります。</li>
-<li><b>入稿用PDFはまだありません。</b>この画面はCanvasなので、そのまま拡大すると
-文字がボケます。本番は文字と線をベクタで組み直し、写真だけを埋め込みます
-（<code>card_geometry.json</code> に同じ寸法を残してあります）。</li>
+<li><b>入稿前にIllustratorで最終確認してください。</b>「書き出し」から、文字・線・タグを
+ベクタのまま編集できる透明SVGを出せます。カード部分だけは高解像度JPEGを埋め込みます。</li>
 <li><b>実寸の試し刷りをまだしていません。</b><code>out/proof_A4.pdf</code> をA4等倍で刷って、
 カードの文字が読めるサイズを手元で確かめてください。ここの数値はその後に決まります。</li>
-<li><b>継ぎ目なしで刷れるか未確認です。</b>「A0×2 縦長」(841×2378mm) は914mm幅ロールに
-収まるので1枚で刷れる可能性があります。刷れるなら継ぎ目の制約が全部消えます。</li>
+<li><b>ロール紙の長さは914mm幅に対して調整できます。</b>914×2378mmを初期値とし、
+上部の「長さ」欄で500〜10,000mmの範囲で変更できます。</li>
 <li><b>画像の権利。</b>CALL4掲載のサムネイルを含む図です。公開物にするなら
 CALL4側の了解が前提になります。</li>
 </ul>
-<div class="wsub">下の「点検」欄は、いまの配置に対する自動チェックです（重なり・紙外・継ぎ目・解像度・文字サイズ）。</div>
+<div class="wsub">下の「点検」欄は、いまの配置に対する自動チェックです（重なり・紙外・解像度・文字サイズ）。</div>
 </div>
 
 <div id="bar">
 <div class="grp">
-<label>紙</label><select id="sheet"></select>
+<label>ロール幅</label><strong>914mm</strong>
+<label>長さ</label><input type="number" id="rolllen" min="500" max="10000" step="10" style="width:76px">mm
 </div>
 <div class="grp">
 <label>叩き台</label>
@@ -303,11 +306,14 @@ CALL4側の了解が前提になります。</li>
 <button id="undo">↶</button><button id="redo">↷</button>
 </div>
 <div class="grp">
-<button id="save">保存(JSON)</button>
-<button id="load">読込</button>
+<button id="open">開く</button>
+<button id="save">上書き保存</button>
+<button id="saveas">別名で保存</button>
+<button id="recover" style="display:none">自動保存から復元</button>
 <button id="text">テキストで受け渡し</button>
-<button id="png">PNG書き出し</button>
+<button id="export">書き出し</button>
 <input type="file" id="file" accept=".json" style="display:none">
+<span id="savest" style="color:#cfd8dc;font-size:11px"></span>
 </div>
 </div>
 
@@ -325,6 +331,28 @@ CALL4側の了解が前提になります。</li>
 </div>
 </div>
 
+<div id="exov" class="modal">
+<div class="ovbox" style="width:min(620px,92vw)">
+<h3>Illustrator / Photoshop向け書き出し</h3>
+<p>背景は透明です。SVGは線・タグ・文字をベクタのまま、カードだけを高解像度JPEGで埋め込みます。</p>
+<div class="exportopts">
+<label>範囲
+<select id="exscope"><option value="graph">グラフ部分（推奨）</option><option value="paper">ロール紙全体</option></select>
+</label>
+<label>PNG解像度
+<select id="exdpi"><option value="150">150 dpi（推奨）</option><option value="300">300 dpi</option></select>
+</label>
+</div>
+<div id="exinfo" class="exportinfo"></div>
+<div class="ovbtns">
+<button id="exsvg">SVG（Illustrator）</button>
+<button id="expng">透明PNG（Photoshop）</button>
+<button id="exclose">閉じる</button>
+<span id="exmsg"></span>
+</div>
+</div>
+</div>
+
 <div id="main">
 <div id="cvwrap"><canvas id="cv"></canvas></div>
 <div id="side">
@@ -337,7 +365,6 @@ CALL4側の了解が前提になります。</li>
 <label><input type="checkbox" id="o_arch" checked>アーカイブ</label>
 <label><input type="checkbox" id="o_tag" checked>タグ</label>
 <label><input type="checkbox" id="o_grid">グリッド</label>
-<label><input type="checkbox" id="o_seam" checked>継ぎ目</label>
 <label><input type="checkbox" id="o_marg" checked>余白線</label>
 <label><input type="checkbox" id="o_snap">5mm吸着</label>
 <label><input type="checkbox" id="o_over" checked>重なりを赤枠</label>
@@ -361,20 +388,21 @@ P＝ピン留め切替　F＝紙全体を表示　Delete＝（削除はできま
 <div class="tip" id="tip"></div>
 
 <script>
-const SHEETS=@@SHEETS@@, MARGIN=@@MARGIN@@;
+const ROLL=@@ROLL@@, MARGIN=@@MARGIN@@;
 const CASES=@@CASES@@, TAGS=@@TAGS@@, EDGES=@@EDGES@@, LAYOUTS=@@LAYOUTS@@;
 const MASTER_MM=@@MASTER_MM@@, GEO=@@GEO@@;
 const PT=25.4/72;
 
 // ---- 状態 ---------------------------------------------------------------
-let sheet=SHEETS[0], LAY='cluster';
+const sheet={key:ROLL.key,w:ROLL.w,h:ROLL.default_h};
+let LAY='cluster';
 let cardMM=75, tagPT=30;
 const cpos=CASES.map(()=>({x:0,y:0,s:75,pin:false}));   // カード中心(mm)
 const tpos=TAGS.map(()=>({x:0,y:0,pin:false}));
 let sel=new Set(), selKind='case';
 const view={k:0.3,px:0,py:0};
 const opts={};
-['img','edge','arch','tag','grid','seam','marg','snap','over','num'].forEach(n=>{
+['img','edge','arch','tag','grid','marg','snap','over','num'].forEach(n=>{
   const el=document.getElementById('o_'+n);
   opts[n]=el.checked;
   el.addEventListener('change',()=>{opts[n]=el.checked; draw(); check();});
@@ -432,15 +460,18 @@ function applyLayout(name,resetSize){
 // ---- 履歴 ---------------------------------------------------------------
 const hist=[]; let hi=-1;
 function snap(){
-  const s=JSON.stringify({c:cpos,t:tpos,cardMM,tagPT});
+  const s=JSON.stringify({c:cpos,t:tpos,cardMM,tagPT,sheetH:sheet.h});
   if(hi>=0&&hist[hi]===s) return;
   hist.splice(hi+1); hist.push(s); if(hist.length>80) hist.shift(); hi=hist.length-1;
+  scheduleAutoSave();
 }
 function restore(s){
   const o=JSON.parse(s);
   o.c.forEach((p,i)=>Object.assign(cpos[i],p));
   o.t.forEach((p,j)=>Object.assign(tpos[j],p));
-  cardMM=o.cardMM; tagPT=o.tagPT; syncInputs(); draw(); check();
+  cardMM=o.cardMM; tagPT=o.tagPT;
+  if(o.sheetH) sheet.h=o.sheetH;
+  syncInputs(); fit(); draw(); check(); scheduleAutoSave();
 }
 document.getElementById('undo').onclick=()=>{if(hi>0) restore(hist[--hi]);};
 document.getElementById('redo').onclick=()=>{if(hi<hist.length-1) restore(hist[++hi]);};
@@ -479,17 +510,6 @@ function draw(){
     cx.strokeRect(SX(MARGIN),SY(MARGIN),(sheet.w-2*MARGIN)*view.k,(sheet.h-2*MARGIN)*view.k);
     cx.setLineDash([]);
   }
-  if(opts.seam&&sheet.seam){
-    const [d,v]=sheet.seam;
-    cx.strokeStyle='#e53935'; cx.lineWidth=1.5; cx.setLineDash([10,6]); cx.beginPath();
-    if(d==='v'){cx.moveTo(SX(v),SY(0));cx.lineTo(SX(v),SY(sheet.h));}
-    else{cx.moveTo(SX(0),SY(v));cx.lineTo(SX(sheet.w),SY(v));}
-    cx.stroke(); cx.setLineDash([]);
-    cx.fillStyle='#e53935'; cx.font='11px sans-serif';
-    if(d==='v') cx.fillText('継ぎ目',SX(v)+4,SY(0)+14);
-    else cx.fillText('継ぎ目',SX(0)+4,SY(v)-4);
-  }
-
   // エッジ
   if(opts.edge){
     EDGES.forEach(([tj,ci,v])=>{
@@ -595,16 +615,12 @@ function check(){
       ov++; bad.cards.add(i); bad.cards.add(j);
     }
   }
-  // 紙外・継ぎ目
-  let out=0,seam=0;
+  // ロール紙の印刷余白外
+  let out=0;
   vis.forEach(i=>{
     const p=cpos[i],h=p.s/2;
     if(p.x-h<MARGIN||p.y-h<MARGIN||p.x+h>sheet.w-MARGIN||p.y+h>sheet.h-MARGIN){
       out++; bad.cards.add(i);
-    }
-    if(sheet.seam){
-      const [d,v]=sheet.seam, c=d==='v'?p.x:p.y;
-      if(c-h<v&&c+h>v){seam++; bad.cards.add(i);}
     }
   });
   // 解像度：配置サイズで300dpi / 200dpi を割るもの
@@ -631,8 +647,7 @@ function check(){
   L.innerHTML=
     row(ov>0,'カードの重なり',ov+' 組')+
     row(out>0,'余白線の外に出ている',out+' 枚')+
-    (sheet.seam?row(seam>0,'継ぎ目を跨いでいる',seam+' 枚'):
-      '<div class="ok">✓ 継ぎ目なし（1枚刷り前提）</div>')+
+    '<div class="ok">✓ ロール紙（継ぎ目なし）</div>'+
     row(hid>0,'タグがカードに隠れている',hid+' 個')+
     row(d300>0,'300dpiを割るカード',d300+' 枚')+
     row(d200>0,'200dpiを割るカード',d200+' 枚')+
@@ -651,7 +666,7 @@ function draw2(){ if(drawPending) return; drawPending=true;
 
 function status(){
   document.getElementById('st1').textContent=
-    `紙 ${sheet.w}×${sheet.h}mm`;
+    `ロール紙 ${sheet.w}×${sheet.h}mm`;
   document.getElementById('st2').textContent=
     `倍率 ${(view.k*100).toFixed(1)}%`;
   document.getElementById('st3').textContent=
@@ -868,7 +883,7 @@ function relaxStep(iters,collideOnly){
         }
       }
     }
-    // 反映（ピンは動かさない・余白の内側に留める・継ぎ目を跨がせない）
+    // 反映（ピンは動かさない・余白の内側に留める）
     for(let i=0;i<N+T;i++){
       if(pinned(i)||!live(i)) continue;
       const damp=collideOnly?0.45:0.35;
@@ -877,15 +892,6 @@ function relaxStep(iters,collideOnly){
       const hw=bw(i)/2, hh=bh(i)/2;
       nx=Math.max(MARGIN+hw,Math.min(sheet.w-MARGIN-hw,nx));
       ny=Math.max(MARGIN+hh,Math.min(sheet.h-MARGIN-hh,ny));
-      if(sheet.seam){
-        // 継ぎ目に載ったら近い側へ寄せる。紙を分けて刷る前提だと
-        // 跨いだカードは物理的に貼れない（切って貼ることになる）ため。
-        const [dir,v]=sheet.seam;
-        if(dir==='v'&&nx-hw<v&&nx+hw>v)
-          nx=(nx<v)?Math.min(nx,v-hw-1):Math.max(nx,v+hw+1);
-        if(dir==='h'&&ny-hh<v&&ny+hh>v)
-          ny=(ny<v)?Math.min(ny,v-hh-1):Math.max(ny,v+hh+1);
-      }
       if(i<N){cpos[i].x=nx;cpos[i].y=ny;}else{tpos[i-N].x=nx;tpos[i-N].y=ny;}
     }
   }
@@ -947,9 +953,11 @@ document.getElementById('selnone').onclick=()=>{sel.clear(); showSel(); draw();}
 // ---- 入力 ---------------------------------------------------------------
 const csz=document.getElementById('csz'), cszn=document.getElementById('cszn');
 const tsz=document.getElementById('tsz'), tszn=document.getElementById('tszn');
+const rolllen=document.getElementById('rolllen');
 function syncInputs(){
   csz.value=cszn.value=Math.round(cardMM);
   tsz.value=tagPT; tszn.textContent=tagPT;
+  rolllen.value=Math.round(sheet.h);
 }
 // スライダーは input が連続で飛んでくるので、履歴は
 // つまむ前(mousedown) と 離したあと(change) の2点だけ積む。
@@ -968,16 +976,23 @@ tsz.addEventListener('mousedown',()=>snap());
 tsz.addEventListener('input',e=>{tagPT=+e.target.value; syncInputs(); check();});
 tsz.addEventListener('change',()=>snap());
 
-const sheetSel=document.getElementById('sheet');
-SHEETS.forEach((s,i)=>{
-  const o=document.createElement('option'); o.value=i; o.textContent=s.label;
-  sheetSel.appendChild(o);
-});
-sheetSel.addEventListener('change',e=>{
-  snap(); sheet=SHEETS[+e.target.value];
-  // 紙が変わるとカードの上限も変わるので、既定サイズに戻す
-  cardMM=sheet.key==='A0'?55:75; syncInputs();
-  applyLayout(LAY,true); fit(); check(); spread();
+function setRollLength(v,scalePositions){
+  let next=Number(v);
+  if(!Number.isFinite(next)) next=ROLL.default_h;
+  next=Math.round(next/ROLL.step)*ROLL.step;
+  next=Math.max(ROLL.min_h,Math.min(ROLL.max_h,next));
+  const old=sheet.h;
+  if(next===old){syncInputs(); return;}
+  if(scalePositions&&old>2*MARGIN){
+    const ratio=(next-2*MARGIN)/(old-2*MARGIN);
+    cpos.forEach(p=>p.y=MARGIN+(p.y-MARGIN)*ratio);
+    tpos.forEach(p=>p.y=MARGIN+(p.y-MARGIN)*ratio);
+  }
+  sheet.h=next;
+  syncInputs(); fit(); check();
+}
+rolllen.addEventListener('change',e=>{
+  snap(); setRollLength(e.target.value,true); snap();
 });
 // 叩き台を当てたあとは、そのまま重なりだけ解いておく。
 // 生の力学レイアウトは必ず重なるので、押した直後から触れる状態にしておく。
@@ -991,15 +1006,18 @@ document.getElementById('wtog').parentNode.onclick=()=>{
   resize(); draw();
 };
 
-// ---- 保存 / 読込 / PNG --------------------------------------------------
+// ---- 保存 / 読込 --------------------------------------------------------
 function dl(name,blob){
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob); a.download=name; a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),4000);
 }
+const AUTOSAVE_KEY='call4-card-layout-autosave-v2';
+let layoutHandle=null, autoTimer=null, savedState='';
+const saveStatus=document.getElementById('savest');
 function layoutObj(){
   const o={
-    format:'call4-card-layout', version:1,
+    format:'call4-card-layout', version:2,
     sheet:sheet.key, sheet_mm:[sheet.w,sheet.h], margin_mm:MARGIN,
     layout_base:LAY, card_mm_default:cardMM, tag_pt:tagPT,
     note:'座標はカード中心のmm。原点は紙の左上。',
@@ -1012,43 +1030,110 @@ function layoutObj(){
     x:+tpos[j].x.toFixed(2), y:+tpos[j].y.toFixed(2), pin:tpos[j].pin});
   return o;
 }
+function layoutJSON(){return JSON.stringify(layoutObj(),null,1);}
+function setSaveStatus(msg){saveStatus.textContent=msg;}
+function scheduleAutoSave(){
+  clearTimeout(autoTimer);
+  autoTimer=setTimeout(()=>{
+    try{
+      const s=layoutJSON();
+      localStorage.setItem(AUTOSAVE_KEY,s);
+      document.getElementById('recover').style.display='inline-block';
+      setSaveStatus(s===savedState?'保存済み':'未保存・自動バックアップ済み');
+    }catch(e){setSaveStatus('自動バックアップ不可');}
+  },350);
+}
 // 座標はケースID・タグ名で引くので、ケースが増減しても壊れない。
 // 見つからなかったものは叩き台の位置に残し、件数を返す。
 function applySaved(o){
-  const si=SHEETS.findIndex(s=>s.key===o.sheet);
-  if(si>=0){sheet=SHEETS[si]; sheetSel.value=si;}
+  // version 1のA0配置も sheet_mm の長さを引き継いで読み込める。
+  // 幅は現行仕様の914mmに固定し、旧幅から横座標を比例変換する。
+  if(o.sheet_mm&&o.sheet_mm[1]) setRollLength(o.sheet_mm[1],false);
+  const sourceW=Number(o.sheet_mm&&o.sheet_mm[0])||sheet.w;
+  const xScale=sourceW>2*MARGIN?(sheet.w-2*MARGIN)/(sourceW-2*MARGIN):1;
+  const mapX=x=>MARGIN+(x-MARGIN)*xScale;
   if(o.tag_pt) tagPT=o.tag_pt;
   if(o.card_mm_default) cardMM=o.card_mm_default;
   let miss=0;
   CASES.forEach((c,i)=>{
     const p=o.cards&&o.cards[c.id];
-    if(p){cpos[i].x=p.x;cpos[i].y=p.y;cpos[i].s=p.s;cpos[i].pin=!!p.pin;}
+    if(p){cpos[i].x=mapX(p.x);cpos[i].y=p.y;cpos[i].s=p.s;cpos[i].pin=!!p.pin;}
     else miss++;
   });
   TAGS.forEach((t,j)=>{
     const p=o.tags&&o.tags[t.name];
-    if(p){tpos[j].x=p.x;tpos[j].y=p.y;tpos[j].pin=!!p.pin;}
+    if(p){tpos[j].x=mapX(p.x);tpos[j].y=p.y;tpos[j].pin=!!p.pin;}
   });
-  syncInputs(); snap(); fit(); check();
+  syncInputs(); snap(); fit(); check(); scheduleAutoSave();
   return miss;
 }
-document.getElementById('save').onclick=()=>{
-  dl('layout_manual.json',
-     new Blob([JSON.stringify(layoutObj(),null,1)],{type:'application/json'}));
+function afterLoaded(name){
+  savedState=layoutJSON();
+  setSaveStatus(name?`${name} を開きました`:'読み込みました');
+}
+function loadLayoutText(text,name){
+  const miss=applySaved(JSON.parse(text));
+  afterLoaded(name);
+  if(miss) alert(`読み込みました。${miss} 件は座標が入っていなかったので`
+    +`叩き台の位置のままです（ケースが増えた場合など）。`);
+}
+async function writeHandle(handle,text){
+  const writable=await handle.createWritable();
+  await writable.write(new Blob([text],{type:'application/json'}));
+  await writable.close();
+}
+async function saveAs(){
+  const text=layoutJSON();
+  if('showSaveFilePicker' in window){
+    const handle=await window.showSaveFilePicker({
+      suggestedName:'layout_manual.json',
+      types:[{description:'CALL4配置データ',accept:{'application/json':['.json']}}]
+    });
+    await writeHandle(handle,text); layoutHandle=handle;
+  }else{
+    dl('layout_manual.json',new Blob([text],{type:'application/json'}));
+  }
+  savedState=text; setSaveStatus(layoutHandle?'上書き保存しました':'ダウンロードしました');
+}
+document.getElementById('save').onclick=async()=>{
+  try{
+    if(!layoutHandle){await saveAs();return;}
+    const text=layoutJSON(); await writeHandle(layoutHandle,text);
+    savedState=text; setSaveStatus('上書き保存しました');
+  }catch(e){if(e.name!=='AbortError') alert('保存できませんでした: '+e.message);}
 };
-document.getElementById('load').onclick=()=>document.getElementById('file').click();
+document.getElementById('saveas').onclick=async()=>{
+  try{await saveAs();}catch(e){if(e.name!=='AbortError') alert('保存できませんでした: '+e.message);}
+};
+document.getElementById('open').onclick=async()=>{
+  if(!('showOpenFilePicker' in window)){
+    document.getElementById('file').click(); return;
+  }
+  try{
+    const [handle]=await window.showOpenFilePicker({
+      multiple:false,types:[{description:'CALL4配置データ',accept:{'application/json':['.json']}}]
+    });
+    const f=await handle.getFile(); loadLayoutText(await f.text(),f.name); layoutHandle=handle;
+  }catch(e){if(e.name!=='AbortError') alert('読み込めませんでした: '+e.message);}
+};
 document.getElementById('file').addEventListener('change',e=>{
   const f=e.target.files[0]; if(!f) return;
   const r=new FileReader();
   r.onload=()=>{
-    try{
-      const miss=applySaved(JSON.parse(r.result));
-      if(miss) alert(`読み込みました。${miss} 件は座標が入っていなかったので`
-        +`叩き台の位置のままです（ケースが増えた場合など）。`);
-    }catch(err){ alert('読み込めませんでした: '+err.message); }
+    try{loadLayoutText(r.result,f.name); layoutHandle=null;}
+    catch(err){alert('読み込めませんでした: '+err.message);}
   };
   r.readAsText(f);
+  e.target.value='';
 });
+document.getElementById('recover').onclick=()=>{
+  try{
+    const text=localStorage.getItem(AUTOSAVE_KEY);
+    if(!text) return;
+    applySaved(JSON.parse(text)); layoutHandle=null;
+    setSaveStatus('自動保存を復元しました（未保存）');
+  }catch(e){alert('自動保存を復元できませんでした: '+e.message);}
+};
 
 // ---- テキストでの受け渡し ----------------------------------------------
 // リンクで共有した場合、ページは枠の中で動くので
@@ -1082,37 +1167,169 @@ document.getElementById('ovcopy').onclick=async()=>{
 document.getElementById('ovload').onclick=()=>{
   try{
     const miss=applySaved(JSON.parse(OVTA.value));
-    OV.style.display='none';
+    OV.style.display='none'; layoutHandle=null;
     if(miss) alert(`読み込みました。${miss} 件は座標が入っていなかったので`
       +`叩き台の位置のままです。`);
   }catch(err){ OVMSG.style.color='#b32d00';
     OVMSG.textContent='読み込めませんでした: '+err.message; }
 };
 OV.addEventListener('click',e=>{ if(e.target===OV) OV.style.display='none'; });
-document.getElementById('png').onclick=()=>{
-  // 紙全体を 2px/mm で書き出す。画面と同じ draw() を別Canvasに向けて呼ぶだけ。
-  // あくまで確認用。入稿には使えません（文字がラスタになるため）。
-  const S=2, w=Math.round(sheet.w*S), h=Math.round(sheet.h*S);
-  const o=document.createElement('canvas'); o.width=w; o.height=h;
-  const keep={cx,CW,CH,k:view.k,px:view.px,py:view.py}, keepSel=sel;
+
+// ---- Illustrator / Photoshop向け書き出し -------------------------------
+const EXOV=document.getElementById('exov'), EXMSG=document.getElementById('exmsg');
+const EXSCOPE=document.getElementById('exscope'), EXDPI=document.getElementById('exdpi');
+const EXINFO=document.getElementById('exinfo'), EXPNG=document.getElementById('expng');
+const masterBlobs=new Map(), masterData=new Map(), masterImgs=new Map();
+const visibleCases=()=>CASES.map((c,i)=>i).filter(i=>opts.arch||c.status!=='archived');
+function exportBounds(){
+  if(EXSCOPE.value==='paper') return {x:0,y:0,w:sheet.w,h:sheet.h};
+  let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+  visibleCases().forEach(i=>{
+    const p=cpos[i],r=p.s/2;
+    x0=Math.min(x0,p.x-r); y0=Math.min(y0,p.y-r);
+    x1=Math.max(x1,p.x+r); y1=Math.max(y1,p.y+r);
+  });
+  if(opts.tag) TAGS.forEach((t,j)=>{
+    const p=tpos[j],b=tagBox(j);
+    x0=Math.min(x0,p.x-b.w/2); y0=Math.min(y0,p.y-b.h/2);
+    x1=Math.max(x1,p.x+b.w/2); y1=Math.max(y1,p.y+b.h/2);
+  });
+  if(!Number.isFinite(x0)) return {x:0,y:0,w:sheet.w,h:sheet.h};
+  const pad=10;
+  return {x:x0-pad,y:y0-pad,w:x1-x0+2*pad,h:y1-y0+2*pad};
+}
+function exportEstimate(){
+  const b=exportBounds(),dpi=+EXDPI.value,s=dpi/25.4;
+  const w=Math.ceil(b.w*s),h=Math.ceil(b.h*s),pixels=w*h;
+  const tooBig=pixels>120000000||w>32767||h>32767;
+  EXINFO.classList.toggle('bad',tooBig);
+  EXINFO.innerHTML=`実寸 <b>${b.w.toFixed(1)} × ${b.h.toFixed(1)}mm</b><br>`+
+    `透明PNG: <b>${w.toLocaleString()} × ${h.toLocaleString()}px</b>`+
+    `（処理時メモリ目安 ${(pixels*4/1024/1024).toFixed(0)}MB）`+
+    (tooBig?'<br><b>この組合せはブラウザの上限を超えます。範囲を「グラフ部分」にするか150dpiを選んでください。</b>':'');
+  EXPNG.disabled=tooBig;
+}
+document.getElementById('export').onclick=()=>{
+  EXMSG.textContent=''; EXOV.style.display='flex'; exportEstimate();
+};
+document.getElementById('exclose').onclick=()=>EXOV.style.display='none';
+EXOV.addEventListener('click',e=>{if(e.target===EXOV) EXOV.style.display='none';});
+EXSCOPE.onchange=EXDPI.onchange=exportEstimate;
+
+async function masterBlob(i){
+  if(masterBlobs.has(i)) return masterBlobs.get(i);
+  let blob;
   try{
-    cx=o.getContext('2d');
-    CW=w; CH=h; view.k=S; view.px=0; view.py=0;
-    sel=new Set();                   // 選択枠は書き出さない
-    const m=marq; marq=null;
-    draw();
-    marq=m;
-  }finally{
-    cx=keep.cx; CW=keep.CW; CH=keep.CH;
-    view.k=keep.k; view.px=keep.px; view.py=keep.py; sel=keepSel;
-    draw();
+    const r=await fetch(CASES[i].master);
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    blob=await r.blob();
+  }catch(e){
+    // 単一HTMLを file:// で開いた場合は外部JPEGを読めないため、
+    // 埋め込み済みの軽量プレビューへ退避する。
+    blob=await (await fetch(CASES[i].img)).blob();
   }
-  o.toBlob(b=>dl('layout_preview.png',b),'image/png');
+  masterBlobs.set(i,blob); return blob;
+}
+function blobDataURL(blob){return new Promise((resolve,reject)=>{
+  const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=()=>reject(r.error);
+  r.readAsDataURL(blob);
+});}
+async function masterDataURL(i){
+  if(!masterData.has(i)) masterData.set(i,await blobDataURL(await masterBlob(i)));
+  return masterData.get(i);
+}
+async function masterImage(i){
+  if(masterImgs.has(i)) return masterImgs.get(i);
+  const src=await masterDataURL(i);
+  const im=await new Promise((resolve,reject)=>{
+    const x=new Image(); x.onload=()=>resolve(x); x.onerror=()=>reject(new Error('画像を展開できません'));
+    x.src=src;
+  });
+  masterImgs.set(i,im); return im;
+}
+async function exportAssets(kind){
+  const ids=visibleCases();
+  EXMSG.style.color='#455a64'; EXMSG.textContent=`高解像度カードを準備中… 0/${ids.length}`;
+  let done=0;
+  const values=await Promise.all(ids.map(async i=>{
+    const value=kind==='data'?await masterDataURL(i):await masterImage(i);
+    done++; EXMSG.textContent=`高解像度カードを準備中… ${done}/${ids.length}`;
+    return [i,value];
+  }));
+  return new Map(values);
+}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+const safeId=s=>String(s).replace(/[^A-Za-z0-9_.-]+/g,'-');
+async function makeSVG(){
+  const b=exportBounds(),images=await exportAssets('data');
+  const tx=-b.x,ty=-b.y,lines=[],cards=[],tags=[];
+  if(opts.edge) EDGES.forEach(([tj,ci,v])=>{
+    if(!images.has(ci)) return;
+    lines.push(`<g id="edge-${tj}-${safeId(CASES[ci].id)}"><line x1="${tpos[tj].x}" y1="${tpos[tj].y}" x2="${cpos[ci].x}" y2="${cpos[ci].y}" stroke="${TAGS[tj].color}" stroke-opacity="${(0.18+0.5*v).toFixed(3)}" stroke-width="${(0.4+2.6*v).toFixed(3)}"/></g>`);
+  });
+  for(const [i,data] of images){
+    const c=CASES[i],p=cpos[i],x=p.x-p.s/2,y=p.y-p.s/2;
+    cards.push(`<g id="case-${safeId(c.id)}" data-case-id="${esc(c.id)}"><title>${esc(c.title)}</title><image x="${x}" y="${y}" width="${p.s}" height="${p.s}" href="${data}"/></g>`);
+  }
+  if(opts.tag) TAGS.forEach((t,j)=>{
+    const b0=tagBox(j),p=tpos[j],x=p.x-b0.w/2,y=p.y-b0.h/2;
+    const textX=x+b0.accentW+(b0.w-b0.accentW)/2;
+    tags.push(`<g id="tag-${j}" data-tag="${esc(t.name)}"><rect x="${x}" y="${y}" width="${b0.w}" height="${b0.h}" rx="${b0.h/2}" fill="${t.lightColor}" stroke="${t.color}" stroke-opacity=".55" stroke-width="${b0.h*.045}"/><circle cx="${x+b0.accentW*.5}" cy="${p.y}" r="${b0.h*.19}" fill="${t.color}"/><text x="${textX}" y="${p.y}" text-anchor="middle" dominant-baseline="central" font-family="Hiragino Sans, Yu Gothic, sans-serif" font-size="${tagPT*PT}" font-weight="700" fill="#17202e">${esc(t.name)}</text></g>`);
+  });
+  return `<?xml version="1.0" encoding="UTF-8"?>\n`+
+    `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${b.w}mm" height="${b.h}mm" viewBox="0 0 ${b.w} ${b.h}">`+
+    `<title>CALL4 ケースマップ</title><desc>背景透明。単位mm。ケース、タグ、エッジを個別グループ化。</desc>`+
+    `<g transform="translate(${tx} ${ty})"><g id="edges">${lines.join('')}</g><g id="cases">${cards.join('')}</g><g id="tags">${tags.join('')}</g></g></svg>`;
+}
+document.getElementById('exsvg').onclick=async()=>{
+  try{
+    const svg=await makeSVG();
+    dl('call4_case_map.svg',new Blob([svg],{type:'image/svg+xml;charset=utf-8'}));
+    EXMSG.style.color='#2e7d32'; EXMSG.textContent='SVGを書き出しました';
+  }catch(e){EXMSG.style.color='#b32d00'; EXMSG.textContent='書き出せませんでした: '+e.message;}
+};
+function roundPath(g,x,y,w,h,r){
+  g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);
+  g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();
+}
+async function makePNG(){
+  const b=exportBounds(),dpi=+EXDPI.value,s=dpi/25.4,images=await exportAssets('image');
+  const o=document.createElement('canvas');
+  o.width=Math.ceil(b.w*s);o.height=Math.ceil(b.h*s);
+  const g=o.getContext('2d');g.setTransform(s,0,0,s,-b.x*s,-b.y*s);
+  if(opts.edge) EDGES.forEach(([tj,ci,v])=>{
+    if(!images.has(ci)) return;
+    g.beginPath();g.moveTo(tpos[tj].x,tpos[tj].y);g.lineTo(cpos[ci].x,cpos[ci].y);
+    g.strokeStyle=TAGS[tj].color;g.globalAlpha=0.18+0.5*v;g.lineWidth=0.4+2.6*v;g.stroke();
+  });
+  g.globalAlpha=1;
+  images.forEach((im,i)=>{const p=cpos[i];g.drawImage(im,p.x-p.s/2,p.y-p.s/2,p.s,p.s);});
+  if(opts.tag) TAGS.forEach((t,j)=>{
+    const b0=tagBox(j),p=tpos[j],x=p.x-b0.w/2,y=p.y-b0.h/2;
+    g.save();g.shadowColor='rgba(20,30,50,.16)';g.shadowBlur=1.8;g.shadowOffsetY=.5;
+    roundPath(g,x,y,b0.w,b0.h,b0.h/2);g.fillStyle=t.lightColor;g.fill();g.restore();
+    roundPath(g,x,y,b0.w,b0.h,b0.h/2);g.strokeStyle=t.color;g.globalAlpha=.55;
+    g.lineWidth=b0.h*.045;g.stroke();g.globalAlpha=1;
+    g.beginPath();g.arc(x+b0.accentW*.5,p.y,b0.h*.19,0,Math.PI*2);g.fillStyle=t.color;g.fill();
+    g.font=`700 ${tagPT*PT}px -apple-system,"Hiragino Sans","Yu Gothic",sans-serif`;
+    g.textAlign='center';g.textBaseline='middle';g.fillStyle='#17202e';
+    g.fillText(t.name,x+b0.accentW+(b0.w-b0.accentW)/2,p.y);
+  });
+  return new Promise((resolve,reject)=>o.toBlob(b=>b?resolve(b):reject(new Error('PNGの作成に失敗しました')),'image/png'));
+}
+document.getElementById('expng').onclick=async()=>{
+  try{
+    const blob=await makePNG();dl(`call4_case_map_${EXDPI.value}dpi.png`,blob);
+    EXMSG.style.color='#2e7d32';EXMSG.textContent='透明PNGを書き出しました';
+  }catch(e){EXMSG.style.color='#b32d00';EXMSG.textContent='書き出せませんでした: '+e.message;}
 };
 
 // ---- 起動 ---------------------------------------------------------------
 window.addEventListener('resize',()=>{resize(); draw();});
 resize(); applyLayout('cluster',true); fit(); syncInputs(); snap(); check(); spread();
+savedState=layoutJSON();
+try{if(localStorage.getItem(AUTOSAVE_KEY)) document.getElementById('recover').style.display='inline-block';}catch(e){}
+setSaveStatus('新規・自動バックアップ有効');
 </script></body></html>"""
 
 
@@ -1132,12 +1349,13 @@ def main():
              for i, c in enumerate(cases) for x in c["tags"]]
     lays = layouts(cases, tags)
 
-    slim = [{k: c[k] for k in ("id", "no", "title", "status", "url", "tags",
-                               "max_mm_300dpi", "img")} for c in cases]
+    slim = [{**{k: c[k] for k in ("id", "no", "title", "status", "url", "tags",
+                                  "max_mm_300dpi", "img")},
+             "master": f"cards/{c['id']}.jpg"} for c in cases]
 
     html = TEMPLATE
     for tok, val in [
-        ("@@SHEETS@@", json.dumps(SHEETS, ensure_ascii=False)),
+        ("@@ROLL@@", json.dumps(ROLL_SPEC, ensure_ascii=False)),
         ("@@MARGIN@@", json.dumps(MARGIN_MM)),
         ("@@CASES@@", json.dumps(slim, ensure_ascii=False)),
         ("@@TAGS@@", json.dumps(tag_nodes, ensure_ascii=False)),
@@ -1161,7 +1379,8 @@ def main():
     open(q, "w", encoding="utf-8").write(frag)
     print(f"[s3] wrote {q}  ({len(frag.encode('utf-8')) / 1024 / 1024:.2f} MB) 埋め込み用")
     print(f"[s3] カード {len(cases)} / タグ {len(tags)} / エッジ {len(edges)}")
-    print(f"[s3] 紙の既定: {SHEETS[0]['label']}（余白 {MARGIN_MM}mm）")
+    print(f"[s3] ロール紙: 幅 {ROLL_SPEC['w']}mm / "
+          f"既定長 {ROLL_SPEC['default_h']}mm（余白 {MARGIN_MM}mm）")
 
 
 if __name__ == "__main__":
