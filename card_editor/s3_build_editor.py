@@ -5,7 +5,7 @@
 相手はダブルクリックしてブラウザで開くだけで使える（サーバ・解凍・インストール不要）。
 data: URI なのでCanvasが汚染されず、PNG書き出しも動く。
 
-座標系は最初から mm。紙は幅914mm固定のロール紙で、
+座標系は最初から mm。紙は幅1600mm固定のロール紙で、
 縦の長さはGUI上で500〜10,000mmの範囲で調整できる。
 
 叩き台のレイアウトは igraph で作ってから正規化して埋め込む。
@@ -28,8 +28,8 @@ OUT = os.path.join(HERE, "out")
 
 # ---- ロール紙 --------------------------------------------------------------
 ROLL_SPEC = {
-    "key": "roll_914",
-    "w": 914,
+    "key": "roll_1600",
+    "w": 1600,
     "default_h": 2378,
     "min_h": 500,
     "max_h": 10000,
@@ -265,7 +265,7 @@ font-size:11.5px;color:#455a64;min-height:42px}
 ベクタのまま編集できる透明SVGを出せます。カード部分だけは高解像度JPEGを埋め込みます。</li>
 <li><b>実寸の試し刷りをまだしていません。</b><code>out/proof_A4.pdf</code> をA4等倍で刷って、
 カードの文字が読めるサイズを手元で確かめてください。ここの数値はその後に決まります。</li>
-<li><b>ロール紙の長さは914mm幅に対して調整できます。</b>914×2378mmを初期値とし、
+<li><b>ロール紙の長さは1600mm幅に対して調整できます。</b>1600×2378mmを初期値とし、
 上部の「長さ」欄で500〜10,000mmの範囲で変更できます。</li>
 <li><b>画像の権利。</b>CALL4掲載のサムネイルを含む図です。公開物にするなら
 CALL4側の了解が前提になります。</li>
@@ -275,7 +275,7 @@ CALL4側の了解が前提になります。</li>
 
 <div id="bar">
 <div class="grp">
-<label>ロール幅</label><strong>914mm</strong>
+<label>ロール幅</label><strong>1600mm</strong>
 <label>長さ</label><input type="number" id="rolllen" min="500" max="10000" step="10" style="width:76px">mm
 </div>
 <div class="grp">
@@ -1011,7 +1011,9 @@ document.getElementById('wtog').parentNode.onclick=()=>{
 function dl(name,blob){
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob); a.download=name; a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  // 高解像度JPEGを埋め込んだSVGは数十MBになる。ダウンロード開始直後に
+  // Object URLを破棄すると、一部環境で画像部分が欠ける可能性がある。
+  setTimeout(()=>URL.revokeObjectURL(a.href),120000);
 }
 const AUTOSAVE_KEY='call4-card-layout-autosave-v2';
 let layoutHandle=null, autoTimer=null, savedState='';
@@ -1048,7 +1050,7 @@ function scheduleAutoSave(){
 // 見つからなかったものは叩き台の位置に残し、件数を返す。
 function applySaved(o){
   // version 1のA0配置も sheet_mm の長さを引き継いで読み込める。
-  // 幅は現行仕様の914mmに固定し、旧幅から横座標を比例変換する。
+  // 幅は現行仕様の1600mmに固定し、旧幅から横座標を比例変換する。
   if(o.sheet_mm&&o.sheet_mm[1]) setRollLength(o.sheet_mm[1],false);
   const sourceW=Number(o.sheet_mm&&o.sheet_mm[0])||sheet.w;
   const xScale=sourceW>2*MARGIN?(sheet.w-2*MARGIN)/(sourceW-2*MARGIN):1;
@@ -1263,6 +1265,12 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const safeId=s=>String(s).replace(/[^A-Za-z0-9_.-]+/g,'-');
 async function makeSVG(){
   const b=exportBounds(),images=await exportAssets('data');
+  const expected=visibleCases().length;
+  if(images.size!==expected) throw new Error(`カード画像が不足しています（${images.size}/${expected}）`);
+  for(const [i,data] of images){
+    if(!/^data:image\/(jpeg|png|webp);base64,/.test(data))
+      throw new Error(`カード ${CASES[i].id} の画像形式を確認できません`);
+  }
   const tx=-b.x,ty=-b.y,lines=[],cards=[],tags=[];
   if(opts.edge) EDGES.forEach(([tj,ci,v])=>{
     if(!images.has(ci)) return;
@@ -1270,7 +1278,9 @@ async function makeSVG(){
   });
   for(const [i,data] of images){
     const c=CASES[i],p=cpos[i],x=p.x-p.s/2,y=p.y-p.s/2;
-    cards.push(`<g id="case-${safeId(c.id)}" data-case-id="${esc(c.id)}"><title>${esc(c.title)}</title><image x="${x}" y="${y}" width="${p.s}" height="${p.s}" href="${data}"/></g>`);
+    // Illustratorとの互換性を優先し、SVG 1.1のxlink:hrefで画像を埋め込む。
+    // preserveAspectRatio="none"でカード枠と画像の寸法を必ず一致させる。
+    cards.push(`<g id="case-${safeId(c.id)}" data-case-id="${esc(c.id)}"><title>${esc(c.title)}</title><image x="${x}" y="${y}" width="${p.s}" height="${p.s}" preserveAspectRatio="none" xlink:href="${data}"/></g>`);
   }
   if(opts.tag) TAGS.forEach((t,j)=>{
     const b0=tagBox(j),p=tpos[j],x=p.x-b0.w/2,y=p.y-b0.h/2;
@@ -1278,7 +1288,7 @@ async function makeSVG(){
     tags.push(`<g id="tag-${j}" data-tag="${esc(t.name)}"><rect x="${x}" y="${y}" width="${b0.w}" height="${b0.h}" rx="${b0.h/2}" fill="${t.lightColor}" stroke="${t.color}" stroke-opacity=".55" stroke-width="${b0.h*.045}"/><circle cx="${x+b0.accentW*.5}" cy="${p.y}" r="${b0.h*.19}" fill="${t.color}"/><text x="${textX}" y="${p.y}" text-anchor="middle" dominant-baseline="central" font-family="Hiragino Sans, Yu Gothic, sans-serif" font-size="${tagPT*PT}" font-weight="700" fill="#17202e">${esc(t.name)}</text></g>`);
   });
   return `<?xml version="1.0" encoding="UTF-8"?>\n`+
-    `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${b.w}mm" height="${b.h}mm" viewBox="0 0 ${b.w} ${b.h}">`+
+    `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${b.w}mm" height="${b.h}mm" viewBox="0 0 ${b.w} ${b.h}">`+
     `<title>CALL4 ケースマップ</title><desc>背景透明。単位mm。ケース、タグ、エッジを個別グループ化。</desc>`+
     `<g transform="translate(${tx} ${ty})"><g id="edges">${lines.join('')}</g><g id="cases">${cards.join('')}</g><g id="tags">${tags.join('')}</g></g></svg>`;
 }
@@ -1286,7 +1296,8 @@ document.getElementById('exsvg').onclick=async()=>{
   try{
     const svg=await makeSVG();
     dl('call4_case_map.svg',new Blob([svg],{type:'image/svg+xml;charset=utf-8'}));
-    EXMSG.style.color='#2e7d32'; EXMSG.textContent='SVGを書き出しました';
+    EXMSG.style.color='#2e7d32';
+    EXMSG.textContent=`SVGを書き出しました（${(new Blob([svg]).size/1024/1024).toFixed(1)}MB）`;
   }catch(e){EXMSG.style.color='#b32d00'; EXMSG.textContent='書き出せませんでした: '+e.message;}
 };
 function roundPath(g,x,y,w,h,r){
