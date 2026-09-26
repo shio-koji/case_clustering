@@ -36,8 +36,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "90%",
-    "10%"
+    "69%",
+    "31%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -74,7 +74,9 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "44%",
+    "33%",
+    "23%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -86,8 +88,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "56%",
-    "44%"
+    "58%",
+    "42%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -111,7 +113,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "82%",
+    "18%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -136,8 +139,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "55%",
-    "45%"
+    "63%",
+    "37%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -201,7 +204,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "60%",
+    "40%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -213,8 +217,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "67%",
-    "33%"
+    "68%",
+    "32%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -227,7 +231,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "73%",
+    "27%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -241,9 +246,8 @@
    "title_fit": true,
    "bar_labels": [
     "39%",
-    "32%",
-    "20%",
-    "9%"
+    "36%",
+    "25%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 2
@@ -256,7 +260,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "52%",
+    "48%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -282,8 +287,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "90%",
-    "10%"
+    "86%",
+    "14%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -333,8 +338,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "70%",
-    "30%"
+    "72%",
+    "28%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -347,9 +352,9 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "99%",
-    "0.7%",
-    "0.3%"
+    "80%",
+    "10%",
+    "10%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -388,8 +393,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "75%",
-    "25%"
+    "73%",
+    "27%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -401,7 +406,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "69%",
+    "31%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -414,8 +420,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "84%",
-    "16%"
+    "85%",
+    "15%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -452,8 +458,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "54%",
-    "46%"
+    "64%",
+    "36%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -466,9 +472,9 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "72%",
-    "22%",
-    "6%"
+    "62%",
+    "28%",
+    "10%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -481,8 +487,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "55%",
-    "45%"
+    "58%",
+    "42%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -507,7 +513,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "65%",
+    "35%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -533,8 +540,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "97%",
-    "3%"
+    "90%",
+    "10%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -546,8 +553,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "65%",
-    "35%"
+    "63%",
+    "37%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -559,8 +566,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "61%",
-    "39%"
+    "59%",
+    "41%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -572,8 +579,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "64%",
-    "36%"
+    "65%",
+    "35%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -600,8 +607,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "51%",
-    "49%"
+    "55%",
+    "45%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -627,8 +634,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "53%",
-    "47%"
+    "55%",
+    "45%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -640,7 +647,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "59%",
+    "41%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -653,7 +661,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "100%"
+    "74%",
+    "26%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -679,9 +688,9 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "48%",
-    "43%",
-    "9%"
+    "47%",
+    "36%",
+    "17%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -694,8 +703,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "65%",
-    "35%"
+    "71%",
+    "29%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -721,8 +730,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "79%",
-    "21%"
+    "82%",
+    "18%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -735,8 +744,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "53%",
-    "47%"
+    "62%",
+    "38%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -749,8 +758,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "58%",
-    "42%"
+    "53%",
+    "47%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -763,8 +772,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "64%",
-    "36%"
+    "68%",
+    "32%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -790,8 +799,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "61%",
-    "39%"
+    "58%",
+    "42%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -828,8 +837,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "76%",
-    "24%"
+    "77%",
+    "23%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -867,8 +876,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "58%",
-    "42%"
+    "55%",
+    "45%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -894,8 +903,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "59%",
-    "41%"
+    "58%",
+    "42%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -908,8 +917,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "53%",
-    "47%"
+    "52%",
+    "48%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -922,9 +931,9 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "42%",
-    "30%",
-    "28%"
+    "43%",
+    "33%",
+    "24%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -964,8 +973,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "61%",
-    "39%"
+    "67%",
+    "33%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -1041,9 +1050,9 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "45%",
-    "29%",
-    "26%"
+    "41%",
+    "30%",
+    "29%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -1094,8 +1103,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "52%",
-    "48%"
+    "56%",
+    "44%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -1108,8 +1117,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "70%",
-    "30%"
+    "64%",
+    "36%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -1122,8 +1131,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "79%",
-    "21%"
+    "69%",
+    "31%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -1136,8 +1145,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "69%",
-    "31%"
+    "52%",
+    "48%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -1163,8 +1172,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "56%",
-    "44%"
+    "51%",
+    "49%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1
@@ -1177,8 +1186,8 @@
    ],
    "title_fit": true,
    "bar_labels": [
-    "87%",
-    "13%"
+    "88%",
+    "12%"
    ],
    "legend_pt": 7.5,
    "legend_lines": 1

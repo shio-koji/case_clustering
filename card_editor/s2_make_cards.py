@@ -25,10 +25,16 @@ import argparse
 import csv
 import json
 import os
+import sys
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# カードに出す整数%は、確認シート（tag_ratio）と同じ関数で作る。
+# 人が承認した数字とカードの数字がずれないようにするため。
+sys.path.insert(0, os.path.join(ROOT, "tag_ratio"))
+from s2_make_ratio_sheet import to_percent  # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 THUMBS = os.path.join(HERE, "cache", "thumbs")
@@ -144,10 +150,14 @@ def fit_title(text, width_px, g):
     return g["title_pt_min"], lines, ok
 
 
-def percent_text(value):
-    """小さい割合を0%に丸めず、バー内で意味のある数値として表示する。"""
-    pct = value * 100
-    return f"{pct:.1f}%" if 0 < pct < 1 else f"{round(pct)}%"
+def percent_text(pct):
+    """バー内に出す数値。整数%（合計ちょうど100）をそのまま出す。
+
+    以前は生の小数を四捨五入していたので、1%未満のタグが「0.3%」と
+    表示されたり、丸めの結果が確認シートの数字とずれることがあった。
+    いまは to_percent で最低1%を確保した整数を受け取るだけ。
+    """
+    return f"{int(pct)}%"
 
 
 def pack_centers(desired, widths, left, right, gap):
@@ -196,21 +206,47 @@ def legend_rows(tags, g, full_inner):
     return 5.5, rows[:2]
 
 
+# タグ割合の入力。新しい順に探して、最初に見つかったものを使う。
+#   1. tag_ratio/out/soft_tags_final.json … 人が確認・修正した確定版（フェーズ2）
+#   2. tag_ratio/out/soft_tags.json       … 確定タグで再計算した値（確認前）
+#   3. plan05/results/soft_tags.json      … 生タグ・95件で計算した初期値
+# フェーズ2の途中でもカードを作れるようにしてあるが、
+# どれを使ったかは必ず標準出力に出す（暫定値で版下を作ってしまわないため）。
+RATIO_SOURCES = [
+    ("確定版（人が確認済み）", ("tag_ratio", "out", "soft_tags_final.json")),
+    ("再計算値（確認前）", ("tag_ratio", "out", "soft_tags.json")),
+    ("plan05の初期値（生タグ・95件）", ("plan05", "results", "soft_tags.json")),
+]
+
+
+def load_ratios():
+    for label, parts in RATIO_SOURCES:
+        p = os.path.join(ROOT, *parts)
+        if os.path.exists(p):
+            print(f"[s2] タグ割合: {label} … {os.path.join(*parts)}")
+            return json.load(open(p, encoding="utf-8"))
+    raise SystemExit("タグ割合のファイルが見つかりません（tag_ratio/s1_ratios.py を実行してください）。")
+
+
 def load_data():
     rows = list(csv.DictReader(
         open(os.path.join(ROOT, "tag_review", "out", "tag_review.csv"), encoding="utf-8")))
-    soft = json.load(open(os.path.join(ROOT, "plan05", "results", "soft_tags.json"),
-                          encoding="utf-8"))
+    soft = load_ratios()
     tags = soft["tags"]
     missing_colors = [t for t in tags if t not in TAG_COLORS]
     if missing_colors:
         raise ValueError(f"TAG_COLORS に未定義のタグがあります: {missing_colors}")
     tcol = {t: TAG_COLORS[t] for t in tags}
     thumbs = json.load(open(os.path.join(HERE, "cache", "thumbs.json"), encoding="utf-8"))
+    absent = [r["case_id"] for r in rows if r["case_id"] not in soft["ratios"]]
+    if absent:
+        raise SystemExit(f"タグ割合が無いケースがあります: {absent}")
     cases = []
     for r in rows:
         cid = r["case_id"]
         parts = sorted(soft["ratios"][cid].items(), key=lambda x: -x[1])
+        # 確認シートと同じ丸め（最大剰余法・最低1%・合計ちょうど100）
+        pcts = to_percent(parts)
         cases.append({
             "id": cid,
             "no": int(r["No"]),
@@ -218,7 +254,9 @@ def load_data():
             "title_short": r["ケース名"].replace(ARCHIVE_SUFFIX, "").strip(),
             "status": "archived" if r["状況"] == "アーカイブ" else "active",
             "url": r["URL"],
-            "tags": [{"t": k, "v": round(v, 3), "c": tcol[k]} for k, v in parts],
+            # v は 0〜1（帯の幅・2部グラフのエッジの太さ）、p は表示する整数%
+            "tags": [{"t": k, "v": round(p / 100, 3), "p": p, "c": tcol[k]}
+                     for k, p in pcts],
             "thumb_w": thumbs[cid]["w"],
         })
     return cases, tags, tcol
@@ -283,7 +321,7 @@ def draw_card(c, g, scale=1.0):
             w = pad + inner_w - x                       # 端数を最後で吸収
         col = hex2rgb(t["c"])
         d.rectangle([x, y, x + w, y + bh], fill=col)
-        segments.append((x + w / 2, col, percent_text(t["v"])))
+        segments.append((x + w / 2, col, percent_text(t["p"])))
         x += w
     # 区間が狭くても省略せず、数値同士だけを左右へ逃がしてバー内へ収める。
     label_widths = [fb.getlength(text) for _, _, text in segments]
