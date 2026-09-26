@@ -55,9 +55,15 @@ def main():
         sys.exit(f"必要な列がありません: {missing_cols}")
     errors, warnings, result, changes = [], [], {}, []
     seen = Counter()
+    blank_rows = 0
 
     for i, r in enumerate(rows, start=2):
         cid = (r["case_id"] or "").strip()
+        # チェックボックス列があるとGoogleは末尾の空行まで書き出す（FALSEだけの行が数百続く）。
+        # case_id もタグも無い行は、データではなく書き出しの余りなので黙って飛ばす。
+        if not cid and not (r.get("修正後タグ") or "").strip():
+            blank_rows += 1
+            continue
         if cid not in expected:
             errors.append(f"行{i}: 未知のcase_id {cid!r}")
             continue
@@ -126,7 +132,8 @@ def main():
     out = OUTDIR / "reviewed_tags.json"
     out.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"検証OK: {len(result)}件 / 変更 {len(changes)}件")
+    print(f"検証OK: {len(result)}件 / 変更 {len(changes)}件"
+          + (f"（空行 {blank_rows} 行を無視）" if blank_rows else ""))
     if warnings:
         print(f"\n例外（原則上限{MAX_TAGS}超過）{len(warnings)}件：")
         for w in warnings:
