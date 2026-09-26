@@ -61,3 +61,23 @@ secrets.json
 # ログ
 *.log
 logs/
+
+# タグ確認・タグ割合の「記入済み」ファイル（確認者名とコメントが入るため追跡しない。
+# このリポジトリは GitHub Pages のために公開している）
+tag_review/out/reviewed.csv
+tag_review/out/reviewed_tags.json
+tag_ratio/out/reviewed_ratios.csv
+tag_ratio/out/soft_tags_final.json
+# フェーズ1の申し送り（確認者のメモ）を持ち回るので、これらも追跡しない
+tag_ratio/out/cases_reviewed.json
+tag_ratio/out/ratio_review.csv
+
+# Canvaパネルの書き出し（133MB。再書き出しできるので追跡しない）
+canva_check/pages/
+canva_check/*.zip
+
+# 記入済みシートのダウンロード（ファイル名はGoogleが付けたまま置かれることがある）
+tag_review/out/*確認*.csv
+tag_ratio/out/*確認*.csv
+# 確認者のコメントを本文に埋め込んでいるレポート（公開リポジトリなので追跡しない）
+tag_ratio/report/

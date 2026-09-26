@@ -102,25 +102,42 @@ process.stdin.on("data", (chunk) => {
 
 process.stdin.resume();
 
+// MCPのstdioトランスポートは**改行区切りJSON**が仕様。
+// 当初この実装はLSP形式（Content-Lengthヘッダ）だけを読み書きしていたため、
+// Claude Code から接続できなかった（handshakeが成立しない）。
+// 両方を受け付け、**届いた形式と同じ形式で返す**ようにしてある。
+let outputFraming = "ndjson";   // "ndjson" | "header"
+
 async function drainInput() {
   while (true) {
-    const headerEnd = inputBuffer.indexOf("\r\n\r\n");
-    if (headerEnd === -1) return;
+    const head = inputBuffer.subarray(0, Math.min(inputBuffer.length, 64)).toString("utf8");
+    const isHeaderFramed = /^\s*Content-Length:/i.test(head);
 
-    const header = inputBuffer.subarray(0, headerEnd).toString("utf8");
-    const match = header.match(/^Content-Length:\s*(\d+)/im);
-    if (!match) {
-      inputBuffer = inputBuffer.subarray(headerEnd + 4);
-      continue;
+    let rawMessage;
+    if (isHeaderFramed) {
+      const headerEnd = inputBuffer.indexOf("\r\n\r\n");
+      if (headerEnd === -1) return;
+      const header = inputBuffer.subarray(0, headerEnd).toString("utf8");
+      const match = header.match(/^Content-Length:\s*(\d+)/im);
+      if (!match) {
+        inputBuffer = inputBuffer.subarray(headerEnd + 4);
+        continue;
+      }
+      const length = Number(match[1]);
+      const messageStart = headerEnd + 4;
+      const messageEnd = messageStart + length;
+      if (inputBuffer.length < messageEnd) return;
+      rawMessage = inputBuffer.subarray(messageStart, messageEnd).toString("utf8");
+      inputBuffer = inputBuffer.subarray(messageEnd);
+      outputFraming = "header";
+    } else {
+      const nl = inputBuffer.indexOf(0x0a);
+      if (nl === -1) return;
+      rawMessage = inputBuffer.subarray(0, nl).toString("utf8").trim();
+      inputBuffer = inputBuffer.subarray(nl + 1);
+      if (!rawMessage) continue;
+      outputFraming = "ndjson";
     }
-
-    const length = Number(match[1]);
-    const messageStart = headerEnd + 4;
-    const messageEnd = messageStart + length;
-    if (inputBuffer.length < messageEnd) return;
-
-    const rawMessage = inputBuffer.subarray(messageStart, messageEnd).toString("utf8");
-    inputBuffer = inputBuffer.subarray(messageEnd);
 
     let message;
     try {
@@ -278,6 +295,10 @@ function sendError(id, code, message) {
 
 function send(message) {
   const body = JSON.stringify(message);
-  const bytes = Buffer.byteLength(body, "utf8");
-  process.stdout.write(`Content-Length: ${bytes}\r\n\r\n${body}`);
+  if (outputFraming === "header") {
+    const bytes = Buffer.byteLength(body, "utf8");
+    process.stdout.write(`Content-Length: ${bytes}\r\n\r\n${body}`);
+  } else {
+    process.stdout.write(body + "\n");
+  }
 }
